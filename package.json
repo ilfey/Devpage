@@ -1,0 +1,19 @@
+{
+  "name": "josty",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --host 192.168.43.231",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.2.25"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^2.3.1",
+    "vite": "^2.9.5",
+    "vite-svg-loader": "^3.3.0",
+    "vue-template-compiler": "^2.6.14"
+  }
+}
