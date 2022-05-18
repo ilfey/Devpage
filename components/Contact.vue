@@ -1,16 +1,21 @@
 <script setup>
-defineProps({
-  title: String,
-  logo: String,
-  url: String,
-});
+export default {
+	name: 'Contact',
+  props: {
+    title: String,
+    logo: String,
+    url: String,
+  },
+};
 </script>
 
 <template>
-  <a :href="url" class="contact" v-html="logo"> </a>
+	<div>
+		<a :href="url" class="contact"><img :src="logo" alt=""></a>
+	</div>
 </template>
 
-<style scoped>
+<style>
 .contact {
   position: relative;
   width: 64px;
