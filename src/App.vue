@@ -62,7 +62,7 @@ const contacts = [
 </script>
 
 <template>
-  <Avatar title="Josty Qweenq" url="./public/img/avatar.png" />
+  <Avatar title="Josty Qweenq" url="./img/avatar.png" />
   <div class="contacts-wrapper">
     <Contact
       v-for="contact in contacts"
@@ -85,7 +85,7 @@ const contacts = [
 
 <style>
 body {
-  background: #070720 url("public/img/pattern.png") 0 0/400px 300px repeat;
+  background: #070720 url("./img/pattern.png") 0 0/400px 300px repeat;
   min-height: 100%;
 }
 .wrapper {
