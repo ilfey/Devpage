@@ -1,68 +1,59 @@
 <script setup>
 import Avatar from "./components/Avatar.vue";
 import Contact from "./components/Contact.vue";
-import GithubLogo from '../public/img/logo/github.svg'
-import SpotifyLogo from '../public/img/logo/spotify.svg'
-import VkLogo from '../public/img/logo/vk.svg'
-import DiscordLogo from '../public/img/logo/discord.svg'
-import TwitterLogo from '../public/img/logo/twitter.svg'
-import TwitchLogo from '../public/img/logo/twitch.svg'
-import OsuLogo from '../public/img/logo/osu.svg'
-import ShikimoriLogo from '../public/img/logo/shikimori.svg'
-import EmailLogo from '../public/img/logo/email.svg'
 
 
 const contacts = [
   {
     title: "Github",
-    logo: GithubLogo,
+    logo: "/img/logo/github.svg",
     url: "https://github.com/JQweenq",
   },
   {
     title: "VK",
-    logo: VkLogo,
+    logo: "/img/logo/vk.svg",
     url: "https://vk.com/JQweenq",
   },
   {
     title: "Shikimori",
-    logo: ShikimoriLogo,
+    logo: "/img/logo/shikimori.svg",
     url: "https://shikimori.one/Josty+Qweenq",
   },
   {
     title: "osu!",
-    logo: OsuLogo,
+    logo: "/img/logo/osu.svg",
     url: "https://osu.ppy.sh/users/16883323",
   },
   {
     title: "Spotify",
-    logo: SpotifyLogo,
+    logo: "/img/logo/spotify.svg",
     url: "https://github.com/JQweenq",
   },
   {
     title: "Twitch",
-    logo: TwitchLogo,
+    logo: "/img/logo/twitch.svg",
     url: "https://github.com/JQweenq",
   },
   {
     title: "Twitter",
-    logo: TwitterLogo,
+    logo: "/img/logo/twitter.svg",
     url: "https://github.com/JQweenq",
   },
   {
     title: "Discord",
-    logo: DiscordLogo,
+    logo: "/img/logo/discord.svg",
     url: "https://github.com/JQweenq",
   },
   {
     title: "Email",
-    logo: EmailLogo,
+    logo: "/img/logo/email.svg",
     url: "mailto:jqweenq@gmail.com",
   },
 ];
 </script>
 
 <template>
-  <Avatar title="Josty Qweenq" url="img/avatar.png" />
+  <Avatar title="Josty Qweenq" url="/img/avatar.png" />
   <div class="contacts-wrapper">
     <Contact
       v-for="contact in contacts"
