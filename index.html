@@ -1,13 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div class="wrapper"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta property="og:title" content="Josty">
+	<meta property="og:description" content="Страница разработчика: Josty Qweenq">
+	<link rel="shortcut icon" href="/favicon.png" type="image/png">
+	<title>Josty</title>
+	<style>
+		:root {
+			color-scheme: dark;
+		}
+		
+		@font-face {
+			font-family: 'Inter-Regular';
+			src: url('fonts/inter/Inter-Regular.ttf') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'Inter-SemiBold';
+			src: url('fonts/inter/Inter-SemiBold.ttf') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		@font-face {
+			font-family: 'Inter-Bold';
+			src: url('fonts/inter/Inter-Bold.ttf') format('truetype');
+			font-weight: normal;
+			font-style: normal;
+		}
+
+		@media (min-width: 1024px) {
+			.wrapper {
+				width: 60%;
+			}
+
+			.img-genshin {
+				float: left;
+			}
+
+			.buttons-wrapper {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+
+		@media (max-width: 1024px) {
+			.wrapper {
+				width: 70%;
+			}
+
+			.img-genshin {
+				float: left;
+			}
+
+			.buttons-wrapper {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+
+		@media (max-width: 900px) {
+			.wrapper {
+				width: 80%;
+			}
+
+			.img-genshin {
+				float: left;
+			}
+
+			.buttons-wrapper {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+
+		@media (max-width: 700px) {
+			.wrapper {
+				width: calc(100% - 20px);
+				padding: 100px 10px 100px 10px;
+			}
+
+			.part_title {
+				text-align: center;
+			}
+
+			.img-genshin {
+				float: unset;
+				position: relative;
+				left: 50%;
+				transform: translate(-50%);
+			}
+
+			.buttons-wrapper {
+				grid-template-columns: 1fr;
+			}
+		}
+
+		@media (max-width: 320px) {
+			.wrapper {
+				width: calc(100% - 20px);
+				padding: 100px 10px 100px 10px;
+			}
+
+			.part_title {
+				text-align: center;
+			}
+
+			.img-genshin {
+				margin: 0 auto;
+			}
+
+			.buttons-wrapper {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<div class="wrapper"></div>
+	<script type="module" src="/src/main.js"></script>
+</body>
+
 </html>
