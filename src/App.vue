@@ -1,8 +1,10 @@
 <script setup>
+import AnilistLogo from "/public/img/logo/AniList.svg"
 import GithubLogo from "/public/img/logo/Github.svg";
 import NotabugLogo from "/public/img/logo/Notabug.svg";
 import SpotifyLogo from "/public/img/logo/Spotify.svg";
 import VkLogo from "/public/img/logo/VK.svg";
+import TelegramLogo from "/public/img/logo/Telegram.svg"
 import TwitterLogo from "/public/img/logo/Twitter.svg";
 import TwitchLogo from "/public/img/logo/Twitch.svg";
 import OsuLogo from "/public/img/logo/osu.svg";
@@ -10,6 +12,11 @@ import ShikimoriLogo from "/public/img/logo/Shikimori.svg";
 import EmailLogo from "/public/img/logo/Email.svg";
 
 const contacts = [
+  {
+    title: "Telegram",
+    logo: TelegramLogo, // TODO fix this logo viewBox
+    url: "https://t.me/JQweenq",
+  },
   {
     title: "Вконтакте",
     logo: VkLogo,
@@ -23,19 +30,24 @@ const contacts = [
 ];
 const otherContacts = [
   {
+    title: "AniList",
+    logo: AnilistLogo, // TODO fix this logo viewBox
+    url: "https://anilist.co/user/JQweenq",
+  },
+  {
     title: "Shikimori",
     logo: ShikimoriLogo,
     url: "https://shikimori.one/Josty+Qweenq",
   },
   {
-    title: "osu!",
-    logo: OsuLogo,
-    url: "https://osu.ppy.sh/users/16883323",
-  },
-  {
     title: "Github",
     logo: GithubLogo,
     url: "https://github.com/JQweenq",
+  },
+  {
+    title: "osu!",
+    logo: OsuLogo,
+    url: "https://osu.ppy.sh/users/16883323",
   },
   {
     title: "Notabug",
