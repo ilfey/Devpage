@@ -1,4 +1,4 @@
-<script setup>
+<script>
 import AnilistLogo from "/public/img/logo/AniList.svg"
 import GithubLogo from "/public/img/logo/Github.svg";
 import NotabugLogo from "/public/img/logo/Notabug.svg";
@@ -12,69 +12,87 @@ import ShikimoriLogo from "/public/img/logo/Shikimori.svg";
 import EmailLogo from "/public/img/logo/Email.svg";
 import Navbar from "./components/Navbar.vue";
 
-const contacts = [
-  {
-    title: "Telegram",
-    logo: TelegramLogo, // TODO fix this logo viewBox
-    url: "https://t.me/JQweenq",
-  },
-  {
-    title: "Вконтакте",
-    logo: VkLogo,
-    url: "https://vk.com/jqweenq",
-  },
-  {
-    title: "Электропочка",
-    logo: EmailLogo,
-    url: "mailto:jqweenq@gmail.com",
-  },
-];
 
-const otherContacts = [
-  {
-    title: "AniList",
-    logo: AnilistLogo, // TODO fix this logo viewBox
-    url: "https://anilist.co/user/JQweenq",
+export default {
+  components: {
+    AnilistLogo,
+    GithubLogo,
+    NotabugLogo,
+    SpotifyLogo,
+    VkLogo,
+    TelegramLogo,
+    TwitterLogo,
+    TwitchLogo,
+    OsuLogo,
+    ShikimoriLogo,
+    EmailLogo,
+    Navbar,
   },
-  {
-    title: "Shikimori",
-    logo: ShikimoriLogo,
-    url: "https://shikimori.one/Josty+Qweenq",
-  },
-  {
-    title: "Github",
-    logo: GithubLogo,
-    url: "https://github.com/JQweenq",
-  },
-  {
-    title: "osu!",
-    logo: OsuLogo,
-    url: "https://osu.ppy.sh/users/16883323",
-  },
-  {
-    title: "Notabug",
-    logo: NotabugLogo,
-    url: "https://notabug.org/josty",
-  },
-  {
-    title: "Twitter",
-    logo: TwitterLogo,
-    url: "https://twitter.com/JQweenq",
-  },
-  {
-    title: "Twitch",
-    logo: TwitchLogo,
-    url: "https://twitch.tv/josty_qweenq",
-  },
-  {
-    title: "Spotify",
-    logo: SpotifyLogo,
-    url: "https://open.spotify.com/user/zww8xfjo4sxkbu3b9gjzsf0om",
-  },
-];
+  setup: () => {
+    // TODO create request to the server
 
-function open(link) {
-  window.open(link, "_blank");
+    return {
+      contacts: [
+        {
+          title: "Telegram",
+          logo: TelegramLogo,
+          url: "https://t.me/JQweenq",
+        },
+        {
+          title: "Вконтакте",
+          logo: VkLogo,
+          url: "https://vk.com/jqweenq",
+        },
+        {
+          title: "Электропочка",
+          logo: EmailLogo,
+          url: "mailto:jqweenq@gmail.com",
+        },
+      ],
+      otherContacts: [
+        {
+          title: "AniList",
+          logo: AnilistLogo,
+          url: "https://anilist.co/user/JQweenq",
+        },
+        {
+          title: "Shikimori",
+          logo: ShikimoriLogo,
+          url: "https://shikimori.one/Josty+Qweenq",
+        },
+        {
+          title: "Github",
+          logo: GithubLogo,
+          url: "https://github.com/JQweenq",
+        },
+        {
+          title: "osu!",
+          logo: OsuLogo,
+          url: "https://osu.ppy.sh/users/16883323",
+        },
+        {
+          title: "Notabug",
+          logo: NotabugLogo,
+          url: "https://notabug.org/josty",
+        },
+        {
+          title: "Twitter",
+          logo: TwitterLogo,
+          url: "https://twitter.com/JQweenq",
+        },
+        {
+          title: "Twitch",
+          logo: TwitchLogo,
+          url: "https://twitch.tv/josty_qweenq",
+        },
+        {
+          title: "Spotify",
+          logo: SpotifyLogo,
+          url: "https://open.spotify.com/user/zww8xfjo4sxkbu3b9gjzsf0om",
+        },
+      ],
+    }
+  },
 }
 </script>
 
@@ -109,28 +127,27 @@ function open(link) {
         переписываться на Kotlin, потому что написание кода происходит быстрее и
         проще, чем на Java.
       </p>
-      <div class="button" @click="open('https://github.com/jqweenq/Genshin')">
-        <div v-html="GithubLogo"></div>
+      <a class="button" href="https://github.com/jqweenq/Genshin" target="_blank">
+        <GithubLogo />
         <p class="button__text">Github</p>
-      </div>
+      </a>
     </div>
     <div class="part part-contacts">
       <h2 class="part__title">Мои контакты</h2>
       <div class="buttons-wrapper">
-        <div class="button" v-for="contact in contacts" :key="contact.title" @click="open(contact.url)">
-          <div v-html="contact.logo"></div>
-          <p class="button__text">{{ contact.title }}</p>
-        </div>
+        <a class="button" v-for="{ title, logo, url } in contacts" :key="title" :href="url" target="_blank">
+          <component :is="logo" />
+          <p class="button__text">{{  title  }}</p>
+        </a>
       </div>
     </div>
     <div class="part">
       <h2 class="part__title">Где ещё вы можете меня встретить</h2>
       <div class="buttons-wrapper">
-        <div class="button" v-for="contact in otherContacts" :key="contact.title" @click="open(contact.url)">
-          <!-- FIXME XSS -->
-          <div v-html="contact.logo" />
-          <p class="button__text">{{ contact.title }}</p>
-        </div>
+        <a class="button" v-for="{ title, logo, url } in otherContacts" :key="title" :href="url" target="_blank">
+          <component :is="logo" />
+          <p class="button__text">{{  title  }}</p>
+        </a>
       </div>
     </div>
   </main>
@@ -195,6 +212,13 @@ h2 {
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.button svg {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  min-height: 32px;
 }
 
 .button svg path {
