@@ -1,5 +1,5 @@
 <script>
-import AnilistLogo from "/public/img/logo/AniList.svg"
+import AnilistLogo from "/public/img/logo/AniList.svg";
 import GithubLogo from "/public/img/logo/Github.svg";
 import NotabugLogo from "/public/img/logo/Notabug.svg";
 import SpotifyLogo from "/public/img/logo/Spotify.svg";
@@ -11,6 +11,7 @@ import OsuLogo from "/public/img/logo/osu.svg";
 import ShikimoriLogo from "/public/img/logo/Shikimori.svg";
 import EmailLogo from "/public/img/logo/Email.svg";
 import Navbar from "./components/Navbar.vue";
+import Button from "./components/Button.vue";
 
 
 export default {
@@ -27,11 +28,17 @@ export default {
     ShikimoriLogo,
     EmailLogo,
     Navbar,
-  },
+    Button
+},
   setup: () => {
     // TODO create request to the server
 
     return {
+      genshinProject: {
+        title: 'Github',
+        logo: GithubLogo,
+        url: 'https://github.com/jqweenq/Genshin',
+      },
       contacts: [
         {
           title: "Telegram",
@@ -127,27 +134,18 @@ export default {
         переписываться на Kotlin, потому что написание кода происходит быстрее и
         проще, чем на Java.
       </p>
-      <a class="button" href="https://github.com/jqweenq/Genshin" target="_blank">
-        <GithubLogo />
-        <p class="button__text">Github</p>
-      </a>
+      <Button :attrs="genshinProject" />
     </div>
     <div class="part part-contacts">
       <h2 class="part__title">Мои контакты</h2>
       <div class="buttons-wrapper">
-        <a class="button" v-for="{ title, logo, url } in contacts" :key="title" :href="url" target="_blank">
-          <component :is="logo" />
-          <p class="button__text">{{  title  }}</p>
-        </a>
+        <Button v-for="contact in contacts" :key="contact.title" :attrs="contact" />
       </div>
     </div>
     <div class="part">
       <h2 class="part__title">Где ещё вы можете меня встретить</h2>
       <div class="buttons-wrapper">
-        <a class="button" v-for="{ title, logo, url } in otherContacts" :key="title" :href="url" target="_blank">
-          <component :is="logo" />
-          <p class="button__text">{{  title  }}</p>
-        </a>
+        <Button v-for="contact in otherContacts" :key="contact.title" :attrs="contact" />
       </div>
     </div>
   </main>
@@ -197,47 +195,5 @@ h2 {
 .buttons-wrapper {
   display: grid;
   justify-content: space-evenly;
-}
-
-.button {
-  display: flex;
-  align-items: center;
-  padding: 32px;
-  color: var(--primary);
-  border: 1px solid var(--primary);
-  border-radius: 16px;
-  transition: 0.1s;
-  font-family: Inter-SemiBold;
-  margin: 10px 10px;
-  -webkit-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-}
-
-.button svg {
-  width: 32px;
-  height: 32px;
-  min-width: 32px;
-  min-height: 32px;
-}
-
-.button svg path {
-  fill: var(--primary);
-}
-
-.button:hover {
-  color: var(--secondary);
-  border: 1px solid var(--secondary);
-}
-
-.button:hover svg path {
-  fill: var(--secondary);
-}
-
-.button__text {
-  height: 100%;
-  line-height: 32px;
-  flex-basis: 100%;
-  margin: 0 0 0 32px;
 }
 </style>
