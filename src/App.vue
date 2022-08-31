@@ -12,7 +12,7 @@ import ShikimoriLogo from "/public/img/logo/Shikimori.svg";
 import EmailLogo from "/public/img/logo/Email.svg";
 import Navbar from "./components/Navbar.vue";
 import Button from "./components/Button.vue";
-
+import UpIcon from "/public/img/Up.svg";
 
 export default {
   components: {
@@ -28,8 +28,9 @@ export default {
     ShikimoriLogo,
     EmailLogo,
     Navbar,
-    Button
-},
+    Button,
+    UpIcon
+  },
   setup: () => {
     // TODO create request to the server
 
@@ -100,6 +101,24 @@ export default {
       ],
     }
   },
+  methods: {
+    backToTop() {
+      if (window.pageYOffset > 0) {
+        window.scrollBy(0, -100);
+        setTimeout(this.backToTop, 0);
+      }
+    },
+  },
+  mounted() {
+    const goTopBtn = document.getElementById("go-top")
+    window.addEventListener("scroll", () => {
+      if (window.pageYOffset > document.documentElement.clientHeight) {
+        goTopBtn.style.animationName = "showGoTop"
+      } else if (window.pageYOffset < document.documentElement.clientHeight) {
+        goTopBtn.style.animationName = "hideGoTop"
+      }
+    })
+  },
 }
 </script>
 
@@ -149,29 +168,38 @@ export default {
       </div>
     </div>
   </main>
+  <footer>
+    <div id="go-top" @click="backToTop()">
+      <UpIcon />
+      <p>Вверх</p>
+    </div>
+  </footer>
 </template>
 
 <style>
-header {
+main,
+header,
+footer {
+  width: var(--page-width);
   margin: 0 auto;
 }
 
 main {
-  position: absolute;
-  left: 50%;
-  transform: translate(-50%);
   display: flex;
+  flex: 1 1 auto;
   flex-direction: column;
   align-items: center;
-  margin: 25px 0 100px 0;
+}
+
+footer {
+  min-height: 50px;
 }
 
 h2 {
-  margin: 0 0 25px 0;
+  margin: 25px 0;
 }
 
 .part {
-  margin: 0 0 25px 0;
   color: var(--on-background);
   font-size: 22px;
   width: 100%;
@@ -195,5 +223,66 @@ h2 {
 .buttons-wrapper {
   display: grid;
   justify-content: space-evenly;
+  grid-template-columns: var(--button-columns);
+}
+
+#go-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  right: calc((100% - var(--page-width)) / 4 - var(--go-top-width) / 2);
+  bottom: 50px;
+  border-radius: var(--go-top-radius);
+  border: 1px solid var(--primary);
+  opacity: 0;
+  /* 1 if scrolled */
+  animation-duration: 0.3s;
+  animation-fill-mode: forwards;
+}
+
+#go-top>svg {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: var(--primary);
+}
+
+#go-top>p {
+  font-family: Inter-SemiBold;
+  font-size: 22px;
+  color: var(--primary);
+}
+
+#go-top:hover,
+#go-top:hover>svg,
+#go-top:hover>p {
+  color: var(--secondary);
+  stroke: var(--secondary);
+  border-color: var(--secondary);
+}
+
+@keyframes hideGoTop {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+  }
+}
+
+@keyframes showGoTop {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 </style>
