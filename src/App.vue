@@ -14,6 +14,8 @@ import Navbar from "./components/Navbar.vue";
 import Button from "./components/Button.vue";
 import UpIcon from "/public/img/Up.svg";
 
+import "@fontsource/inter";
+
 export default {
   components: {
     AnilistLogo,
@@ -206,7 +208,8 @@ h2 {
 }
 
 .part__title {
-  font-family: Inter-Bold;
+  font-family: Inter;
+  font-weight: 900;
   font-size: 32px;
 }
 
@@ -254,7 +257,8 @@ h2 {
 }
 
 #go-top>p {
-  font-family: Inter-SemiBold;
+  font-family: Inter;
+  font-weight: 700;
   font-size: 22px;
   color: var(--primary);
 }

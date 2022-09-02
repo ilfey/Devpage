@@ -25,7 +25,8 @@ export default {
   border: 1px solid var(--primary);
   border-radius: 16px;
   transition: 0.1s;
-  font-family: Inter-SemiBold;
+  font-family: Inter;
+  font-weight: 700;
   margin: 10px 10px;
   -webkit-user-select: none;
   -ms-user-select: none;

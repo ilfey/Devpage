@@ -41,7 +41,8 @@ export default {
 nav {
   margin: 25px 0 0 0;
   font-size: 22px;
-  font-family: Inter-SemiBold;
+  font-family: Inter;
+  font-weight: 700;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
