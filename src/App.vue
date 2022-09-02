@@ -240,6 +240,7 @@ h2 {
   /* 1 if scrolled */
   animation-duration: 0.3s;
   animation-fill-mode: forwards;
+  cursor: pointer;
 }
 
 #go-top>svg {
