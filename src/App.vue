@@ -1,5 +1,6 @@
 <script>
 import AnilistLogo from "/public/img/logo/AniList.svg";
+import DiscordLogo from "/public/img/logo/Discord.svg";
 import GithubLogo from "/public/img/logo/Github.svg";
 import NotabugLogo from "/public/img/logo/Notabug.svg";
 import SpotifyLogo from "/public/img/logo/Spotify.svg";
@@ -19,6 +20,7 @@ import "@fontsource/inter";
 export default {
   components: {
     AnilistLogo,
+    DiscordLogo,
     GithubLogo,
     NotabugLogo,
     SpotifyLogo,
@@ -44,19 +46,24 @@ export default {
       },
       contacts: [
         {
+          title: "Discord",
+          logo: DiscordLogo,
+          url: "https://t.me/ilfey",
+        },
+        {
           title: "Telegram",
           logo: TelegramLogo,
-          url: "https://t.me/JQweenq",
+          url: "https://t.me/ilfey",
         },
         {
           title: "Вконтакте",
           logo: VkLogo,
-          url: "https://vk.com/jqweenq",
+          url: "https://vk.com/ilfey",
         },
         {
           title: "Электропочка",
           logo: EmailLogo,
-          url: "mailto:jqweenq@gmail.com",
+          url: "mailto:ilfey.global@gmail.com",
         },
       ],
       otherContacts: [
@@ -73,7 +80,7 @@ export default {
         {
           title: "Github",
           logo: GithubLogo,
-          url: "https://github.com/JQweenq",
+          url: "https://github.com/ilfey",
         },
         {
           title: "osu!",
@@ -116,7 +123,7 @@ export default {
     window.addEventListener("scroll", () => {
       if (window.pageYOffset > document.documentElement.clientHeight) {
         goTopBtn.style.animationName = "showGoTop"
-      } else if (window.pageYOffset < document.documentElement.clientHeight) {
+      } else {
         goTopBtn.style.animationName = "hideGoTop"
       }
     })
@@ -129,53 +136,87 @@ export default {
     <Navbar />
   </header>
   <main>
-    <div class=" part hello-part">
+    <section class="part hello-part">
       <h2 class="part__title">Добро пожаловать</h2>
-      <p>
-        Я — программист. Основной специальности нету, но иногда занимаюсь
-        мобильной разработкой, а иногда веб-разработкой, а бывает такое, что пишу
-        скрипты или изучаю для себя новою сферу, по типу администрирования систем
-        на базе ядра Linux.
+      <p class="part__content">
+        Я — сеньер hello world'ов. Являюсь студентом и познаю аспекты веб-разработки, которая мне не особо интересна. В
+        свобное время, пополняю хранилище забитых проектов (Github).
+        Знаю всего по чуть-чуть, и считаю, что это не есть плохо. Пока я познаю веб-разработку, паралельно изучаю все
+        остальное, что может помочь мне в будущем. Например, мобильная разработка.
       </p>
-    </div>
-    <div class="part part-projects">
+    </section>
+    <section class="part part-projects">
       <h2 class="part__title">Мои проекты</h2>
       <img class="img-genshin" src="/img/Genshin.png" alt="Genshin" />
-      <p>
+      <p class="part__content">
         Приложение для моего знакомого (не знакомого) сделанное чисто по рофлу.
       </p>
-      <p>
-        Сам сайт и приложение написаны по тематике Genshin Impact, в приложении
-        есть (или будут) реализации того, что есть на сайте. На данный момент в
-        приложении есть список персонажей, список молитв и словарь.
+      <p class="part__content">
+        Сам сайт <a href="https://genshin-journey.ml" target="_blank">Genshin Journey</a> и приложение написаны, как не
+        странно, по тематике Genshin Impact, в приложении
+        есть некоторые реализации того, что есть на сайте. На данный момент в приложении есть списки персонажей,
+        молитв и словарь.
       </p>
-      <p>
-        Написано на Java, есть подгрузка данных с бекэнда и в процессе создания
-        отправка данных (планируется редактор записей). В скором времени будет
-        переписываться на Kotlin, потому что написание кода происходит быстрее и
-        проще, чем на Java.
+      <p class="part__content">
+        Изначально было написано на java, но после несколько раз переписывалось на kotlin.
+        Добавлялся свой бэкенд, в котором планировалось создать редактор записей прямо в приложении, но из-за некоторых
+        обстоятельств написание было прервано.
+        Причиной послужило отсутствие нормального хостинга.
+        Спустя более, чем полгода работа возобновилась. Началось очередное переписывание написанного, потому что я узнал
+        немного больше аспектов разработки. В определенный
+        момент, я решил попытаться собрать приложение, но не смог подписать его. Поэтому я жестка тильтанул и снова
+        забросил.
+        Возможно, однажды я возьмусь за проект снова. А пока наслаждайтесь тем, что есть сейчас.
       </p>
       <Button :attrs="genshinProject" />
-    </div>
-    <div class="part part-contacts">
+    </section>
+    <section class="part">
+      <h2 class="part__title">Планы на жизнь</h2>
+      <ul class="part__list">
+        <li>
+          <p>
+            Написать бэкенд для девпеги.
+          </p>
+        </li>
+        <li>
+          <p>
+            Написать свой VPN, основываясь на WireGuard. Написать клиенты под разные платформы и сервер, с возможностью
+            оплаты.
+          </p>
+        </li>
+        <li>
+          <p>
+            Изучить Docker.
+          </p>
+        </li>
+        <li>
+          <p>
+            Черешня.
+          </p>
+        </li>
+      </ul>
+    </section>
+    <section class="part part-contacts">
       <h2 class="part__title">Мои контакты</h2>
       <div class="buttons-wrapper">
         <Button v-for="contact in contacts" :key="contact.title" :attrs="contact" />
       </div>
-    </div>
-    <div class="part">
+    </section>
+    <section class="part">
       <h2 class="part__title">Где ещё вы можете меня встретить</h2>
       <div class="buttons-wrapper">
         <Button v-for="contact in otherContacts" :key="contact.title" :attrs="contact" />
       </div>
-    </div>
+    </section>
   </main>
   <footer>
-    <div id="go-top" @click="backToTop()">
-      <UpIcon />
-      <p>Вверх</p>
-    </div>
+    <p>© ilfey 2022-2023</p>
+    <a href="https://github.com/ilfey/Devpage">Source code</a>
   </footer>
+  <div id="go-top" @click="backToTop()">
+    <UpIcon />
+    <p>Вверх</p>
+  </div>
 </template>
 
 <style>
@@ -194,7 +235,11 @@ main {
 }
 
 footer {
+  padding: 32px 0;
+  font-size: 0.75rem;
   min-height: 50px;
+  display: flex;
+  justify-content: space-between;
 }
 
 h2 {
@@ -203,17 +248,26 @@ h2 {
 
 .part {
   color: var(--on-background);
-  font-size: 22px;
+  font-size: 1rem;
   width: 100%;
 }
 
 .part__title {
   font-family: Inter;
   font-weight: 900;
-  font-size: 32px;
+  font-size: 1.25rem;
 }
 
-.part>p {
+.part__list {
+  margin: 22px;
+}
+
+.part__list>li {
+  margin: 1rem 0;
+}
+
+.part__content {
+  text-indent: 1.25rem;
   margin: 22px 0;
 }
 
@@ -259,7 +313,7 @@ h2 {
 #go-top>p {
   font-family: Inter;
   font-weight: 700;
-  font-size: 22px;
+  font-size: 1rem;
   color: var(--primary);
 }
 

@@ -6,7 +6,7 @@ export default {
   }),
   methods: {
     toggleLang() {
-      alert("You clicked on the language switcher! This will be done soon. x(")
+      alert("Пендосам хода нет, мне лень делать i18n.")
     },
     toggleTheme() {
       const htmlClasses = document.documentElement.classList
@@ -40,7 +40,7 @@ export default {
 <style>
 nav {
   margin: 25px 0 0 0;
-  font-size: 22px;
+  font-size: 1rem;
   font-family: Inter;
   font-weight: 700;
   display: flex;
