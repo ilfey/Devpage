@@ -48,7 +48,7 @@ export default {
         {
           title: "Discord",
           logo: DiscordLogo,
-          url: "https://t.me/ilfey",
+          url: "https://discord.com/users/696281292408619039",
         },
         {
           title: "Telegram",
