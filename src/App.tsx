@@ -135,7 +135,7 @@ const App = () => {
         </section>
         <section className="part part-projects">
           <h2 className="part__title">Мои проекты</h2>
-          <img className="img-genshin" src="/img/Genshin.png" alt="Genshin" />
+          <img className="img-genshin" src="/img/Genshin.png" alt="Genshin" width="270" height="525" />
           <p className="part__content">
             Приложение для моего знакомого (не знакомого) сделанное чисто по рофлу.
           </p>
