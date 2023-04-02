@@ -191,21 +191,22 @@ const App = () => {
 
           </div>
         </section>
-        <section className="part">
+        <section className="part part-other-contacts">
           <h2 className="part__title">Где ещё вы можете меня встретить</h2>
           <div className="buttons-wrapper">
             {bts.otherContacts.map(contact => <Button url={contact.url} title={contact.title} key={contact.title} logo={contact.logo} />)}
           </div>
         </section>
       </main>
+      <div className={ScrollBtnIsHidden ? "fab-top-hidden fab-top" : "fab-top"} id="fab-top" onClick={goToTop}>
+        <SVG src={Up} />
+        <p className="fab-top__text">Вверх</p>
+      </div>
       <footer>
         <p>© ilfey 2022-2023</p>
         <a href="https://github.com/ilfey/Devpage">Source code</a>
       </footer>
-      <div className={ScrollBtnIsHidden ? "go-top-hidden go-top" : "go-top"} id="go-top" onClick={goToTop}>
-        <SVG src={Up} />
-        <p>Вверх</p>
-      </div>
+      
     </>
   );
 }
