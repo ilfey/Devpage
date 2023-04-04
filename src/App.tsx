@@ -133,6 +133,47 @@ const App = () => {
             остальное, что может помочь мне в будущем. Например, мобильная разработка.
           </p>
         </section>
+        <section className="part">
+          <h2 className="part__title">Мои навыки hello world'ов</h2>
+          <ol className="part__list">
+            <li>
+              <p>Go</p>
+            </li>
+            <li>
+              <p>SQL</p>
+            </li>
+            <li>
+              <p>Python</p>
+            </li>
+            <li>
+              <p>C</p>
+            </li>
+            <li>
+              <p>C++</p>
+            </li>
+            <li>
+              <p>C#</p>
+            </li>
+            <li>
+              <p>Java</p>
+            </li>
+            <li>
+              <p>Kotlin</p>
+            </li>
+            <li>
+              <p>JavaScript</p>
+            </li>
+            <li>
+              <p>TypeScript</p>
+            </li>
+            <li>
+              <p>BrainFuck</p>
+            </li>
+            <li>
+              <p>Shell</p>
+            </li>
+          </ol>
+        </section>
         <section className="part part-projects">
           <h2 className="part__title">Мои проекты</h2>
           <img className="img-genshin" src="/img/Genshin.png" alt="Genshin" width="270" height="525" />
