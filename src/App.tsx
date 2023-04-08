@@ -167,6 +167,9 @@ const App = () => {
               <p>TypeScript</p>
             </li>
             <li>
+              <p>YoptaScript</p>
+            </li>
+            <li>
               <p>BrainFuck</p>
             </li>
             <li>
