@@ -85,15 +85,6 @@ export default function IndexPage() {
   const [ScrollBtnIsHidden, setScrollBtnIsHidden] = useState(true);
   useEffect(() => {
     const d = document.documentElement;
-
-    if (localStorage.getItem("color-scheme") === "light") {
-      d.classList.replace("dark", "light");
-    }
-
-    if (localStorage.getItem('language') === "en") {
-      d.lang = "en";
-    }
-
     window.addEventListener("scroll", () => {
       if (window.pageYOffset > d.clientHeight) {
         setScrollBtnIsHidden(false);
