@@ -389,7 +389,6 @@ h2 {
 
 .spinner path {
   color: #fff;
-  animation-name: rotate;
 }
 
 @keyframes rotate {
@@ -400,4 +399,55 @@ h2 {
   to {
     transform: rotate(360deg);
   }
+}
+
+.popup {
+  width: 100%;
+  height: 100%;
+  background: #0003;
+  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.popup-hidden {
+  display: none;
+}
+
+.popup__content {
+  background: var(--background);
+  width: fit-content;
+  height: fit-content;
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.form__entry,
+.form__button {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+}
+
+.form__entry {
+  padding: 10px;
+}
+
+.form__button {
+  padding: 10px;
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+.form__button:hover {
+  background: var(--primary-variant);
 }

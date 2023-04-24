@@ -11,4 +11,5 @@ export const
   Osu = "img/icons//osu.svg",
   Shikimori = "img/icons//Shikimori.svg",
   Email = "img/icons//Email.svg",
-  Up = "img/icons//Up.svg";
+  Up = "img/icons//Up.svg",
+  Spinner = "img/icons//Spinner.svg";
