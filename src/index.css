@@ -5,7 +5,7 @@
   --on-primary-variant: #fff;
 
   --shadow: 1px 1px 5px 1px #0005;
-  
+
   --light-surface: #d0d0f0;
   --light-background: #e2e0f2;
   --on-light-background: #000;
@@ -18,7 +18,7 @@
 
 .dark {
   color-scheme: dark;
-  
+
   --surface: var(--dark-surface);
   --background: var(--dark-background);
   --on-background: var(--on-dark-background);
@@ -353,4 +353,51 @@ h2 {
   line-height: 32px;
   flex-basis: 100%;
   margin: 0 0 0 32px;
+}
+
+.message {
+  margin-top: 32px;
+}
+
+.message__content {
+  margin-top: 15px;
+}
+
+.message__modified-at {
+  font-size: 0.75rem;
+}
+
+.part-messages {
+  position: relative;
+  min-height: 250px;
+}
+
+.part-messages .spinner {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+}
+
+.spinner {
+  width: 32px;
+  color: #fff8;
+  animation-name: rotate;
+  animation-duration: 1s;
+  animation-iteration-count: infinite;
+}
+
+.spinner path {
+  color: #fff;
+  animation-name: rotate;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
 }

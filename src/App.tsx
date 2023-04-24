@@ -5,6 +5,8 @@ import Navbar from './components/Navbar';
 
 import "@fontsource/inter";
 import { Anilist, Discord, Email, Github, Notabug, Osu, Shikimori, Spotify, Telegram, Twitch, Twitter, Up, Vk } from "./Icons";
+import { API } from "./api";
+import Message from "./components/Message";
 
 
 const bts = {
@@ -79,6 +81,14 @@ const bts = {
   ],
 };
 
+interface IMessage {
+  id: number,
+  username: string,
+  content: string,
+  reply: number,
+  modified_at: string,
+}
+
 const App = () => {
 
   const [ScrollBtnIsHidden, setScrollBtnIsHidden] = useState(true);
@@ -102,6 +112,22 @@ const App = () => {
     });
   }, [])
 
+  const [isLoading, setLoading] = useState(true)
+  const [isLoadingError, setLoadingError] = useState(false)
+  const [messages, setMessages] = useState<Array<IMessage>>([])
+
+  useEffect(() => {
+    API.get("/messages")
+      .then(res => {
+        setMessages(res.data as Array<IMessage>)
+      })
+      .catch(() => {
+        setLoadingError(true)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [])
 
   const goToTop = useCallback(
     () => {
@@ -197,6 +223,21 @@ const App = () => {
             {bts.otherContacts.map(contact => <Button url={contact.url} title={contact.title} key={contact.title} logo={contact.logo} />)}
           </div>
         </section>
+        <section className="part part-messages">
+          <h2 className="part__title">Комментарии</h2>
+          {isLoading &&
+            <svg className="spinner" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle><path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg>
+          }
+          {isLoadingError &&
+            <p>Не удалось загрузить комментарии</p>
+          }
+          {!isLoading && messages.length !== 0 &&
+            messages.map(msg => <Message key={msg.id} id={msg.id} username={msg.username} content={msg.content} modified_at={msg.modified_at}></Message>)
+          }
+          {!isLoading && !isLoadingError && messages.length === 0 &&
+            <p>Комментариев пока нет, станьте первым!</p>
+          }
+        </section>
       </main>
       <div className={ScrollBtnIsHidden ? "fab-top-hidden fab-top" : "fab-top"} id="fab-top" onClick={goToTop}>
         <SVG src={Up} />
@@ -206,7 +247,7 @@ const App = () => {
         <p>© ilfey 2022-2023</p>
         <a href="https://github.com/ilfey/Devpage">Source code</a>
       </footer>
-      
+
     </>
   );
 }
