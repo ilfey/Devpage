@@ -8,7 +8,6 @@ import { Anilist, Discord, Email, Github, Notabug, Osu, Shikimori, Spotify, Tele
 import { API } from "./api";
 import Message from "./components/Message";
 import LoginPopup from "./components/Popups/Login";
-import { getToken } from "./coockie";
 import MessageForm from "./components/MessageForm";
 
 
