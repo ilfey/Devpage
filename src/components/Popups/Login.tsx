@@ -3,6 +3,7 @@ import Popup from "../Popup";
 import SVG from "react-inlinesvg";
 import { API } from "../../api";
 import { Spinner } from "../../Icons";
+import { setToken } from "../../coockie";
 
 export interface LoginPopupProps {
   show?: boolean,
@@ -27,7 +28,7 @@ export default function LoginPopup({ show, onClose }: LoginPopupProps) {
         password,
       })
         .then(res => {
-          document.cookie = (res.data as LoginData).token
+          setToken((res.data as LoginData).token)
           onClose()
         })
         .catch(() => {

@@ -432,18 +432,24 @@ h2 {
 }
 
 .form__entry,
+.form__textarea,
 .form__button {
   outline: none;
+  overflow: hidden;
   border: none;
   border-radius: 5px;
+  font-family: "Inter";
+  padding: 10px;
 }
 
-.form__entry {
-  padding: 10px;
+.form__entry {}
+
+.form__textarea {
+  resize: none;
+  height: fit-content;
 }
 
 .form__button {
-  padding: 10px;
   background: var(--primary);
   border-radius: 10px;
 }

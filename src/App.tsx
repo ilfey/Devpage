@@ -8,6 +8,8 @@ import { Anilist, Discord, Email, Github, Notabug, Osu, Shikimori, Spotify, Tele
 import { API } from "./api";
 import Message from "./components/Message";
 import LoginPopup from "./components/Popups/Login";
+import { getToken } from "./coockie";
+import MessageForm from "./components/MessageForm";
 
 
 const bts = {
@@ -239,7 +241,10 @@ const App = () => {
           {!isLoading && !isLoadingError && messages.length === 0 &&
             <p>Комментариев пока нет, станьте первым!</p>
           }
-          <p onClick={() => setShowing(true)}>Войти</p>
+
+          <MessageForm />
+
+          <p onClick={() => { setShowing(true) }}>Войти</p>
         </section>
       </main>
       <div className={ScrollBtnIsHidden ? "fab-top-hidden fab-top" : "fab-top"} id="fab-top" onClick={goToTop}>
@@ -250,7 +255,7 @@ const App = () => {
         <p>© ilfey 2022-2023</p>
         <a href="https://github.com/ilfey/Devpage">Source code</a>
       </footer>
-      <LoginPopup show={popupIsShowing} onClose={() => setShowing(false)}/>
+      <LoginPopup show={popupIsShowing} onClose={() => setShowing(false)} />
     </>
   );
 }
