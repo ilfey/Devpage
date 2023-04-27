@@ -1,16 +1,18 @@
 import { useCallback, useEffect, useState } from "react";
 import { API } from "../api";
 import { getToken } from "../coockie";
+import SVG from "react-inlinesvg";
+import { Send, X } from "../Icons";
+import IMessage from "../types/message";
 
-export default function MessageForm() {
+interface MessageFormProps {
+  msg: IMessage | null,
+  cancelReply: () => void,
+}
+
+export default function MessageForm({ msg, cancelReply }: MessageFormProps) {
 
   const [message, setMessage] = useState("")
-
-  useEffect(() => {
-    if (message.length > 2000) {
-
-    }
-  }, [message])
 
   const postComment = useCallback(
     () => {
@@ -20,9 +22,19 @@ export default function MessageForm() {
         return
       }
 
+      if (message.length < 1) {
+        alert("Нет символов")
+        return
+      }
+
+      if (message.length >= 2000) {
+        alert("Лимит символов")
+        return
+      }
+
       API.post("/user/message", {
         content: message,
-        // TODO add reply
+        reply_to: msg?.id || null
       }, {
         headers: {
           "Authorization": `Bearer ${token}`,
@@ -40,7 +52,7 @@ export default function MessageForm() {
 
         })
     },
-    [message],
+    [message, msg],
   )
 
 
@@ -50,9 +62,15 @@ export default function MessageForm() {
   }
 
   return (
-    <form className="form message-form" action="#">
-      <textarea className="form__textarea" placeholder="Напишите комментарий..." onInput={resizeTextArea} onChange={(e) => { setMessage(e.target.value) }}></textarea>
-      <button className="form__button" type="reset" onClick={postComment}>Отправить</button>
-    </form>
+    <>
+      <div className={msg ? "reply-to-container" : "reply-to-container-hidden"}>
+        <p className="reply-to">Отвечает <span className="reply-to__username">{msg?.username}</span></p>
+        <SVG src={X} className="button-close" onClick={cancelReply} />
+      </div>
+      <form className="form message-form" action="#">
+        <textarea className="form__textarea message-form__entry" rows={1} placeholder="Ваш комментарий..." onInput={resizeTextArea} onChange={(e) => { setMessage(e.target.value) }}></textarea>
+        <SVG src={Send} className="button-send" onClick={postComment} />
+      </form>
+    </>
   );
 }

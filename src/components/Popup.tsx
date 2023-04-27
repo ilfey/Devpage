@@ -1,8 +1,12 @@
+import SVG from "react-inlinesvg";
+import { X } from "../Icons";
+
 export interface PopupProps {
   show?: boolean,
   onClose: () => void,
   children: React.ReactNode,
 }
+
 
 export default function Popup({ show, onClose, children }: PopupProps) {
 
@@ -15,6 +19,7 @@ export default function Popup({ show, onClose, children }: PopupProps) {
   return (
     <div className={show ? "popup" : "popup popup-hidden"} onClick={close}>
       <div className="popup__content" >
+        <SVG src={X} className="popup__close-button" onClick={() => onClose()} />
         {children}
       </div>
     </div>

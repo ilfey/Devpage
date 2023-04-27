@@ -7,8 +7,9 @@ import "@fontsource/inter";
 import { Anilist, Discord, Email, Github, Notabug, Osu, Shikimori, Spotify, Telegram, Twitch, Twitter, Up, Vk, Spinner } from "./Icons";
 import { API } from "./api";
 import Message from "./components/Message";
-import LoginPopup from "./components/Popups/Login";
+import LoginPopup from "./components/Popups/Auth";
 import MessageForm from "./components/MessageForm";
+import IMessage from "./types/message";
 
 
 const bts = {
@@ -83,14 +84,6 @@ const bts = {
   ],
 };
 
-interface IMessage {
-  id: number,
-  username: string,
-  content: string,
-  reply: number,
-  modified_at: string,
-}
-
 const App = () => {
 
   const [ScrollBtnIsHidden, setScrollBtnIsHidden] = useState(true);
@@ -145,7 +138,20 @@ const App = () => {
     [ScrollBtnIsHidden],
   )
 
+  const findMsg = (id: number | null): IMessage | null => {
+    let value: IMessage | null = null
+
+    for (let msg of messages) {
+      if (id === msg.id) {
+        value = msg
+      }
+    }
+
+    return value
+  }
+
   const [popupIsShowing, setShowing] = useState(false)
+  const [repliedMessage, setRepliedMessage] = useState<IMessage | null>(null)
 
   return (
     <>
@@ -235,13 +241,18 @@ const App = () => {
             <p>Не удалось загрузить комментарии</p>
           }
           {!isLoading && messages.length !== 0 &&
-            messages.map(msg => <Message key={msg.id} id={msg.id} username={msg.username} content={msg.content} modified_at={msg.modified_at}></Message>)
+            <div className="message__container">
+              {messages.map(msg => <Message key={msg.id} msg={msg} reply_msg={findMsg(msg.reply_to)} onReply={() => setRepliedMessage(msg)}></Message>)}
+            </div>
           }
           {!isLoading && !isLoadingError && messages.length === 0 &&
             <p>Комментариев пока нет, станьте первым!</p>
           }
 
-          <MessageForm />
+        </section>
+
+        <section className="part part-message-form">
+          <MessageForm msg={repliedMessage} cancelReply={() => setRepliedMessage(null)} />
 
           <p onClick={() => { setShowing(true) }}>Войти</p>
         </section>

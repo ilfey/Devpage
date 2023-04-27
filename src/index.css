@@ -41,7 +41,7 @@
 html,
 body {
   height: 100%;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .wrapper {
@@ -208,6 +208,7 @@ nav {
 main {
   display: flex;
   flex: 1 1 auto;
+  gap: 32px;
   flex-direction: column;
   align-items: center;
 }
@@ -230,7 +231,6 @@ h2 {
   color: var(--on-background);
   font-size: 1rem;
   width: 100%;
-  padding: 32px 0;
 }
 
 .part__title {
@@ -249,7 +249,7 @@ h2 {
 
 .part__content {
   text-indent: 1.25rem;
-  margin: 22px 0;
+  margin: 1rem 0;
 }
 
 .part-other-contacts {
@@ -356,11 +356,55 @@ h2 {
 }
 
 .message {
-  margin-top: 32px;
+  border-radius: 5px;
+  margin-top: 5px;
+  padding: 10px;
+}
+
+.message:hover {
+  background: var(--surface);
+}
+
+.message:hover .message__actions {
+  display: flex;
+}
+
+/* .message__reply {
+  margin-left: 10px;
+} */
+
+.message__reply-hidden {
+  display: none;
+}
+
+.message__header {
+  position: relative;
+  display: flex;
+  gap: 5px;
+  align-items: baseline;
+}
+
+.message__actions {
+  position: absolute;
+  right: 0;
+  display: none;
+}
+
+.message__actions__item {
+  width: 22px;
+  height: 22px;
+}
+
+.message__actions__item:hover {
+  color: var(--primary);
 }
 
 .message__content {
   margin-top: 15px;
+}
+
+.message__text {
+  white-space: pre-wrap;
 }
 
 .message__modified-at {
@@ -423,6 +467,18 @@ h2 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px #000a;
+}
+
+.popup__close-button {
+  width: 22px;
+  height: 22px;
+  position: absolute;
+  top: -22px;
+  right: -22px;
+  color: var(--on-primary);
 }
 
 .form {
@@ -442,6 +498,58 @@ h2 {
   padding: 10px;
 }
 
+.reply-to-container-hidden {
+  display: none;
+}
+
+.reply-to-container {
+  display: flex;
+  justify-content: space-between;
+  margin-right: 47px;
+}
+
+.button-close {
+  color: var(--primary);
+  width: 16px;
+}
+
+.reply-to {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  margin: 5px 0;
+}
+
+.reply-to-hidden {
+  display: none;
+}
+
+.reply-to__username {
+  color: var(--primary);
+}
+
+.message-form {
+  flex-direction: row;
+}
+
+.message-form__entry {
+
+  flex: 1 1 auto;
+}
+
+.button-send {
+  color: var(--primary);
+  transform: rotate(90deg);
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.button-send:hover {
+  color: var(--primary-variant)
+}
+
 .form__entry {}
 
 .form__textarea {
@@ -452,8 +560,21 @@ h2 {
 .form__button {
   background: var(--primary);
   border-radius: 10px;
+  color: var(--on-primary);
+  cursor: pointer;
 }
 
 .form__button:hover {
   background: var(--primary-variant);
+  color: var(--on-primary-variant);
+}
+
+.text-button {
+  /* display: block; */
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  color: var(--primary);
+  text-align: center;
+  cursor: pointer;
 }

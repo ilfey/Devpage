@@ -12,4 +12,7 @@ export const
   Shikimori = "img/icons//Shikimori.svg",
   Email = "img/icons//Email.svg",
   Up = "img/icons//Up.svg",
-  Spinner = "img/icons//Spinner.svg";
+  Spinner = "img/icons//Spinner.svg",
+  X = "img/icons//X.svg",
+  Reply = "img/icons//Reply.svg",
+  Send = "img/icons//Send.svg";

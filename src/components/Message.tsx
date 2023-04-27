@@ -1,17 +1,30 @@
 
+import SVG from "react-inlinesvg";
+import { Reply } from "../Icons";
+import IMessage from "../types/message";
+
 interface MessageProps {
-  id: number,
-  username: string,
-  content: string,
-  modified_at: string
+  msg: IMessage,
+  reply_msg: IMessage | null,
+  onReply: () => void,
 }
 
-export default function Message({ id, username, content, modified_at }: MessageProps) {
+export default function Message({ msg, reply_msg, onReply }: MessageProps) {
   return (
     <div className="message">
-      <h3 className="message__username">{username} <span className="message__modified-at">{modified_at.split('T')[0].replaceAll('-', '.')} {modified_at.split('T')[1].split('.')[0]}</span></h3>
+      <div className={reply_msg ? "message__reply" : "message__reply message__reply-hidden"}>
+        <p className="reply-to">Отвечает <span className="reply-to__username">{reply_msg?.username}</span> на: {reply_msg?.content}</p>
+      </div>
+      <div className="message__header">
+        <p className="message__username">{msg.username}</p>
+        <span className="message__modified-at">{msg.modified_at.split('T')[0].replaceAll('-', '.')} {msg.modified_at.split('T')[1].split('.')[0]}</span>
+        <div className="message__actions">
+          <SVG className="message__actions__item" src={Reply} onClick={onReply} />
+        </div>
+      </div>
+
       <div className="message__content">
-        <p className="message__text">{content}</p>
+        <p className="message__text">{msg.content}</p>
       </div>
     </div>
   );
