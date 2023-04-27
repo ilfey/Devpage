@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { API } from "../api";
 import { getToken } from "../coockie";
 import SVG from "react-inlinesvg";

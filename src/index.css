@@ -550,7 +550,7 @@ h2 {
   color: var(--primary-variant)
 }
 
-.form__entry {}
+/* .form__entry {} */
 
 .form__textarea {
   resize: none;
