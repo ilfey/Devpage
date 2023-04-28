@@ -4,7 +4,7 @@ function setCookie(key: string, value: string) {
   document.cookie = `${key}=${value};`
 }
 
-function getCookie(key: String): string | null {
+function getCookie(key: string): string | null {
   const cookies = document.cookie.split("; ")
 
   let value = null

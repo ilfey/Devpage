@@ -58,7 +58,7 @@ export default function MessageForm({ msg, cancelReply }: MessageFormProps) {
 
   function resizeTextArea(e: React.FormEvent<HTMLTextAreaElement>) {
     e.currentTarget.style.height = ""
-    e.currentTarget.style.height = `${e.currentTarget.scrollHeight}px`
+    e.currentTarget.style.height = `${e.currentTarget.scrollHeight - 20}px`
   }
 
   return (
@@ -67,9 +67,11 @@ export default function MessageForm({ msg, cancelReply }: MessageFormProps) {
         <p className="reply-to">Отвечает <span className="reply-to__username">{msg?.username}</span></p>
         <SVG src={X} className="button-close" onClick={cancelReply} />
       </div>
-      <form className="form message-form" action="#">
+      <form className="form message-form" action="#send-message" onSubmit={postComment}>
         <textarea className="form__textarea message-form__entry" rows={1} placeholder="Ваш комментарий..." onInput={resizeTextArea} onChange={(e) => { setMessage(e.target.value) }}></textarea>
-        <SVG src={Send} className="button-send" onClick={postComment} />
+        <button className="form__button button-send" type="submit">
+          <SVG src={Send} className="button-send__logo" />
+        </button>
       </form>
     </>
   );

@@ -4,6 +4,7 @@ import SVG from "react-inlinesvg";
 import { API } from "../../api";
 import { Spinner } from "../../Icons";
 import { setToken } from "../../coockie";
+import { saveUsername } from "../../storage";
 
 export interface LoginPopupProps {
   show?: boolean,
@@ -38,13 +39,14 @@ export default function LoginPopup({ show, onClose }: LoginPopupProps) {
       })
         .then(res => {
           setToken((res.data as LoginData).token)
+          saveUsername(username)
           onClose()
+          setState(State.Completed)
         })
         .catch(() => {
           setState(State.LoginError)
         })
         .finally(() => {
-          setState(State.Completed)
           setTimeout(() => {
             onClose()
           }, 2000)
@@ -95,10 +97,10 @@ export default function LoginPopup({ show, onClose }: LoginPopupProps) {
 
       {state === State.Login &&
         <>
-          <form className="form form-auth" action="#login">
-            <input className="form__entry" type="text" placeholder="Логин" onChange={(e) => { setUsername(e.target.value) }} />
-            <input className="form__entry" type="password" placeholder="Пароль" onChange={(e) => { setPassword(e.target.value) }} />
-            <button className="form__button" type="submit" onClick={login}>Войти</button>
+          <form className="form form-auth" action="#login" onSubmit={login}>
+            <input className="form__entry" type="text" placeholder="Логин" required onChange={(e) => { setUsername(e.target.value) }} />
+            <input className="form__entry" type="password" placeholder="Пароль" required onChange={(e) => { setPassword(e.target.value) }} />
+            <button className="form__button" type="submit">Войти</button>
           </form>
           <button className="text-button" onClick={() => { setState(State.Register) }} >Зарегистрироваться</button>
         </>
@@ -106,11 +108,11 @@ export default function LoginPopup({ show, onClose }: LoginPopupProps) {
 
       {state === State.Register &&
         <>
-          <form className="form form-auth" action="#register">
-            <input className="form__entry" type="text" placeholder="Логин" onChange={(e) => { setUsername(e.target.value) }} />
-            <input className="form__entry" type="password" placeholder="Пароль" onChange={(e) => { setPassword(e.target.value) }} />
-            <input className="form__entry" type="confirm_password" placeholder="Повторите пароль" onChange={(e) => { setConfirmPassword(e.target.value) }} />
-            <button className="form__button" type="submit" onClick={register}>Зарегистрироваться</button>
+          <form className="form form-auth" action="#register" onSubmit={register}>
+            <input className="form__entry" type="text" placeholder="Логин" required onChange={(e) => { setUsername(e.target.value) }} />
+            <input className="form__entry" type="password" placeholder="Пароль" required onChange={(e) => { setPassword(e.target.value) }} />
+            <input className="form__entry" type="password" placeholder="Повторите пароль" required onChange={(e) => { setConfirmPassword(e.target.value) }} />
+            <button className="form__button" type="submit">Зарегистрироваться</button>
           </form>
           <button className="text-button" onClick={() => { setState(State.Login) }} >Уже есть аккаунт</button>
         </>

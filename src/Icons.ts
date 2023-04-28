@@ -15,4 +15,5 @@ export const
   Spinner = "img/icons//Spinner.svg",
   X = "img/icons//X.svg",
   Reply = "img/icons//Reply.svg",
-  Send = "img/icons//Send.svg";
+  Send = "img/icons//Send.svg",
+  Trash = "img/icons//Trash.svg";

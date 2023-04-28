@@ -10,6 +10,7 @@ import Message from "./components/Message";
 import LoginPopup from "./components/Popups/Auth";
 import MessageForm from "./components/MessageForm";
 import IMessage from "./types/message";
+import { loadUsername } from "./storage";
 
 
 const bts = {
@@ -252,7 +253,9 @@ const App = () => {
         </section>
 
         <section className="part part-message-form">
-          <MessageForm msg={repliedMessage} cancelReply={() => setRepliedMessage(null)} />
+          {loadUsername() &&
+            <MessageForm msg={repliedMessage} cancelReply={() => setRepliedMessage(null)} />
+          }
 
           <p onClick={() => { setShowing(true) }}>Войти</p>
         </section>

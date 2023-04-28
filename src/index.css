@@ -373,10 +373,6 @@ h2 {
   margin-left: 10px;
 } */
 
-.message__reply-hidden {
-  display: none;
-}
-
 .message__header {
   position: relative;
   display: flex;
@@ -384,9 +380,11 @@ h2 {
   align-items: baseline;
 }
 
+
 .message__actions {
   position: absolute;
   right: 0;
+  gap: 5px;
   display: none;
 }
 
@@ -498,6 +496,37 @@ h2 {
   padding: 10px;
 }
 
+
+
+/* .form__entry {} */
+
+.form__textarea {
+  resize: none;
+  height: fit-content;
+}
+
+.form__button {
+  background: var(--primary);
+  border-radius: 10px;
+  color: var(--on-primary);
+  cursor: pointer;
+}
+
+.form__button:hover {
+  background: var(--primary-variant);
+  color: var(--on-primary-variant);
+}
+
+.text-button {
+  /* display: block; */
+  width: 100%;
+  border: none;
+  background-color: transparent;
+  color: var(--primary);
+  text-align: center;
+  cursor: pointer;
+}
+
 .reply-to-container-hidden {
   display: none;
 }
@@ -538,7 +567,13 @@ h2 {
   flex: 1 1 auto;
 }
 
-.button-send {
+.button-send,
+.button-send:hover {
+  padding: 0;
+  background: transparent;
+}
+
+.button-send__logo {
   color: var(--primary);
   transform: rotate(90deg);
   width: 32px;
@@ -546,35 +581,6 @@ h2 {
   cursor: pointer;
 }
 
-.button-send:hover {
+.button-send__logo:hover {
   color: var(--primary-variant)
-}
-
-/* .form__entry {} */
-
-.form__textarea {
-  resize: none;
-  height: fit-content;
-}
-
-.form__button {
-  background: var(--primary);
-  border-radius: 10px;
-  color: var(--on-primary);
-  cursor: pointer;
-}
-
-.form__button:hover {
-  background: var(--primary-variant);
-  color: var(--on-primary-variant);
-}
-
-.text-button {
-  /* display: block; */
-  width: 100%;
-  border: none;
-  background-color: transparent;
-  color: var(--primary);
-  text-align: center;
-  cursor: pointer;
 }
