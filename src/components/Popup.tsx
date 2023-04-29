@@ -17,11 +17,15 @@ export default function Popup({ show, onClose, children }: PopupProps) {
   }
 
   return (
-    <div className={show ? "popup" : "popup popup-hidden"} onClick={close}>
-      <div className="popup__content" >
-        <SVG src={X} className="popup__close-button" onClick={() => onClose()} />
-        {children}
-      </div>
-    </div>
+    <>
+      {show &&
+        <div className="popup" onClick={close}>
+          <div className="popup__content" >
+            <SVG src={X} className="popup__close-button" onClick={() => onClose()} />
+            {children}
+          </div>
+        </div>
+      }
+    </>
   );
 }

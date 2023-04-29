@@ -453,9 +453,6 @@ h2 {
   left: 0;
 }
 
-.popup-hidden {
-  display: none;
-}
 
 .popup__content {
   background: var(--background);
@@ -527,10 +524,6 @@ h2 {
   cursor: pointer;
 }
 
-.reply-to-container-hidden {
-  display: none;
-}
-
 .reply-to-container {
   display: flex;
   justify-content: space-between;
@@ -550,10 +543,6 @@ h2 {
   margin: 5px 0;
 }
 
-.reply-to-hidden {
-  display: none;
-}
-
 .reply-to__username {
   color: var(--primary);
 }
@@ -563,7 +552,6 @@ h2 {
 }
 
 .message-form__entry {
-
   flex: 1 1 auto;
 }
 

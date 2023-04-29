@@ -5,6 +5,7 @@ import IMessage from "../types/message";
 import { useCallback } from "react";
 import { API } from "../api";
 import { loadUsername } from "../storage";
+import { getToken } from "../coockie";
 
 interface MessageProps {
   msg: IMessage,
@@ -16,7 +17,11 @@ export default function Message({ msg, reply_msg, onReply }: MessageProps) {
 
   const onDelete = useCallback(
     () => {
-      API.delete(`/user/message/${msg.id}`)
+      API.delete(`/user/message/${msg.id}`, {
+        headers: {
+          Authorization: `Bearer ${getToken()}`
+        }
+      })
         .then((res) => {
 
         })

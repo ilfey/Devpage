@@ -63,10 +63,12 @@ export default function MessageForm({ msg, cancelReply }: MessageFormProps) {
 
   return (
     <>
-      <div className={msg ? "reply-to-container" : "reply-to-container-hidden"}>
-        <p className="reply-to">Отвечает <span className="reply-to__username">{msg?.username}</span></p>
-        <SVG src={X} className="button-close" onClick={cancelReply} />
-      </div>
+      {msg &&
+        <div className="reply-to-container">
+          <p className="reply-to">Отвечает <span className="reply-to__username">{msg?.username}</span></p>
+          <SVG src={X} className="button-close" onClick={cancelReply} />
+        </div>
+      }
       <form className="form message-form" action="#send-message" onSubmit={postComment}>
         <textarea className="form__textarea message-form__entry" rows={1} placeholder="Ваш комментарий..." onInput={resizeTextArea} onChange={(e) => { setMessage(e.target.value) }}></textarea>
         <button className="form__button button-send" type="submit">
