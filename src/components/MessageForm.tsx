@@ -1,27 +1,23 @@
 import { useCallback, useState } from "react";
-import { API } from "../api";
-import { getToken } from "../coockie";
+import { postMessage } from "../api";
 import SVG from "react-inlinesvg";
 import { Send, X } from "../Icons";
 import IMessage from "../types/message";
+import { getToken } from "../coockie";
 
 interface MessageFormProps {
   msg: IMessage | null,
   cancelReply: () => void,
+  showAuth: () => void,
 }
 
-export default function MessageForm({ msg, cancelReply }: MessageFormProps) {
+
+export default function MessageForm({ msg, cancelReply, showAuth }: MessageFormProps) {
 
   const [message, setMessage] = useState("")
 
   const postComment = useCallback(
-    () => {
-      const token = getToken()
-      if (!token) {
-        alert("Нужно авторизироваться")
-        return
-      }
-
+    (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null = null) => {
       if (message.length < 1) {
         alert("Нет символов")
         return
@@ -32,49 +28,69 @@ export default function MessageForm({ msg, cancelReply }: MessageFormProps) {
         return
       }
 
-      API.post("/user/message", {
-        content: message,
-        reply_to: msg?.id || null
-      }, {
-        headers: {
-          "Authorization": `Bearer ${token}`,
-        }
-      })
-        .then((res) => {
-          console.log(res.status);
+      if (e?.currentTarget) {
+        e.currentTarget.disabled = true
+      }
 
+      postMessage(message, msg?.id || null)
+        .then(() => {
+          const form = document.querySelector("#send-message") as HTMLFormElement
+          form.reset()
         })
         .catch((res) => {
           console.log(res);
-
         })
-        .finally(() => {
 
-        })
     },
     [message, msg],
   )
 
-
   function resizeTextArea(e: React.FormEvent<HTMLTextAreaElement>) {
-    e.currentTarget.style.height = ""
+    e.currentTarget.style.height = ''
     e.currentTarget.style.height = `${e.currentTarget.scrollHeight - 20}px`
   }
 
+  function handleKey(e: React.KeyboardEvent<HTMLTextAreaElement>) {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      postComment()
+      e.currentTarget.form?.reset();
+      resizeTextArea(e)
+    }
+  }
+
+  const token = getToken()
+
   return (
     <>
-      {msg &&
-        <div className="reply-to-container">
-          <p className="reply-to">Отвечает <span className="reply-to__username">{msg?.username}</span></p>
-          <SVG src={X} className="button-close" onClick={cancelReply} />
-        </div>
+      {token === null &&
+        <>
+          <div className="message-form-placeholder">
+            <p className="message-form-placeholder__text">
+              Вам необходимо<button className="button-in-text" onClick={showAuth}>войти</button>
+              чтобы оставить свой комментарий у меня на странице.
+            </p>
+          </div>
+        </>
       }
-      <form className="form message-form" action="#send-message" onSubmit={postComment}>
-        <textarea className="form__textarea message-form__entry" rows={1} placeholder="Ваш комментарий..." onInput={resizeTextArea} onChange={(e) => { setMessage(e.target.value) }}></textarea>
-        <button className="form__button button-send" type="submit">
-          <SVG src={Send} className="button-send__logo" />
-        </button>
-      </form>
+      {token !== null &&
+        <>
+          {msg &&
+            <div className="reply-to-container">
+              <p className="reply-to">Отвечает <span className="reply-to__username">{msg?.username}</span></p>
+              <SVG src={X} className="button-close" onClick={cancelReply} />
+            </div>
+          }
+          <form className="form message-form" action="#send-message" id="send-message">
+            <textarea className="form__textarea message-form__entry" rows={1} placeholder="Ваш комментарий..."
+              onInput={resizeTextArea} onKeyDown={handleKey} onChange={(e) => { setMessage(e.target.value) }} />
+            <button className="form__button button-send" onClick={postComment}>
+              <SVG src={Send} className="button-send__logo" />
+            </button>
+          </form>
+        </>
+      }
+
     </>
   );
 }

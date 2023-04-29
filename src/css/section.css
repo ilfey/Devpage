@@ -1,0 +1,24 @@
+.part {
+  color: var(--on-background);
+  font-size: 1rem;
+  width: 100%;
+}
+
+.part__title {
+  font-family: Inter;
+  font-weight: 900;
+  font-size: 1.25rem;
+}
+
+.part__list {
+  margin: 22px;
+}
+
+.part__list>li {
+  margin: 1rem 0;
+}
+
+.part__content {
+  text-indent: 1.25rem;
+  margin: 1rem 0;
+}

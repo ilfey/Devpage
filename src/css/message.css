@@ -1,0 +1,74 @@
+.message {
+  border-radius: 5px;
+  margin-top: 5px;
+  padding: 10px;
+}
+
+.message:hover {
+  background: var(--surface);
+}
+
+.message__error {
+  display: flex;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+  width: 150px;
+}
+
+.message__error__logo {
+  width: 32px;
+  height: 32px;
+  /* TODO: add error color */
+  color: red; 
+}
+
+.message__error__text {
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.message:hover .message__actions {
+  display: flex;
+}
+
+/* .message__reply {
+  margin-left: 10px;
+} */
+
+.message__header {
+  position: relative;
+  display: flex;
+  gap: 5px;
+  align-items: baseline;
+}
+
+
+.message__actions {
+  position: absolute;
+  right: 0;
+  gap: 5px;
+  display: none;
+}
+
+.message__actions__item {
+  width: 22px;
+  height: 22px;
+}
+
+.message__actions__item:hover {
+  color: var(--primary);
+}
+
+.message__content {
+  margin-top: 15px;
+}
+
+.message__text {
+  white-space: pre-wrap;
+}
+
+.message__modified-at {
+  font-size: 0.75rem;
+}
+

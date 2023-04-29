@@ -1,0 +1,33 @@
+:root {
+  --primary: #007fff;
+  --on-primary: #fff;
+  --primary-variant: #0059b2;
+  --on-primary-variant: #fff;
+
+  --shadow: 1px 1px 5px 1px #0005;
+
+  --light-surface: #d0d0f0;
+  --light-background: #e2e0f2;
+  --on-light-background: #000;
+
+  --dark-surface: #111;
+  --dark-background: #111622;
+  --on-dark-background: #fff;
+
+}
+
+.dark {
+  color-scheme: dark;
+
+  --surface: var(--dark-surface);
+  --background: var(--dark-background);
+  --on-background: var(--on-dark-background);
+}
+
+.light {
+  color-scheme: light;
+
+  --surface: var(--light-surface);
+  --background: var(--light-background);
+  --on-background: var(--on-light-background);
+}

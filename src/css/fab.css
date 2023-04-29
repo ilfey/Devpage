@@ -1,0 +1,43 @@
+.fab-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-left: 20px;
+  margin-right: 20px;
+  box-shadow: var(--shadow);
+  background-color: var(--primary);
+  right: calc((100% - var(--page-width)) / 4 - var(--fab-top-width) / 2);
+  bottom: 32px;
+  border-radius: var(--fab-top-radius);
+  transition: opacity 0.3s;
+  cursor: pointer;
+}
+
+.fab-top>svg {
+  width: 32px;
+  height: 32px;
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke: var(--on-primary);
+}
+
+.fab-top__text {
+  font-family: Inter;
+  font-weight: 700;
+  font-size: 1rem;
+  color: var(--on-primary);
+}
+
+.fab-top:hover,
+.fab-top:hover>svg,
+.fab-top:hover>.fab-top__text {
+  background-color: var(--primary-variant);
+}
+
+.fab-top-hidden {
+  cursor: default;
+  opacity: 0;
+}

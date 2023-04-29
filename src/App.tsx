@@ -1,16 +1,18 @@
+import { Anilist, Discord, Email, Github, Notabug, Osu, Shikimori, Spotify, Telegram, Twitch, Twitter, Up, Vk, Spinner } from "./Icons";
+
 import { useCallback, useEffect, useState } from "react";
 import SVG from "react-inlinesvg";
+import "@fontsource/inter";
+
 import Button from './components/Button';
 import Navbar from './components/Navbar';
-
-import "@fontsource/inter";
-import { Anilist, Discord, Email, Github, Notabug, Osu, Shikimori, Spotify, Telegram, Twitch, Twitter, Up, Vk, Spinner } from "./Icons";
-import { API } from "./api";
 import Message from "./components/Message";
 import LoginPopup from "./components/Popups/Auth";
 import MessageForm from "./components/MessageForm";
+
 import IMessage from "./types/message";
 import { loadUsername } from "./storage";
+import { API, getMessages } from "./api";
 
 
 const bts = {
@@ -85,6 +87,13 @@ const bts = {
   ],
 };
 
+enum State {
+  Initial,
+  Error,
+  Loading,
+  Display,
+}
+
 const App = () => {
 
   const [ScrollBtnIsHidden, setScrollBtnIsHidden] = useState(true);
@@ -108,20 +117,35 @@ const App = () => {
     });
   }, [])
 
-  const [isLoading, setLoading] = useState(true)
-  const [isLoadingError, setLoadingError] = useState(false)
+  const [state, setState] = useState(State.Initial)
   const [messages, setMessages] = useState<Array<IMessage>>([])
+
+  function updateMessages() {
+    setState(State.Loading)
+    getMessages()
+      .then((res) => {
+        setMessages(res.data as Array<IMessage>)
+        setState(State.Display)
+      })
+      .catch(() => {
+        setState(State.Error)
+      })
+  }
+
+  useEffect(() => {
+    updateMessages()
+  }, [])
 
   useEffect(() => {
     API.get("/messages")
       .then(res => {
-        setMessages(res.data as Array<IMessage>)
+
       })
       .catch(() => {
-        setLoadingError(true)
+
       })
       .finally(() => {
-        setLoading(false)
+
       })
   }, [])
 
@@ -153,6 +177,8 @@ const App = () => {
 
   const [popupIsShowing, setShowing] = useState(false)
   const [repliedMessage, setRepliedMessage] = useState<IMessage | null>(null)
+
+  // updateMessages()
 
   return (
     <>
@@ -235,18 +261,18 @@ const App = () => {
         </section>
         <section className="part part-messages">
           <h2 className="part__title">Комментарии</h2>
-          {isLoading &&
+          {state === State.Loading &&
             <SVG src={Spinner}></SVG>
           }
-          {isLoadingError &&
+          {state === State.Error &&
             <p>Не удалось загрузить комментарии</p>
           }
-          {!isLoading && messages.length !== 0 &&
+          {state === State.Display && messages.length !== 0 &&
             <div className="message__container">
-              {messages.map(msg => <Message key={msg.id} msg={msg} reply_msg={findMsg(msg.reply_to)} onReply={() => setRepliedMessage(msg)}></Message>)}
+              {messages.map(msg => <Message key={msg.id} msg={msg} reply_msg={findMsg(msg.reply_to)} onReply={() => setRepliedMessage(msg)} onDelete={() => updateMessages()}></Message>)}
             </div>
           }
-          {!isLoading && !isLoadingError && messages.length === 0 &&
+          {state === State.Display && messages.length === 0 &&
             <p>Комментариев пока нет, станьте первым!</p>
           }
 
@@ -254,10 +280,8 @@ const App = () => {
 
         <section className="part part-message-form">
           {loadUsername() &&
-            <MessageForm msg={repliedMessage} cancelReply={() => setRepliedMessage(null)} />
+            <MessageForm msg={repliedMessage} cancelReply={() => setRepliedMessage(null)} showAuth={() => { setShowing(true) }}/>
           }
-
-          <p onClick={() => { setShowing(true) }}>Войти</p>
         </section>
       </main>
       <div className={ScrollBtnIsHidden ? "fab-top-hidden fab-top" : "fab-top"} id="fab-top" onClick={goToTop}>

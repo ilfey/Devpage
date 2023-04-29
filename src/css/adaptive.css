@@ -1,0 +1,117 @@
+@media (min-width: 1024px) {
+
+  /* 1024px - 0 */
+  .img-genshin {
+    float: left;
+  }
+
+  :root {
+    --page-width: 60%;
+    --button-columns: 1fr 1fr;
+    --fab-top-width: 148px;
+    --fab-top-radius: 10px;
+  }
+
+  .fab-top {
+    position: fixed;
+    padding: 16px;
+  }
+
+  .fab-top>svg {
+    margin: 0;
+  }
+}
+
+@media (max-width: 1024px) {
+
+  /* 900px - 1024px */
+  .img-genshin {
+    float: left;
+  }
+
+  :root {
+    --page-width: 70%;
+    --button-columns: 1fr 1fr;
+    --fab-top-width: 82px;
+    --fab-top-radius: 10px;
+  }
+
+  .fab-top {
+    position: fixed;
+    padding: 16px;
+  }
+
+  .fab-top__text {
+    display: none;
+  }
+
+  .fab-top>svg {
+    margin: 0;
+  }
+}
+
+@media (max-width: 900px) {
+
+  /* 700px - 900px */
+  .img-genshin {
+    float: left;
+  }
+
+  :root {
+    --page-width: 80%;
+    --button-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+
+  /* 320px - 700px */
+  .part__title {
+    text-align: center;
+  }
+
+  .img-genshin {
+    float: unset;
+    position: relative;
+    left: 50%;
+    transform: translate(-50%);
+  }
+
+  :root {
+    --page-width: calc(100% - 20px);
+    --button-columns: 1fr;
+    --fab-top-radius: 16px;
+  }
+
+  .fab-top {
+    position: initial;
+    padding: 32px;
+    margin-bottom: 74px;
+  }
+
+  .fab-top__text {
+    display: initial;
+  }
+
+  .fab-top>svg {
+    margin: 0 16px 0 0;
+  }
+}
+
+@media (max-width: 320px) {
+
+  /* 0 - 320px */
+  .part__title {
+    text-align: center;
+  }
+
+  .img-genshin {
+    margin: 0 auto;
+  }
+
+  :root {
+    --page-width: calc(100% - 20px);
+    --button-columns: 1fr;
+    --fab-top-padding: 32px;
+  }
+}
