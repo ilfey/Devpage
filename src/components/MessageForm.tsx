@@ -9,10 +9,11 @@ interface MessageFormProps {
   msg: IMessage | null,
   cancelReply: () => void,
   showAuth: () => void,
+  onPost: () => void,
 }
 
 
-export default function MessageForm({ msg, cancelReply, showAuth }: MessageFormProps) {
+export default function MessageForm({ msg, cancelReply, showAuth, onPost }: MessageFormProps) {
 
   const [message, setMessage] = useState("")
 
@@ -34,6 +35,7 @@ export default function MessageForm({ msg, cancelReply, showAuth }: MessageFormP
 
       postMessage(message, msg?.id || null)
         .then(() => {
+          onPost()
           const form = document.querySelector("#send-message") as HTMLFormElement
           form.reset()
         })
@@ -42,7 +44,7 @@ export default function MessageForm({ msg, cancelReply, showAuth }: MessageFormP
         })
 
     },
-    [message, msg],
+    [message, msg, onPost],
   )
 
   function resizeTextArea(e: React.FormEvent<HTMLTextAreaElement>) {
@@ -54,7 +56,6 @@ export default function MessageForm({ msg, cancelReply, showAuth }: MessageFormP
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       postComment()
-      e.currentTarget.form?.reset();
       resizeTextArea(e)
     }
   }

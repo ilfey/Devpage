@@ -11,8 +11,7 @@ import LoginPopup from "./components/Popups/Auth";
 import MessageForm from "./components/MessageForm";
 
 import IMessage from "./types/message";
-import { loadUsername } from "./storage";
-import { API, getMessages } from "./api";
+import { getMessages } from "./api";
 
 
 const bts = {
@@ -136,19 +135,6 @@ const App = () => {
     updateMessages()
   }, [])
 
-  useEffect(() => {
-    API.get("/messages")
-      .then(res => {
-
-      })
-      .catch(() => {
-
-      })
-      .finally(() => {
-
-      })
-  }, [])
-
   const goToTop = useCallback(
     () => {
       const inner = () => {
@@ -177,8 +163,6 @@ const App = () => {
 
   const [popupIsShowing, setShowing] = useState(false)
   const [repliedMessage, setRepliedMessage] = useState<IMessage | null>(null)
-
-  // updateMessages()
 
   return (
     <>
@@ -279,9 +263,7 @@ const App = () => {
         </section>
 
         <section className="part part-message-form">
-          {loadUsername() &&
-            <MessageForm msg={repliedMessage} cancelReply={() => setRepliedMessage(null)} showAuth={() => { setShowing(true) }}/>
-          }
+          <MessageForm msg={repliedMessage} cancelReply={() => setRepliedMessage(null)} showAuth={() => { setShowing(true) }} onPost={() => updateMessages()} />
         </section>
       </main>
       <div className={ScrollBtnIsHidden ? "fab-top-hidden fab-top" : "fab-top"} id="fab-top" onClick={goToTop}>

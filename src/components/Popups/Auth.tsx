@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import Popup from "../Popup";
 import SVG from "react-inlinesvg";
-import { API } from "../../api";
+import { postLogin, postRegister } from "../../api";
 import { Spinner } from "../../Icons";
 import { setToken } from "../../coockie";
 import { saveUsername } from "../../storage";
@@ -26,17 +26,14 @@ enum State {
 
 export default function LoginPopup({ show, onClose }: LoginPopupProps) {
   const [state, setState] = useState(State.Login)
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   const login = useCallback(
     () => {
       setState(State.Loading)
-      API.post("/user/login", {
-        username,
-        password,
-      })
+      postLogin(username, password)
         .then(res => {
           setToken((res.data as LoginData).token)
           saveUsername(username)
@@ -64,16 +61,12 @@ export default function LoginPopup({ show, onClose }: LoginPopupProps) {
 
       setState(State.Loading)
 
-      API.post("/user/register", {
-        username,
-        password,
-      })
-        .then(res => {
-          setToken((res.data as LoginData).token)
+      postRegister(username, password)
+        .then(() => {
           onClose()
         })
         .catch(() => {
-          setState(State.LoginError)
+          setState(State.RegisterError)
         })
         .finally(() => {
           setState(State.Completed)
