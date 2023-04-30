@@ -123,7 +123,7 @@ const App = () => {
     setState(State.Loading)
     getMessages()
       .then((res) => {
-        setMessages(res.data as Array<IMessage>)
+        setMessages(res.data)
         setState(State.Display)
       })
       .catch(() => {

@@ -17,6 +17,16 @@ export default function MessageForm({ msg, cancelReply, showAuth, onPost }: Mess
 
   const [message, setMessage] = useState("")
 
+  const resizeTextArea = useCallback(
+    () => {
+      const area = document.querySelector(".message-form__entry") as HTMLTextAreaElement
+
+      area.style.height = ''
+      area.style.height = `${area.scrollHeight - 20}px`
+    },
+    [],
+  )
+
   const postComment = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null = null) => {
       if (message.length < 1) {
@@ -38,25 +48,21 @@ export default function MessageForm({ msg, cancelReply, showAuth, onPost }: Mess
           onPost()
           const form = document.querySelector("#send-message") as HTMLFormElement
           form.reset()
+          resizeTextArea()
         })
         .catch((res) => {
           console.log(res);
         })
 
     },
-    [message, msg, onPost],
+    [message, msg, onPost, resizeTextArea],
   )
-
-  function resizeTextArea(e: React.FormEvent<HTMLTextAreaElement>) {
-    e.currentTarget.style.height = ''
-    e.currentTarget.style.height = `${e.currentTarget.scrollHeight - 20}px`
-  }
 
   function handleKey(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
       postComment()
-      resizeTextArea(e)
+
     }
   }
 
