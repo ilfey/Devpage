@@ -24,7 +24,7 @@ enum State {
   Completed,
 }
 
-export default function LoginPopup({ show, onClose }: LoginPopupProps) {
+export default function AuthPopup({ show, onClose }: LoginPopupProps) {
   const [state, setState] = useState(State.Login)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')

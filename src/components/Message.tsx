@@ -6,6 +6,17 @@ import { loadUsername } from "../storage";
 import { deleteMessage } from "../api";
 import { useCallback, useState } from "react";
 
+const today = new Date()
+const yesterday = new Date(today);
+yesterday.setDate(today.getDate() - 1);
+
+const globalOptions: any = {
+  month: "long",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+}
+
 interface MessageProps {
   msg: IMessage,
   reply_msg: IMessage | null,
@@ -22,6 +33,23 @@ enum State {
 export default function Message({ msg, reply_msg, onReply, onDelete }: MessageProps) {
 
   const [state, setState] = useState(State.Display)
+
+  function getMessageDate(): string {
+    const date = new Date(msg.modified_at)
+
+    const hours = date.getHours()
+    const minutes = date.getMinutes()
+
+    if (date.toDateString() === today.toDateString()) {
+      return `Сегодня, в ${hours}:${minutes}`
+    }
+
+    if (date.toDateString() === yesterday.toDateString()) {
+      return `Вчера, в ${hours}:${minutes}`
+    }
+
+    return date.toLocaleDateString("ru-RU", globalOptions)
+  }
 
   const deleteMsg = useCallback(
     () => {
@@ -56,7 +84,7 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
           }
           <div className="message__header">
             <p className="message__username">{msg.username}</p>
-            <span className="message__modified-at">{msg.modified_at.split('T')[0].replaceAll('-', '.')} {msg.modified_at.split('T')[1].split('.')[0]}</span>
+            <span className="message__modified-at">{getMessageDate()}</span>
 
             {username &&
               <div className="message__actions">

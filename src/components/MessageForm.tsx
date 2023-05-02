@@ -6,14 +6,14 @@ import IMessage from "../types/message";
 import { getToken } from "../coockie";
 
 interface MessageFormProps {
-  msg: IMessage | null,
-  cancelReply: () => void,
+  replyMessage: IMessage | null,
+  onReplyCanceled: () => void,
   showAuth: () => void,
   onPost: () => void,
 }
 
 
-export default function MessageForm({ msg, cancelReply, showAuth, onPost }: MessageFormProps) {
+export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, onPost }: MessageFormProps) {
 
   const [message, setMessage] = useState("")
 
@@ -43,7 +43,7 @@ export default function MessageForm({ msg, cancelReply, showAuth, onPost }: Mess
         e.currentTarget.disabled = true
       }
 
-      postMessage(message, msg?.id || null)
+      postMessage(message, replyMessage?.id || null)
         .then(() => {
           onPost()
           const form = document.querySelector("#send-message") as HTMLFormElement
@@ -55,7 +55,7 @@ export default function MessageForm({ msg, cancelReply, showAuth, onPost }: Mess
         })
 
     },
-    [message, msg, onPost, resizeTextArea],
+    [message, replyMessage, onPost, resizeTextArea],
   )
 
   function handleKey(e: React.KeyboardEvent<HTMLTextAreaElement>) {
@@ -82,10 +82,10 @@ export default function MessageForm({ msg, cancelReply, showAuth, onPost }: Mess
       }
       {token !== null &&
         <>
-          {msg &&
+          {replyMessage &&
             <div className="reply-to-container">
-              <p className="reply-to">Отвечает <span className="reply-to__username">{msg?.username}</span></p>
-              <SVG src={X} className="button-close" onClick={cancelReply} />
+              <p className="reply-to">Отвечает <span className="reply-to__username">{replyMessage?.username}</span></p>
+              <SVG src={X} className="button-close" onClick={onReplyCanceled} />
             </div>
           }
           <form className="form message-form" action="#send-message" id="send-message">
