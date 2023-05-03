@@ -1,18 +1,18 @@
 import { Up } from "./Icons";
 
 import { useCallback, useEffect, useState } from "react";
-import SVG from "react-inlinesvg";
-import "@fontsource/inter";
 
-import Navbar from './components/Navbar';
 import AuthPopup from "./components/Popups/Auth";
 
 import IMessage from "./types/message";
 import Welcome from "./sections/Welcome";
 import Projects from "./sections/Projects";
 import Contacts from "./sections/Contacts";
-import Messages from "./sections/Messages";
+import Comments from "./sections/Comments";
 import MessageForm from "./sections/MessageForm";
+import Header from "./components/Header";
+import FloatingButton from "./components/buttons/FloatingButton";
+import { scrollToElement } from "./Utils";
 
 
 const App = () => {
@@ -38,7 +38,7 @@ const App = () => {
     }
 
     window.addEventListener("scroll", () => {
-      if (window.pageYOffset > d.clientHeight) {
+      if (window.scrollY > d.clientHeight) {
         setScrollBtnIsHidden(false);
       } else {
         setScrollBtnIsHidden(true);
@@ -46,30 +46,22 @@ const App = () => {
     });
   }, [])
 
-  const goToTop = useCallback(
+  const onClickScrollTop = useCallback(
     () => {
-      const inner = () => {
-        if (!ScrollBtnIsHidden && window.pageYOffset > 0) {
-          window.scrollBy(0, -100);
-          setTimeout(inner, 3);
-        }
-      }
-
-      inner()
+      const el = document.documentElement
+      scrollToElement(el)
     },
-    [ScrollBtnIsHidden],
+    [],
   )
 
   return (
     <>
-      <header>
-        <Navbar />
-      </header>
-      <main>
+      <Header />
+      <main className="flex flex-col">
         <Welcome />
         <Projects />
         <Contacts />
-        <Messages
+        <Comments
           key={messagesTrigger}
           onReply={(msg) => { setRepliedMessage(msg) }}
         />
@@ -79,15 +71,17 @@ const App = () => {
           showAuth={() => { setShowing(true) }}
           onPost={() => renderMessages()}
         />
-        
       </main>
-      <div className={ScrollBtnIsHidden ? "fab-top-hidden fab-top" : "fab-top"} id="fab-top" onClick={goToTop}>
-        <SVG src={Up} />
-        <p className="fab-top__text">Вверх</p>
-      </div>
-      <footer>
+
+      <FloatingButton
+        icon={Up}
+        onClick={onClickScrollTop}
+        className={`fixed right-[50px] duration-300 ${ScrollBtnIsHidden ? "bottom-[-50px]" : "bottom-[50px]"}`}
+      />
+
+      <footer className="flex justify-between py-8 text-gray-400 font-nunito">
         <p>© ilfey 2022-2023</p>
-        <a href="https://github.com/ilfey/Devpage">Source code</a>
+        <a className="text-violet-600" href="https://github.com/ilfey/Devpage">Source code</a>
       </footer>
       <AuthPopup
         show={popupIsShowing}

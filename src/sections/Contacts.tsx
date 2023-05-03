@@ -1,13 +1,50 @@
 import { Anilist, Discord, Email, Github, Notabug, Osu, Shikimori, Spotify, Telegram, Twitch, Twitter, Vk } from "../Icons";
-import Button from "../components/Button";
+import LinkButton from "../components/buttons/LinkButton";
+import Section from "../components/Section";
+import ActionButton from "../components/buttons/ActionButton";
+import ActionLinkButton from "../components/buttons/ActionLinkButton";
+import { useCallback, useState } from "react";
+import IContact from "../types/contact";
 
 export default function Contacts() {
+  const discord = "1lfey#0626"
+  const [discordText, setDiscordText] = useState("Username: " + discord)
+  const [contacts, setContacts] = useState<Array<IContact>>(bts.contacts)
+  const [isAllContacts, setIsAllContacts] = useState(false)
+
+  const onClickDiscord = useCallback(
+    () => {
+      navigator.clipboard.writeText(discord)
+      setDiscordText("Скопировано...")
+      setTimeout(() => {
+        setDiscordText("Username: " + discord)
+      }, 1000)
+    },
+    [],
+  )
+
+  const onClickMany = useCallback(
+    () => {
+      setIsAllContacts(true)
+      setContacts([...contacts, ...bts.otherContacts])
+    },
+    [contacts],
+  )
+
+
   return (
-    <section className="part part-contacts">
-      <h2 className="part__title">Мои контакты</h2>
-      <div className="buttons-wrapper">
-        {bts.contacts.map(contact =>
-          <Button
+    <Section
+      id="contacts"
+      title="Мои контакты"
+    >
+      <div className="flex flex-row justify-evenly flex-wrap gap-4">
+        <ActionLinkButton
+          onClick={onClickDiscord}
+          text={discordText}
+          logo={Discord}
+        />
+        {contacts.map(contact =>
+          <LinkButton
             url={contact.url}
             title={contact.title}
             key={contact.title}
@@ -15,7 +52,15 @@ export default function Contacts() {
           />
         )}
       </div>
-    </section>
+
+      {!isAllContacts &&
+        <ActionButton
+          text="Ещё"
+          onClick={onClickMany}
+          className="mt-10 mx-auto"
+        />
+      }
+    </Section>
   )
 }
 
@@ -26,11 +71,6 @@ const bts = {
     url: 'https://github.com/jqweenq/Genshin',
   },
   contacts: [
-    {
-      title: "Discord",
-      logo: Discord,
-      url: "https://discord.com/users/696281292408619039",
-    },
     {
       title: "Telegram",
       logo: Telegram,

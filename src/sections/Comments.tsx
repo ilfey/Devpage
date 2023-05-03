@@ -1,14 +1,12 @@
-import SVG from "react-inlinesvg";
-import { Spinner } from "../Icons";
 import Message from "../components/Message";
 import IMessage from "../types/message";
 import { useEffect, useState } from "react";
 import { getMessages } from "../api";
+import Section from "../components/Section";
+import Spinner from "../components/Spinner";
 
 interface MessagesProps {
-  // messages: Array<IMessage>,
   onReply: (message: IMessage) => void,
-  // onDelete: (message: IMessage) => void,
 }
 
 enum State {
@@ -18,7 +16,7 @@ enum State {
   CompleteUpdate,
 }
 
-export default function Messages({ onReply }: MessagesProps) {
+export default function Comments({ onReply }: MessagesProps) {
 
   const [messages, setMessages] = useState<Array<IMessage>>([])
 
@@ -41,16 +39,18 @@ export default function Messages({ onReply }: MessagesProps) {
   }, [])
 
   return (
-    <section className="part part-messages">
-      <h2 className="part__title">Комментарии</h2>
+    <Section
+      id="comments"
+      title="Комментарии"
+    >
       {state === State.Updating &&
-        <SVG src={Spinner} />
+        <Spinner className="mx-auto" />
       }
       {state === State.ErrorUpdating &&
         <p>Не удалось загрузить комментарии</p>
       }
       {state === State.CompleteUpdate && messages.length !== 0 &&
-        <div className="message__container">
+        <div className="flex flex-col gap-4">
           {messages.map(msg =>
             <Message
               key={msg.id} msg={msg}
@@ -62,10 +62,9 @@ export default function Messages({ onReply }: MessagesProps) {
         </div>
       }
       {state === State.CompleteUpdate && messages.length === 0 &&
-        <p>Комментариев пока нет, станьте первым!</p>
+        <p className="text-center">Комментариев пока нет, станьте первым!</p>
       }
-
-    </section>
+    </Section>
   )
 }
 

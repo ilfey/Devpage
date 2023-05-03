@@ -10,7 +10,7 @@ interface Props {
 
 export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, onPost }: Props) {
   return (
-    <section className="part part-message-form">
+    <section className="pb-[50px]">
       <MF
         replyMessage={replyMessage}
         onReplyCanceled={onReplyCanceled}

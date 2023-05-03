@@ -1,10 +1,11 @@
 import { useCallback, useState } from "react";
 import Popup from "../Popup";
-import SVG from "react-inlinesvg";
 import { postLogin, postRegister } from "../../api";
-import { Spinner } from "../../Icons";
 import { setToken } from "../../coockie";
 import { saveUsername } from "../../storage";
+import ActionButton from "../buttons/ActionButton";
+import TextButton from "../buttons/TextButton";
+import Spinner from "../Spinner";
 
 export interface LoginPopupProps {
   show?: boolean,
@@ -89,30 +90,88 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
       }
 
       {state === State.Login &&
-        <>
-          <form className="form form-auth" action="#login" onSubmit={login}>
-            <input className="form__entry" type="text" placeholder="Логин" required onChange={(e) => { setUsername(e.target.value) }} />
-            <input className="form__entry" type="password" placeholder="Пароль" required onChange={(e) => { setPassword(e.target.value) }} />
-            <button className="form__button" type="submit">Войти</button>
+        <div className="rounded-xl p-8 bg-gray-900">
+          <form className="" action="#login" onSubmit={login}>
+            <label className="block" htmlFor="login">Логин</label>
+            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-800 placeholder:text-gray-600 text-sm"
+              type="text"
+              name="login"
+              placeholder="Логин"
+              required
+              onChange={(e) => { setUsername(e.target.value) }}
+            />
+
+            <label className="mt-4 block" htmlFor="password">Пароль</label>
+            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-800 placeholder:text-gray-600 text-sm"
+              type="password"
+              placeholder="Пароль"
+              name="password"
+              required
+              onChange={(e) => { setPassword(e.target.value) }}
+            />
+            <ActionButton
+              className="mt-6 mx-auto"
+              text="Войти"
+              onClick={login}
+            />
           </form>
-          <button className="text-button" onClick={() => { setState(State.Register) }} >Зарегистрироваться</button>
-        </>
+
+          <TextButton
+            className="mt-6 mx-auto text-sm"
+            text="Ещё нет аккаунта"
+            onClick={() => setState(State.Register)}
+          />
+
+        </div>
       }
 
       {state === State.Register &&
-        <>
-          <form className="form form-auth" action="#register" onSubmit={register}>
-            <input className="form__entry" type="text" placeholder="Логин" required onChange={(e) => { setUsername(e.target.value) }} />
-            <input className="form__entry" type="password" placeholder="Пароль" required onChange={(e) => { setPassword(e.target.value) }} />
-            <input className="form__entry" type="password" placeholder="Повторите пароль" required onChange={(e) => { setConfirmPassword(e.target.value) }} />
-            <button className="form__button" type="submit">Зарегистрироваться</button>
+        <div className="rounded-xl p-8 bg-gray-900">
+          <form className="" action="#register" onSubmit={register}>
+            <label className="block" htmlFor="login">Логин</label>
+            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-800 placeholder:text-gray-600 text-sm"
+              type="text"
+              placeholder="Логин"
+              name="login"
+              required
+              onChange={(e) => { setUsername(e.target.value) }}
+            />
+
+            <label className="mt-4 block" htmlFor="password">Пароль</label>
+            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-800 placeholder:text-gray-600 text-sm"
+              type="password"
+              placeholder="Пароль"
+              name="password"
+              required
+              onChange={(e) => { setPassword(e.target.value) }}
+            />
+
+            <label className="mt-4 block" htmlFor="confirm-password">Повторите пароль</label>
+            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-800 placeholder:text-gray-600 text-sm"
+              type="password"
+              name="confirm-password"
+              placeholder="Повторите пароль"
+              required
+              onChange={(e) => { setConfirmPassword(e.target.value) }}
+            />
+
+            <ActionButton
+              className="mt-6 mx-auto"
+              text="Войти"
+              onClick={register}
+            />
           </form>
-          <button className="text-button" onClick={() => { setState(State.Login) }} >Уже есть аккаунт</button>
-        </>
+
+          <TextButton
+            className="mt-6 mx-auto text-sm"
+            text="Уже есть аккаунт"
+            onClick={() => setState(State.Login)}
+          />
+        </div>
       }
 
       {state === State.Loading &&
-        <SVG src={Spinner}></SVG>
+        <Spinner className="mx-auto" />
       }
 
     </Popup>

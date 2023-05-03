@@ -1,3 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
 @import url(./css/adaptive.css);
 @import url(./css/button.css);
 @import url(./css/colorSchemes.css);
@@ -129,4 +134,4 @@ h2 {
   color: var(--primary);
   text-align: center;
   cursor: pointer;
-}
+} */

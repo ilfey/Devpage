@@ -4,6 +4,7 @@ import SVG from "react-inlinesvg";
 import { Send, X } from "../Icons";
 import IMessage from "../types/message";
 import { getToken } from "../coockie";
+import TextButton from "./buttons/TextButton";
 
 interface MessageFormProps {
   replyMessage: IMessage | null,
@@ -19,10 +20,12 @@ export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, o
 
   const resizeTextArea = useCallback(
     () => {
-      const area = document.querySelector(".message-form__entry") as HTMLTextAreaElement
+      const area = document.getElementById("message-form") as HTMLElement
+
+      console.log("Resize!!!")
 
       area.style.height = ''
-      area.style.height = `${area.scrollHeight - 20}px`
+      area.style.height = `${area.scrollHeight}px`
     },
     [],
   )
@@ -46,7 +49,7 @@ export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, o
       postMessage(message, replyMessage?.id || null)
         .then(() => {
           onPost()
-          const form = document.querySelector("#send-message") as HTMLFormElement
+          const form = document.getElementById("send-message") as HTMLFormElement
           form.reset()
           resizeTextArea()
         })
@@ -74,7 +77,7 @@ export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, o
         <>
           <div className="message-form-placeholder">
             <p className="message-form-placeholder__text">
-              Вам необходимо<button className="button-in-text" onClick={showAuth}>войти</button>
+              Вам необходимо<TextButton text="войти" className="inline mx-1" onClick={showAuth} />
               чтобы оставить свой комментарий у меня на странице.
             </p>
           </div>
@@ -83,16 +86,21 @@ export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, o
       {token !== null &&
         <>
           {replyMessage &&
-            <div className="reply-to-container">
-              <p className="reply-to">Отвечает <span className="reply-to__username">{replyMessage?.username}</span></p>
-              <SVG src={X} className="button-close" onClick={onReplyCanceled} />
+            <div className="flex mr-[52px] justify-between items-center bg-gray-700 px-4 rounded-tl-lg rounded-tr-lg">
+              <p className="reply-to">Отвечает <a href="#user" className="font-nunito font-bold text-violet-600 cursor-pointer">{replyMessage?.username}</a></p>
+              <SVG src={X} className="w-4 h-4" onClick={onReplyCanceled} />
             </div>
           }
-          <form className="form message-form" action="#send-message" id="send-message">
-            <textarea className="form__textarea message-form__entry" rows={1} placeholder="Ваш комментарий..."
-              onInput={resizeTextArea} onKeyDown={handleKey} onChange={(e) => { setMessage(e.target.value) }} />
-            <button className="form__button button-send" onClick={postComment}>
-              <SVG src={Send} className="button-send__logo" />
+          <form className="flex gap-4" action="#send-message" id="send-message">
+            <textarea className={`flex-auto p-2 text-sm text-white bg-gray-800 resize-none overflow-hidden outline-none ${replyMessage ? "rounded-bl-lg rounded-br-lg" : "rounded-lg"}`}
+              id="message-form"
+              rows={1}
+              placeholder="Ваш комментарий..."
+              onInput={resizeTextArea}
+              onKeyDown={handleKey}
+              onChange={(e) => { setMessage(e.target.value) }} />
+            <button className="w-9 h-9" onClick={postComment}>
+              <SVG className="text-orange-600" src={Send} />
             </button>
           </form>
         </>

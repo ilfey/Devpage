@@ -5,6 +5,7 @@ import IMessage from "../types/message";
 import { loadUsername } from "../storage";
 import { deleteMessage } from "../api";
 import { useCallback, useState } from "react";
+import { scrollToElement } from "../Utils";
 
 const today = new Date()
 const yesterday = new Date(today);
@@ -51,7 +52,7 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
     return date.toLocaleDateString("ru-RU", globalOptions)
   }
 
-  const deleteMsg = useCallback(
+  const onClickDelete = useCallback(
     () => {
       setState(State.Loading)
       deleteMessage(msg.id)
@@ -65,10 +66,24 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
     [msg, onDelete],
   )
 
+  const onClickReplyMessage = useCallback(
+    () => {
+      if (reply_msg) {
+        const el = document.getElementById(reply_msg.id.toString()) as HTMLElement
+        scrollToElement(el, () => {
+          el.classList.add("bg-orange-800")
+          setTimeout(() => el.classList.remove("bg-orange-800"), 150)
+        })
+      }
+    },
+    [reply_msg],
+  )
+
   const username = loadUsername()
 
+  
   return (
-    <div className="message" onClick={() => setState(State.Display)}>
+    <div id={msg.id.toString()} className="group flex flex-col hover:bg-gray-800 duration-200 p-4 rounded-xl" onClick={() => setState(State.Display)}>
       {state === State.Error &&
         <div className="message__error">
           <SVG className="message__error__logo" src={Error} />
@@ -78,26 +93,28 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
       {state === State.Display &&
         <>
           {reply_msg &&
-            <div className="message__reply">
-              <p className="reply-to">Отвечает <span className="reply-to__username">{reply_msg?.username}</span> на: {reply_msg?.content}</p>
-            </div>
+          <p className="mb-2 text-ellipsis whitespace-nowrap overflow-hidden" onClick={onClickReplyMessage}>
+              Отвечает <a href="#user" className="text-violet-600 font-nunito font-bold">{reply_msg?.username}</a> на: <span className="cursor-pointer">{reply_msg?.content}</span>
+            </p>
           }
-          <div className="message__header">
-            <p className="message__username">{msg.username}</p>
-            <span className="message__modified-at">{getMessageDate()}</span>
+          <div className="mb-2 flex justify-between">
+            <div className="flex gap-1 items-baseline">
+              <a href="#user" className="text-lg text-violet-600 font-nunito font-bold" >{msg.username}</a>
+              <span className="text-xs">{getMessageDate()}</span>
+            </div>
 
             {username &&
-              <div className="message__actions">
-                <SVG className="message__actions__item" src={Reply} onClick={onReply} />
+              <div className="hidden group-hover:flex text-orange-600 gap-1">
+                <SVG className="w-6 h-6 cursor-pointer" src={Reply} onClick={onReply} />
                 {username === msg.username &&
-                  <SVG className="message__actions__item" src={Trash} onClick={deleteMsg} />
+                  <SVG className="w-6 h-6 cursor-pointer" src={Trash} onClick={onClickDelete} />
                 }
               </div>
             }
           </div>
 
-          <div className="message__content">
-            <p className="message__text">{msg.content}</p>
+          <div className="">
+            <p className="whitespace-pre-wrap">{msg.content}</p>
           </div>
         </>
       }
