@@ -4,6 +4,12 @@ import { useEffect, useState } from "react";
 import { getMessages } from "../api";
 import Section from "../components/Section";
 import Spinner from "../components/Spinner";
+import InlineSVG from "react-inlinesvg/esm";
+import { Error } from "../Icons";
+import IErrorResponse from "../types/errorResponse";
+import ActionButton from "../components/buttons/ActionButton";
+import axios from "axios";
+import TextButton from "../components/buttons/TextButton";
 
 interface MessagesProps {
   onReply: (message: IMessage) => void,
@@ -19,7 +25,8 @@ enum State {
 export default function Comments({ onReply }: MessagesProps) {
 
   const [messages, setMessages] = useState<Array<IMessage>>([])
-
+  const [displayError, setDisplayError] = useState(false)
+  const [responseError, setResposeError] = useState("")
   const [state, setState] = useState(State.Initial)
 
   function updateMessages() {
@@ -29,8 +36,11 @@ export default function Comments({ onReply }: MessagesProps) {
         setMessages(res.data)
         setState(State.CompleteUpdate)
       })
-      .catch(() => {
+      .catch(e => {
         setState(State.ErrorUpdating)
+        if (axios.isAxiosError<IErrorResponse>(e)) {
+          setResposeError(`Статус код: ${e.response?.status}\n Ошибка: ${e.response?.data}`)
+        }
       })
   }
 
@@ -47,7 +57,26 @@ export default function Comments({ onReply }: MessagesProps) {
         <Spinner className="mx-auto" />
       }
       {state === State.ErrorUpdating &&
-        <p>Не удалось загрузить комментарии</p>
+        <div className="flex flex-col items-center gap-4">
+          <div className="flex justify-center items-center text-red-600">
+            <InlineSVG className="w-8 h-8 " src={Error} />
+            <span className="">Не удалось загрузить комментарии</span>
+          </div>
+
+          {!displayError ?
+            <TextButton className=""
+            onClick={() => setDisplayError(true)}
+              text="Показать ошибку"
+            />
+            :
+            <p className="whitespace-pre text-center">{responseError}</p>
+          }
+
+          <ActionButton className=""
+            content="Попробовать снова"
+            onClick={() => updateMessages()}
+          />
+        </div>
       }
       {state === State.CompleteUpdate && messages.length !== 0 &&
         <div className="flex flex-col gap-4">

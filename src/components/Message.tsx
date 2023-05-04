@@ -81,7 +81,7 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
 
   const username = loadUsername()
 
-  
+
   return (
     <div id={msg.id.toString()} className="group flex flex-col hover:bg-gray-800 duration-200 p-4 rounded-xl" onClick={() => setState(State.Display)}>
       {state === State.Error &&
@@ -93,7 +93,7 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
       {state === State.Display &&
         <>
           {reply_msg &&
-          <p className="mb-2 text-ellipsis whitespace-nowrap overflow-hidden" onClick={onClickReplyMessage}>
+            <p className="mb-2 text-ellipsis whitespace-nowrap overflow-hidden" onClick={onClickReplyMessage}>
               Отвечает <a href="#user" className="text-violet-600 font-nunito font-bold">{reply_msg?.username}</a> на: <span className="cursor-pointer">{reply_msg?.content}</span>
             </p>
           }

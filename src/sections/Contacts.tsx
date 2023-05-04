@@ -55,7 +55,7 @@ export default function Contacts() {
 
       {!isAllContacts &&
         <ActionButton
-          text="Ещё"
+          content="Ещё"
           onClick={onClickMany}
           className="mt-10 mx-auto"
         />

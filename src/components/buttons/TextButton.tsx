@@ -8,7 +8,7 @@ interface Props {
 export default function TextButton({ text, className, onClick }: Props) {
   return (
     <button
-      className={`text-lg border-none text-violet-600 block font-nunito font-bold cursor-pointer ${className}`}
+      className={`text-lg border-none text-orange-600 block font-nunito font-bold cursor-pointer ${className}`}
       onClick={onClick}>
       {text}
     </button>

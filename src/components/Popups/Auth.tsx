@@ -18,15 +18,20 @@ interface LoginData {
 
 enum State {
   Loading,
-  LoginError,
-  RegisterError,
   Login,
   Register,
   Completed,
 }
 
+enum ErrorState {
+  LoginError,
+  RegisterError,
+  RegisterConfirmError,
+}
+
 export default function AuthPopup({ show, onClose }: LoginPopupProps) {
   const [state, setState] = useState(State.Login)
+  const [errorState, setErrorState] = useState<ErrorState | null>(null)
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -40,14 +45,16 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
           saveUsername(username)
           onClose()
           setState(State.Completed)
-        })
-        .catch(() => {
-          setState(State.LoginError)
-        })
-        .finally(() => {
+          setErrorState(null)
           setTimeout(() => {
             onClose()
           }, 2000)
+        })
+        .catch(() => {
+          setErrorState(ErrorState.LoginError)
+        })
+        .finally(() => {
+          setState(State.Login)
         })
     },
     [onClose, password, username],
@@ -56,7 +63,7 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
   const register = useCallback(
     () => {
       if (password !== confirmPassword) {
-        setState(State.RegisterError)
+        setErrorState(ErrorState.RegisterConfirmError)
         return
       }
 
@@ -65,15 +72,17 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
       postRegister(username, password)
         .then(() => {
           onClose()
-        })
-        .catch(() => {
-          setState(State.RegisterError)
-        })
-        .finally(() => {
           setState(State.Completed)
+          setErrorState(null)
           setTimeout(() => {
             onClose()
           }, 2000)
+        })
+        .catch(() => {
+          setErrorState(ErrorState.RegisterError)
+        })
+        .finally(() => {
+          setState(State.Register)
         })
     },
     [onClose, password, confirmPassword, username],
@@ -81,13 +90,6 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
 
   return (
     <Popup show={show} onClose={onClose}>
-      {state === State.LoginError &&
-        <p>Не удалось войти в аккаунт</p>
-      }
-
-      {state === State.RegisterError &&
-        <p>Не удалось зарегистрировать аккаунт</p>
-      }
 
       {state === State.Login &&
         <div className="rounded-xl p-8 bg-gray-900">
@@ -109,9 +111,14 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
               required
               onChange={(e) => { setPassword(e.target.value) }}
             />
+
+            {errorState === ErrorState.LoginError &&
+              <p className="text-red-600 text-center mt-4">Не удалось войти в аккаунт</p>
+            }
+
             <ActionButton
               className="mt-6 mx-auto"
-              text="Войти"
+              content="Войти"
               onClick={login}
             />
           </form>
@@ -155,9 +162,17 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
               onChange={(e) => { setConfirmPassword(e.target.value) }}
             />
 
+            {errorState === ErrorState.RegisterConfirmError &&
+              <p className="text-red-600 text-center mt-4">Пароли не совпадают</p>
+            }
+
+            {errorState === ErrorState.RegisterError &&
+              <p className="text-red-600 text-center mt-4">Не удалось зарегистрировать аккаунт</p>
+            }
+
             <ActionButton
               className="mt-6 mx-auto"
-              text="Войти"
+              content="Войти"
               onClick={register}
             />
           </form>
