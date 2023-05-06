@@ -21,4 +21,5 @@ export const
   Trash = "img/icons/Trash.svg",
   Error = "img/icons/Error.svg",
   Edit = "img/icons/Edit.svg",
-  Sun = "img/icons/Sun.svg";
+  Sun = "img/icons/Sun.svg",
+  Burger = "img/icons/Burger.svg";
