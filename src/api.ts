@@ -24,7 +24,6 @@ export const postMessage = (content: string, reply_to: number | null) =>
     }
   })
     .catch(e => {
-      console.log("errr")
       if (axios.isAxiosError<IErrorResponse>(e)) {
         switch (e.response?.status) {
           case 401:

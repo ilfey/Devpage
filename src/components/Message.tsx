@@ -110,7 +110,6 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
 
       })
       .catch(e => {
-        console.log("error: " + e)
         setState(State.Error)
         if (axios.isAxiosError<IErrorResponse>(e)) {
           setResponseError(`Статус код: ${e.response?.status}\nОшибка: ${e.response?.data}`)
