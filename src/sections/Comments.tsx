@@ -26,7 +26,7 @@ export default function Comments({ onReply }: MessagesProps) {
 
   const [messages, setMessages] = useState<Array<IMessage>>([])
   const [displayError, setDisplayError] = useState(false)
-  const [responseError, setResposeError] = useState("")
+  const [responseError, setResponseError] = useState("")
   const [state, setState] = useState(State.Initial)
 
   function updateMessages() {
@@ -39,7 +39,7 @@ export default function Comments({ onReply }: MessagesProps) {
       .catch(e => {
         setState(State.ErrorUpdating)
         if (axios.isAxiosError<IErrorResponse>(e)) {
-          setResposeError(`Статус код: ${e.response?.status}\n Ошибка: ${e.response?.data}`)
+          setResponseError(`Статус код: ${e.response?.status}\n Ошибка: ${e.response?.data}`)
         }
       })
   }

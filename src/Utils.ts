@@ -19,3 +19,20 @@ export function scrollToElement(el: HTMLElement, onScrollEnd = () => { }) {
   setTimeout(inner, 5, iterationsCount)
   onScrollEnd()
 }
+
+export function resizeTextArea(el: HTMLElement) {
+  el.style.height = ''
+  el.style.height = `${el.scrollHeight}px`
+}
+
+export function handleEnterOrEsc(e: React.KeyboardEvent<HTMLTextAreaElement>, onEnter = () => {}, onEsc = () => {}) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    onEnter()
+    return
+  }
+
+  if (e.key === "Escape") {
+    onEsc()
+  }
+}

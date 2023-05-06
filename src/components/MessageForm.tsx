@@ -5,6 +5,8 @@ import { Send, X } from "../Icons";
 import IMessage from "../types/message";
 import { getToken } from "../coockie";
 import TextButton from "./buttons/TextButton";
+import { handleEnterOrEsc, resizeTextArea } from "../Utils";
+
 
 interface MessageFormProps {
   replyMessage: IMessage | null,
@@ -17,18 +19,6 @@ interface MessageFormProps {
 export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, onPost }: MessageFormProps) {
 
   const [message, setMessage] = useState("")
-
-  const resizeTextArea = useCallback(
-    () => {
-      const area = document.getElementById("message-form") as HTMLElement
-
-      console.log("Resize!!!")
-
-      area.style.height = ''
-      area.style.height = `${area.scrollHeight}px`
-    },
-    [],
-  )
 
   const postComment = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null = null) => {
@@ -51,23 +41,17 @@ export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, o
           onPost()
           const form = document.getElementById("send-message") as HTMLFormElement
           form.reset()
-          resizeTextArea()
+
+          const area = document.getElementById("message-form")
+          resizeTextArea(area!!)
         })
         .catch((res) => {
           console.log(res);
         })
 
     },
-    [message, replyMessage, onPost, resizeTextArea],
+    [message, replyMessage, onPost],
   )
-
-  function handleKey(e: React.KeyboardEvent<HTMLTextAreaElement>) {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      postComment()
-
-    }
-  }
 
   const token = getToken()
 
@@ -96,9 +80,9 @@ export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, o
               id="message-form"
               rows={1}
               placeholder="Ваш комментарий..."
-              onInput={resizeTextArea}
-              onKeyDown={handleKey}
-              onChange={(e) => { setMessage(e.target.value) }} />
+              onInput={e => resizeTextArea(e.currentTarget)}
+              onKeyDown={e => handleEnterOrEsc(e, postComment)}
+              onChange={e => { setMessage(e.target.value) }} />
             <button className="w-9 h-9" onClick={postComment}>
               <SVG className="text-orange-600" src={Send} />
             </button>

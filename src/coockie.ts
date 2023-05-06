@@ -40,7 +40,7 @@ export function clearToken() {
   const entry = getCookie(KEY_TOKEN)
   if (entry) {
     const value = entry.split('=')[1]
-    document.cookie = `${value}; max-age = 0`
+    document.cookie = `${value}; expires=Thu, 01 Jan 1970 00:00:00 UTC;`
   }
 }
 
