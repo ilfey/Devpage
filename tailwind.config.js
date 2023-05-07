@@ -2,6 +2,12 @@
 
 import colors from 'tailwindcss/colors'
 
+delete colors['lightBlue'];
+delete colors['warmGray'];
+delete colors['trueGray'];
+delete colors['coolGray'];
+delete colors['blueGray'];
+
 const mColors = {
   ...colors,
   "gray": {
@@ -33,6 +39,5 @@ module.exports = {
 
     },
   },
-  plugins: [],
 }
 
