@@ -1,8 +1,8 @@
 import { Anilist, Discord, Email, Github, Notabug, Osu, Shikimori, Spotify, Telegram, Twitch, Twitter, Vk } from "../Icons";
-import LinkButton from "../components/buttons/LinkButton";
+import LinkButton from "../components/Buttons/LinkButton";
 import Section from "../components/Section";
-import ActionButton from "../components/buttons/ActionButton";
-import ActionLinkButton from "../components/buttons/ActionLinkButton";
+import ActionButton from "../components/Buttons/ActionButton";
+import ActionLinkButton from "../components/Buttons/ActionLinkButton";
 import { useCallback, useState } from "react";
 import IContact from "../types/contact";
 

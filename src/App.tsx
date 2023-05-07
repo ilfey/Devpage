@@ -2,20 +2,22 @@ import { Up } from "./Icons";
 
 import { useCallback, useEffect, useState } from "react";
 
-import AuthPopup from "./components/Popups/Auth";
 
+import { scrollToElement } from "./Utils";
+import { getLanguage, getTheme } from "./localStorage";
 import IMessage from "./types/message";
+
+import AuthPopup from "./components/Popups/Auth";
 import Welcome from "./sections/Welcome";
 import Projects from "./sections/Projects";
 import Contacts from "./sections/Contacts";
 import Comments from "./sections/Comments";
 import MessageForm from "./sections/MessageForm";
 import Header from "./components/Header";
-import FloatingButton from "./components/buttons/FloatingButton";
-import { scrollToElement } from "./Utils";
+import FloatingButton from "./components/Buttons/FloatingButton";
 
 
-const App = () => {
+export default function App() {
 
   const [popupIsShowing, setShowing] = useState(false)
   const [messagesTrigger, setMessagesTrigger] = useState(Math.random());
@@ -29,13 +31,13 @@ const App = () => {
   useEffect(() => {
     const d = document.documentElement;
 
-    if (localStorage.getItem("color-scheme") === "light") {
-      d.classList.replace("dark", "light");
+    if (getTheme() !== "light" || (!getTheme() && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+      d.classList.add("dark")
+    } else {
+      d.classList.remove("dark")
     }
 
-    if (localStorage.getItem('language') === "en") {
-      d.lang = "en";
-    }
+    d.lang = getLanguage() ?? "ru"
 
     window.addEventListener("scroll", () => {
       if (d.clientWidth < 768) {
@@ -94,6 +96,7 @@ const App = () => {
         <p>© ilfey 2022-2023</p>
         <a className="text-violet-600" href="https://github.com/ilfey/Devpage">Source code</a>
       </footer>
+      
       <AuthPopup
         show={popupIsShowing}
         onClose={() => setShowing(false)}
@@ -101,6 +104,3 @@ const App = () => {
     </>
   );
 }
-
-export default App;
-

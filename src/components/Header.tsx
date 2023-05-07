@@ -1,8 +1,9 @@
 import { useCallback, useState } from 'react'
-import TextButton from './buttons/TextButton';
+import TextButton from './Buttons/TextButton';
 import { scrollToElement } from '../Utils';
 import InlineSVG from 'react-inlinesvg/esm';
 import { Burger, X } from '../Icons';
+import { saveLanguage, saveTheme } from '../localStorage';
 
 export default function Header() {
   const htmlClasses = document.documentElement.classList;
@@ -13,7 +14,7 @@ export default function Header() {
       const nextlang = lang === "ru" ? "en" : "ru";
 
       setLang(nextlang);
-      localStorage.setItem("language", nextlang);
+      saveLanguage(nextlang)
     },
     [lang]
   );
@@ -23,10 +24,10 @@ export default function Header() {
     () => {
       const nextScheme = scheme === "dark" ? "light" : "dark"
 
-      htmlClasses.contains("dark") ? htmlClasses.replace("dark", nextScheme) : htmlClasses.replace("light", nextScheme);
-      setScheme(nextScheme);
+      htmlClasses.contains("dark") ? htmlClasses.remove("dark") : htmlClasses.add("dark");
 
-      localStorage.setItem("color-scheme", nextScheme);
+      setScheme(nextScheme);
+      saveTheme(nextScheme)
     },
     [htmlClasses, scheme]
   );
@@ -34,8 +35,8 @@ export default function Header() {
   function scrollToSection(id: string) {
     const el = document.getElementById(id) as HTMLElement
     scrollToElement(el, () => {
-      el.classList.add("bg-gray-800")
-      setTimeout(() => el.classList.remove("bg-gray-800"), 150)
+      el.classList.add("bg-gray-200", "dark:bg-gray-800")
+      setTimeout(() => el.classList.remove("bg-gray-200", "dark:bg-gray-800"), 150)
     })
   }
 

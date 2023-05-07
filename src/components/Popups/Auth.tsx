@@ -2,9 +2,9 @@ import { useCallback, useState } from "react";
 import Popup from "../Popup";
 import { postLogin, postRegister } from "../../api";
 import { setToken } from "../../coockie";
-import { saveUsername } from "../../storage";
-import ActionButton from "../buttons/ActionButton";
-import TextButton from "../buttons/TextButton";
+import { saveUsername } from "../../sessionStorage";
+import ActionButton from "../Buttons/ActionButton";
+import TextButton from "../Buttons/TextButton";
 import Spinner from "../Spinner";
 
 export interface LoginPopupProps {
@@ -92,10 +92,10 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
     <Popup show={show} onClose={onClose}>
 
       {state === State.Login &&
-        <div className="rounded-xl p-8 bg-gray-900">
+        <div className="rounded-xl p-8 bg-gray-300 dark:bg-gray-900">
           <form className="" action="#login" onSubmit={login}>
             <label className="block" htmlFor="login">Логин</label>
-            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-800 placeholder:text-gray-600 text-sm"
+            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
               type="text"
               name="login"
               placeholder="Логин"
@@ -104,7 +104,7 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
             />
 
             <label className="mt-4 block" htmlFor="password">Пароль</label>
-            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-800 placeholder:text-gray-600 text-sm"
+            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
               type="password"
               placeholder="Пароль"
               name="password"
@@ -133,10 +133,10 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
       }
 
       {state === State.Register &&
-        <div className="rounded-xl p-8 bg-gray-900">
+        <div className="rounded-xl p-8 bg-gray-300 dark:bg-gray-900">
           <form className="" action="#register" onSubmit={register}>
             <label className="block" htmlFor="login">Логин</label>
-            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-800 placeholder:text-gray-600 text-sm"
+            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
               type="text"
               placeholder="Логин"
               name="login"
@@ -145,7 +145,7 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
             />
 
             <label className="mt-4 block" htmlFor="password">Пароль</label>
-            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-800 placeholder:text-gray-600 text-sm"
+            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
               type="password"
               placeholder="Пароль"
               name="password"
@@ -154,7 +154,7 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
             />
 
             <label className="mt-4 block" htmlFor="confirm-password">Повторите пароль</label>
-            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-800 placeholder:text-gray-600 text-sm"
+            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
               type="password"
               name="confirm-password"
               placeholder="Повторите пароль"
@@ -172,7 +172,7 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
 
             <ActionButton
               className="mt-6 mx-auto"
-              content="Войти"
+              content="Зарегистрироваться"
               onClick={register}
             />
           </form>

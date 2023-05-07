@@ -2,11 +2,11 @@
 import SVG from "react-inlinesvg";
 import { Edit, Error, Reply, Trash } from "../Icons";
 import IMessage from "../types/message";
-import { loadUsername } from "../storage";
+import { loadUsername } from "../sessionStorage";
 import { deleteMessage, patchMessage } from "../api";
 import { useCallback, useEffect, useState } from "react";
 import { handleEnterOrEsc, resizeTextArea, scrollToElement } from "../Utils";
-import TextButton from "./buttons/TextButton";
+import TextButton from "./Buttons/TextButton";
 import IErrorResponse from "../types/errorResponse";
 import axios from "axios";
 
@@ -121,7 +121,7 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
 
 
   return (
-    <div id={msg.id.toString()} className={`group flex flex-col ${editing ? "bg-gray-800" : "hover:bg-gray-800"} duration-200 p-4 rounded-xl`}
+    <div id={msg.id.toString()} className={`group flex flex-col ${editing ? "bg-gray-200 dark:bg-gray-800" : "hover:bg-gray-200 dark:hover:bg-gray-800"} duration-200 p-4 rounded-xl`}
     // onClick={() => setState(State.Display)}
     >
       {state === State.Error &&
@@ -170,7 +170,7 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
           {editing ?
             <>
               <form action="#edit-message" className="w-full">
-                <textarea className="w-full p-2 text-sm text-white bg-gray-900 resize-none overflow-hidden outline-none rounded-lg"
+                <textarea className="w-full p-2 text-sm text-black dark:text-white bg-gray-300 dark:bg-gray-900 resize-none overflow-hidden outline-none rounded-lg"
                   id="edit-message-form"
                   name="content"
                   rows={1}
