@@ -31,7 +31,7 @@ export default function App() {
   useEffect(() => {
     const d = document.documentElement;
 
-    if (getTheme() !== "light" || (!getTheme() && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+    if (getTheme() === "dark" || (!getTheme() && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
       d.classList.add("dark")
     } else {
       d.classList.remove("dark")
