@@ -195,7 +195,7 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
             </>
             :
             <div className="">
-              <p className="whitespace-pre-wrap">{content}</p>
+              <p className="whitespace-pre-wrap overflow-auto">{content}</p>
             </div>
           }
         </>
