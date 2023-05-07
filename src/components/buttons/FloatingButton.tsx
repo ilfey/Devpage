@@ -1,4 +1,3 @@
-import React from 'react'
 import SVG from "react-inlinesvg";
 
 interface Props {
@@ -7,7 +6,7 @@ interface Props {
   onClick: () => void,
 }
 
-export default function FloatingButton({icon, className, onClick}: Props) {
+export default function FloatingButton({ icon, className, onClick }: Props) {
   return (
     <div className={`p-2 bg-orange-600 rounded-xl cursor-pointer text-white ${className}`}
       id="fab-top"
