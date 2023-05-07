@@ -1,5 +1,5 @@
 import { useCallback, useState } from 'react'
-import TextButton from './Buttons/TextButton';
+import TextButton from './buttons/TextButton';
 import { scrollToElement } from '../Utils';
 import InlineSVG from 'react-inlinesvg/esm';
 import { Burger, X } from '../Icons';

@@ -7,9 +7,9 @@ import Spinner from "../components/Spinner";
 import InlineSVG from "react-inlinesvg/esm";
 import { Error } from "../Icons";
 import IErrorResponse from "../types/errorResponse";
-import ActionButton from "../components/Buttons/ActionButton";
+import ActionButton from "../components/buttons/ActionButton";
 import axios from "axios";
-import TextButton from "../components/Buttons/TextButton";
+import TextButton from "../components/buttons/TextButton";
 
 interface MessagesProps {
   onReply: (message: IMessage) => void,

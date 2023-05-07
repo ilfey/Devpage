@@ -4,7 +4,7 @@ import SVG from "react-inlinesvg";
 import { Send, X } from "../Icons";
 import IMessage from "../types/message";
 import { getToken } from "../coockie";
-import TextButton from "./Buttons/TextButton";
+import TextButton from "./buttons/TextButton";
 import { handleEnterOrEsc, resizeTextArea } from "../Utils";
 
 

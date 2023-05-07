@@ -6,7 +6,7 @@ import { loadUsername } from "../sessionStorage";
 import { deleteMessage, patchMessage } from "../api";
 import { useCallback, useEffect, useState } from "react";
 import { handleEnterOrEsc, resizeTextArea, scrollToElement } from "../Utils";
-import TextButton from "./Buttons/TextButton";
+import TextButton from "./buttons/TextButton";
 import IErrorResponse from "../types/errorResponse";
 import axios from "axios";
 

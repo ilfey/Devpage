@@ -3,8 +3,8 @@ import Popup from "../Popup";
 import { postLogin, postRegister } from "../../api";
 import { setToken } from "../../coockie";
 import { saveUsername } from "../../sessionStorage";
-import ActionButton from "../Buttons/ActionButton";
-import TextButton from "../Buttons/TextButton";
+import ActionButton from "../buttons/ActionButton";
+import TextButton from "../buttons/TextButton";
 import Spinner from "../Spinner";
 
 export interface LoginPopupProps {

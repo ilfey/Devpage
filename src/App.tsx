@@ -14,7 +14,7 @@ import Contacts from "./sections/Contacts";
 import Comments from "./sections/Comments";
 import MessageForm from "./sections/MessageForm";
 import Header from "./components/Header";
-import FloatingButton from "./components/Buttons/FloatingButton";
+import FloatingButton from "./components/buttons/FloatingButton";
 
 
 export default function App() {
