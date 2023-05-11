@@ -77,12 +77,15 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
         })
         .catch(e => {
           setState(State.Error)
-          if (!e && axios.isAxiosError<IErrorResponse>(e)) {
-            setResponseError(`Статус код: ${e.response?.status}`)
+          if (!e) {
+            setResponseError(`Сервер не доступен`)
             return
           }
 
-          setResponseError(`Сервер не доступен`)
+          if (axios.isAxiosError<IErrorResponse>(e)) {
+            setResponseError(`Статус код: ${e.response?.status}`)
+            return
+          }
         })
     },
     [msg, onDelete],
@@ -114,12 +117,15 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
       })
       .catch(e => {
         setState(State.Error)
-        if (!e && axios.isAxiosError<IErrorResponse>(e)) {
-          setResponseError(`Статус код: ${e.response?.status}`)
+        if (!e) {
+          setResponseError(`Сервер не доступен`)
           return
         }
 
-        setResponseError(`Сервер не доступен`)
+        if (axios.isAxiosError<IErrorResponse>(e)) {
+          setResponseError(`Статус код: ${e.response?.status}`)
+          return
+        }
       })
   }
 
