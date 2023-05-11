@@ -38,9 +38,12 @@ export default function Comments({ onReply }: MessagesProps) {
       })
       .catch(e => {
         setState(State.ErrorUpdating)
-        if (axios.isAxiosError<IErrorResponse>(e)) {
-          setResponseError(`Статус код: ${e.response?.status}\n Ошибка: ${e.response?.data}`)
+        if (!e && axios.isAxiosError<IErrorResponse>(e)) {
+          setResponseError(`Статус код: ${e.response?.status}`)
+          return
         }
+        
+        setResponseError(`Сервер не доступен`)
       })
   }
 
