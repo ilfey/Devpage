@@ -37,7 +37,7 @@ export const postMessage = (content: string, reply_to: number | null) =>
 
 
 export const patchMessage = (id: number, content: string) =>
-  API.patch<IResponse>(`/_user/message/${id}`, {
+  API.patch<IResponse>(`/user/message/${id}`, {
     content,
   }, {
     headers: {
