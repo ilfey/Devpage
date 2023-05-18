@@ -1,8 +1,10 @@
-import { TLanguage, TTheme } from "./types/localStorage"
+import { TLanguage, TTheme, TThemeHandler } from "./types/localStorage"
 
 
 const KEY_THEME = "color-scheme"
 const KEY_LANGUAGE = "language"
+
+const themeHandlers : Array<TThemeHandler> = []
 
 
 function setValue(key: string, value: string) {
@@ -17,6 +19,20 @@ function getValue(key: string): string | null {
 
 export function saveTheme(theme: TTheme) {
   setValue(KEY_THEME, theme)
+
+  for (let handler of themeHandlers) {
+    handler(theme)
+  }
+}
+
+
+export function addThemeHandler(callback: (theme: TTheme) => void): number {
+  return themeHandlers.push(callback)
+}
+
+
+export function removeThemeHandler(index: number) {
+  themeHandlers.splice(index, 1)
 }
 
 

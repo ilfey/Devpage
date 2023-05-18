@@ -1,15 +1,34 @@
 import { Github } from "../Icons";
 import LinkButton from "../components/buttons/LinkButton";
 import Section from "../components/Section";
+import { getTheme, addThemeHandler, removeThemeHandler } from "../localStorage";
+import { useEffect, useState } from "react";
 
 export default function Projects() {
+  const [theme, setTheme] = useState(() =>
+    getTheme() // || window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light"
+  )
+
+  useEffect(() => {
+    const index = addThemeHandler((theme) => {
+      setTheme(theme)
+    })
+
+    return () => removeThemeHandler(index)
+  }, [])
+
+
+
   return (
     <Section
       id="projects"
       className="h-full"
       title="Мои проекты"
     >
-      <img className="mx-auto sm:float-left sm:mr-4 mb-4" src="/img/Genshin.png" alt="Genshin" width="270" height="525" />
+      <div className="relative mx-auto sm:float-left sm:mr-4 mb-4 w-[270px] h-[525px]">
+        <img className={`absolute transition-opacity duration-200 ${theme !== "dark" ? "opacity-0" : ""}`} src="/img/genshin-dark.png" alt="Genshin" width="270" height="525" />
+        <img className={`absolute transition-opacity duration-200 ${theme !== "light" ? "opacity-0" : ""}`} src="/img/genshin-light.png" alt="Genshin" width="270" height="525" />
+      </div>
       <p className="indent-8">
         Приложение для моего знакомого (не знакомого) сделанное чисто по рофлу.
       </p>
@@ -25,8 +44,8 @@ export default function Projects() {
         обстоятельств написание было прервано.
         Причиной послужило отсутствие нормального хостинга.
         Спустя более, чем полгода работа возобновилась. Началось очередное переписывание написанного, потому что я узнал
-        немного больше аспектов разработки. В определенный момент, я решил попытаться собрать приложение, 
-        но не смог подписать его. Поэтому я жестка тильтанул и снова забросил. 
+        немного больше аспектов разработки. В определенный момент, я решил попытаться собрать приложение,
+        но не смог подписать его. Поэтому я жестка тильтанул и снова забросил.
         Возможно, однажды я возьмусь за проект снова. А пока наслаждайтесь тем, что есть сейчас.
       </p>
       <LinkButton
