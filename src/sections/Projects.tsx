@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 
 export default function Projects() {
   const [theme, setTheme] = useState(() =>
-    getTheme() // || window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light"
+    getTheme() || window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light"
   )
 
   useEffect(() => {
