@@ -65,6 +65,8 @@ export default function Header() {
           onClick={() => setDisplayBurger(true)}
         />
 
+        <div className={`rounded-full fixed top-0 right-0 z-10 w-[520px] h-[460px] ${displayBurger ? "translate-x-[60%] translate-y-[-30%]" : "translate-x-[100%] translate-y-[-80%]"} duration-300 bg-orange-600`}></div>
+
         <div className={`fixed top-12 right-10 z-10 ${displayBurger ? "translate-x-0 translate-y-0 duration-300" : "translate-x-[150%] translate-y-[-80%] duration-[175ms]"} flex-col `}>
 
           <InlineSVG className="w-8 h-8 text-white relative -right-24 -top-6"
@@ -90,8 +92,6 @@ export default function Header() {
             />
           </nav>
         </div>
-
-        <div className={`rounded-full fixed top-0 right-0 w-[520px] h-[460px] ${displayBurger ? "translate-x-[60%] translate-y-[-30%]" : "translate-x-[100%] translate-y-[-80%]"} duration-300 bg-orange-600`}></div>
 
       </header>
     )
