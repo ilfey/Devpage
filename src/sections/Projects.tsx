@@ -1,24 +1,8 @@
 import { Github } from "../Icons";
 import LinkButton from "../components/buttons/LinkButton";
 import Section from "../components/Section";
-import { getTheme, addThemeHandler, removeThemeHandler } from "../localStorage";
-import { useEffect, useState } from "react";
 
 export default function Projects() {
-  const [theme, setTheme] = useState(() =>
-    getTheme() || window.matchMedia('(prefers-color-scheme: dark)').matches ? "dark" : "light"
-  )
-
-  useEffect(() => {
-    const index = addThemeHandler((theme) => {
-      setTheme(theme)
-    })
-
-    return () => removeThemeHandler(index)
-  }, [])
-
-
-
   return (
     <Section
       id="projects"
@@ -26,8 +10,8 @@ export default function Projects() {
       title="Мои проекты"
     >
       <div className="relative mx-auto sm:float-left sm:mr-4 mb-4 w-[270px] h-[525px]">
-        <img className={`absolute transition-opacity duration-200 ${theme !== "dark" ? "opacity-0" : ""}`} src="/img/genshin-dark.png" alt="Genshin" width="270" height="525" />
-        <img className={`absolute transition-opacity duration-200 ${theme !== "light" ? "opacity-0" : ""}`} src="/img/genshin-light.png" alt="Genshin" width="270" height="525" />
+        <img className="absolute transition-opacity duration-200 opacity-0 dark:opacity-100" src="/img/genshin-dark.png" alt="Genshin" width="270" height="525" />
+        <img className="absolute transition-opacity duration-200 dark:opacity-0 opacity-100" src="/img/genshin-light.png" alt="Genshin" width="270" height="525" />
       </div>
       <p className="indent-8">
         Приложение для моего знакомого (не знакомого) сделанное чисто по рофлу.
