@@ -99,7 +99,7 @@ export default function Header() {
 
   return (
     <header className="flex justify-between text-orange-600 py-8 text-lg font-nunito font-bold">
-      <span onClick={toggleLang}>{lang === "ru" ? "En" : "Ru"}</span>
+      <span onClick={toggleLang} className='cursor-pointer'>{lang === "ru" ? "En" : "Ru"}</span>
 
       <nav className="flex gap-8">
         <TextButton
@@ -116,7 +116,7 @@ export default function Header() {
         />
       </nav>
 
-      <svg onClick={toggleScheme} className="w-8 h-8" viewBox="0 0 24 24" fill="none"
+      <svg onClick={toggleScheme} className="w-8 h-8 cursor-pointer" viewBox="0 0 24 24" fill="none"
         xmlns="http://www.w3.org/2000/svg">
 
         <path d={
