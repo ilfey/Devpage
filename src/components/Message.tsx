@@ -37,7 +37,7 @@ enum State {
 
 export default function Message({ msg, reply_msg, onReply, onDelete }: MessageProps) {
 
-  const reUrl = /(http(s)?:\/\/.)[-a-zA-Zа-яА-Я0-9@:%._\+~#=]{2,256}\.[a-zа-я]{2,6}\b([-a-zA-Zа-яА-Я0-9@:%_\+.~#?&//=]*)/g
+  const reUrl = /(http(s)?:\/\/.)[-a-zA-Zа-яА-Я0-9@:%._+~#=]{2,256}\.[a-zа-я]{2,6}\b([-a-zA-Zа-яА-Я0-9@:%_+.~#?&//=]*)/g
   const username = loadUsername()
   const isAdmin = username === process.env.REACT_APP_ADMIN_USERNAME
 
