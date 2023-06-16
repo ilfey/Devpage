@@ -22,12 +22,14 @@ export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, o
 
   const postComment = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null = null) => {
-      if (message.length < 1) {
+      e?.preventDefault()
+
+      if (message.trim().length === 0) {
         alert("Нет символов")
         return
       }
 
-      if (message.length >= 2000) {
+      if (message.trim().length >= 2000) {
         alert("Лимит символов")
         return
       }

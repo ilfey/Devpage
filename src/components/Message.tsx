@@ -3,8 +3,8 @@ import SVG from "react-inlinesvg";
 import { Edit, Error, Reply, Trash } from "../Icons";
 import IMessage from "../types/message";
 import { loadUsername } from "../sessionStorage";
-import { deleteMessage, patchMessage } from "../api";
-import { useCallback, useEffect, useState } from "react";
+import { admDeleteMessage, admPatchMessage, deleteMessage, patchMessage } from "../api";
+import { ReactElement, useCallback, useEffect, useState } from "react";
 import { handleEnterOrEsc, resizeTextArea, scrollToElement } from "../Utils";
 import TextButton from "./buttons/TextButton";
 import IErrorResponse from "../types/errorResponse";
@@ -37,6 +37,10 @@ enum State {
 
 export default function Message({ msg, reply_msg, onReply, onDelete }: MessageProps) {
 
+  const reUrl = /(http(s)?:\/\/.)[-a-zA-Zа-яА-Я0-9@:%._\+~#=]{2,256}\.[a-zа-я]{2,6}\b([-a-zA-Zа-яА-Я0-9@:%_\+.~#?&//=]*)/g
+  const username = loadUsername()
+  const isAdmin = username === process.env.REACT_APP_ADMIN_USERNAME
+
   const [state, setState] = useState(State.Display)
   const [content, setContent] = useState(msg.content)
   const [responseError, setResponseError] = useState("")
@@ -68,10 +72,50 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
     return date.toLocaleDateString("ru-RU", globalOptions)
   }
 
+  function parseMessageContent(content: string) {
+    const links = content.match(reUrl)
+
+    if (links) {
+      let nextIndex = 0
+
+      return <>
+      {links.map((link) => {
+        // link start
+        const index = content.indexOf(link)
+        
+        // last link end 
+        const prevIndex = nextIndex
+
+        // new link end
+        nextIndex = index + link.length
+        return <>
+          {/* text before link */}
+
+          {content.slice(prevIndex, index)}
+
+          {/* link */}
+          <a className="text-violet-600 font-bold font-nunito" href={link} target="_blank" rel="noreferrer" >{link}</a>
+        </>
+      })}
+
+      {/* if content not end with link */}
+
+      {nextIndex !== content.length &&
+        content.slice(nextIndex)
+      }
+      </>
+    }
+
+    return content
+  }
+
   const onClickDelete = useCallback(
     () => {
       setState(State.Loading)
-      deleteMessage(msg.id)
+
+      const deleteFunction = isAdmin ? admDeleteMessage(msg.id) : deleteMessage(msg.id)
+
+      deleteFunction
         .then(() => {
           onDelete(msg.id)
         })
@@ -88,7 +132,7 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
           }
         })
     },
-    [msg, onDelete],
+    [isAdmin, msg.id, onDelete],
   )
 
   const onClickReplyMessage = useCallback(
@@ -111,9 +155,12 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
 
   function editMessage() {
     setEditing(false)
-    patchMessage(msg.id, content)
-      .then(res => {
 
+    const patchFunction = isAdmin ? admPatchMessage(msg.id, content) : patchMessage(msg.id, content)
+
+    patchFunction
+      .then(res => {
+        // TODO: handle response
       })
       .catch(e => {
         setState(State.Error)
@@ -129,7 +176,16 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
       })
   }
 
-  const username = loadUsername()
+  function getEditButtons(msg: IMessage): ReactElement {
+    if (username === msg.username || isAdmin) {
+      return <>
+        <SVG className="w-6 h-6 cursor-pointer" src={Edit} onClick={() => setEditing(true)} />
+        <SVG className="w-6 h-6 cursor-pointer" src={Trash} onClick={onClickDelete} />
+      </>
+    }
+
+    return <></>
+  }
 
 
   return (
@@ -169,12 +225,7 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
             {username &&
               <div className={`hidden ${editing ? "flex" : "group-hover:flex"} text-orange-600 gap-1`}>
                 <SVG className="w-6 h-6 cursor-pointer" src={Reply} onClick={onReply} />
-                {username === msg.username &&
-                  <>
-                    <SVG className="w-6 h-6 cursor-pointer" src={Edit} onClick={() => setEditing(true)} />
-                    <SVG className="w-6 h-6 cursor-pointer" src={Trash} onClick={onClickDelete} />
-                  </>
-                }
+                {getEditButtons(msg)}
               </div>
             }
           </div>
@@ -207,7 +258,7 @@ export default function Message({ msg, reply_msg, onReply, onDelete }: MessagePr
             </>
             :
             <div className="">
-              <p className="whitespace-pre-wrap overflow-auto">{content}</p>
+            <p className="whitespace-pre-wrap overflow-auto">{parseMessageContent(content)}</p>
             </div>
           }
         </>

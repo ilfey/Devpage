@@ -71,7 +71,7 @@ export default function Comments({ onReply }: MessagesProps) {
 
           {!displayError ?
             <TextButton className=""
-            onClick={() => setDisplayError(true)}
+              onClick={() => setDisplayError(true)}
               text="Показать ошибку"
             />
             :

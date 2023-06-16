@@ -7,7 +7,7 @@ import { useCallback, useState } from "react";
 import IContact from "../types/contact";
 
 export default function Contacts() {
-  const discord = "1lfey#0626"
+  const discord = "ilfey"
   const [discordText, setDiscordText] = useState("Username: " + discord)
   const [contacts, setContacts] = useState<Array<IContact>>(bts.contacts)
   const [isAllContacts, setIsAllContacts] = useState(false)
@@ -96,7 +96,7 @@ const bts = {
     {
       title: "Shikimori",
       logo: Shikimori,
-      url: "https://shikimori.one/Josty+Qweenq",
+      url: "https://shikimori.one/ilfey",
     },
     {
       title: "Github",

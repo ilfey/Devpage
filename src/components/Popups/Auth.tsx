@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { FormEvent, useCallback, useEffect, useState } from "react";
 import Popup from "../Popup";
 import { postLogin, postRegister } from "../../api";
 import { setToken } from "../../coockie";
@@ -20,13 +20,13 @@ enum State {
   Loading,
   Login,
   Register,
-  Completed,
 }
 
 enum ErrorState {
   LoginError,
   RegisterError,
-  RegisterConfirmError,
+  RegisterConfirm,
+  EmptyEntry,
 }
 
 export default function AuthPopup({ show, onClose }: LoginPopupProps) {
@@ -36,95 +36,139 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
+  useEffect(() => {
+    setErrorState(null)
+  }, [state])
+
+  function clearStates() {
+    setState(State.Login)
+    setErrorState(null)
+    setUsername('')
+    setPassword('')
+    setConfirmPassword('')
+  }
+
+  const _onClose = useCallback(() => {
+    clearStates()
+    onClose()
+  }, [onClose])
+
   const login = useCallback(
-    () => {
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+
+      // if entries is empty
+      if (username.trim().length === 0 || password.trim().length === 0) {
+        setErrorState(ErrorState.EmptyEntry)
+        return
+      }
+
       setState(State.Loading)
+
       postLogin(username, password)
         .then(res => {
           setToken((res.data as LoginData).token)
           saveUsername(username)
-          onClose()
-          setState(State.Completed)
-          setErrorState(null)
-          setTimeout(() => {
-            onClose()
-          }, 2000)
+          _onClose()
         })
-        .catch(() => {
-          setErrorState(ErrorState.LoginError)
-        })
-        .finally(() => {
-          setState(State.Login)
-        })
+        .catch(() => setErrorState(ErrorState.LoginError))
+        .finally(() => setState(State.Login))
+
     },
-    [onClose, password, username],
+    [_onClose, password, username],
   )
 
   const register = useCallback(
-    () => {
+    (e: FormEvent<HTMLFormElement>) => {
+      e.preventDefault()
+
+      // if entries is empty
+      if (username.trim().length === 0 || password.trim().length === 0 || confirmPassword.trim().length === 0) {
+        setErrorState(ErrorState.EmptyEntry)
+        return
+      }
+
+      // if passwords is not confirm
       if (password !== confirmPassword) {
-        setErrorState(ErrorState.RegisterConfirmError)
+        setErrorState(ErrorState.RegisterConfirm)
         return
       }
 
       setState(State.Loading)
 
       postRegister(username, password)
-        .then(() => {
-          onClose()
-          setState(State.Completed)
-          setErrorState(null)
-          setTimeout(() => {
-            onClose()
-          }, 2000)
-        })
-        .catch(() => {
-          setErrorState(ErrorState.RegisterError)
-        })
-        .finally(() => {
-          setState(State.Register)
-        })
+        .then(() => clearStates())
+        .catch(() => setErrorState(ErrorState.RegisterError))
+        .finally(() => setState(State.Register))
+
     },
-    [onClose, password, confirmPassword, username],
+    [password, confirmPassword, username],
   )
 
+  function handleLoginErrorText(e: ErrorState): string {
+    switch (e) {
+      case ErrorState.EmptyEntry:
+        return "Вы ввели не все данные, необходимые для входа в учетную запись"
+
+      default:
+        return "Не удалось войти в учетную запись"
+    }
+  }
+
+  function handleRegisterErrorText(e: ErrorState): string {
+    switch (e) {
+      case ErrorState.EmptyEntry:
+        return "Вы ввели не все данные необходимые для создания учетной записи"
+
+      case ErrorState.RegisterConfirm:
+        return "Пароли не совпадают"
+
+      default:
+        return "Не удалось создать в учетную запись"
+    }
+  }
+
   return (
-    <Popup show={show} onClose={onClose}>
+    <Popup show={show} onClose={_onClose}>
+
+      {/* loader */}
+
+      {state === State.Loading &&
+        <Spinner className="mx-auto" />
+      }
+
+      {/* Login */}
 
       {state === State.Login &&
         <div className="rounded-xl p-8 bg-gray-300 dark:bg-gray-900">
           <form className="" action="#login" onSubmit={login}>
-            <label className="block" htmlFor="login">Логин</label>
+            <label className="block">Логин</label>
             <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
               type="text"
-              name="login"
               placeholder="Логин"
-              required
-              onChange={(e) => { setUsername(e.target.value) }}
+              onChange={(e) => setUsername(e.target.value)}
             />
 
-            <label className="mt-4 block" htmlFor="password">Пароль</label>
+            <label className="mt-4 block" >Пароль</label>
             <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
               type="password"
               placeholder="Пароль"
-              name="password"
-              required
-              onChange={(e) => { setPassword(e.target.value) }}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
-            {errorState === ErrorState.LoginError &&
-              <p className="text-red-600 text-center mt-4">Не удалось войти в аккаунт</p>
+            {errorState !== null &&
+              <p className="text-red-600 text-center mt-4">{handleLoginErrorText(errorState)}</p>
             }
 
             <ActionButton
               className="mt-6 mx-auto"
               content="Войти"
-              onClick={login}
+              type="submit"
             />
           </form>
 
           <TextButton
-            className="mt-6 mx-auto text-sm"
+            className="mt-6 mx-auto text-sm  select-none"
             text="Ещё нет аккаунта"
             onClick={() => setState(State.Register)}
           />
@@ -132,63 +176,51 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
         </div>
       }
 
+      {/* Register */}
+
       {state === State.Register &&
         <div className="rounded-xl p-8 bg-gray-300 dark:bg-gray-900">
           <form className="" action="#register" onSubmit={register}>
-            <label className="block" htmlFor="login">Логин</label>
+            <label className="block">Логин</label>
             <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
               type="text"
               placeholder="Логин"
-              name="login"
-              required
-              onChange={(e) => { setUsername(e.target.value) }}
+              onChange={(e) => setUsername(e.target.value)}
             />
 
-            <label className="mt-4 block" htmlFor="password">Пароль</label>
+            <label className="mt-4 block">Пароль</label>
             <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
               type="password"
               placeholder="Пароль"
-              name="password"
-              required
-              onChange={(e) => { setPassword(e.target.value) }}
+              onChange={(e) => setPassword(e.target.value)}
             />
 
-            <label className="mt-4 block" htmlFor="confirm-password">Повторите пароль</label>
+            <label className="mt-4 block">Повторите пароль</label>
             <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
               type="password"
-              name="confirm-password"
               placeholder="Повторите пароль"
-              required
-              onChange={(e) => { setConfirmPassword(e.target.value) }}
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
 
-            {errorState === ErrorState.RegisterConfirmError &&
-              <p className="text-red-600 text-center mt-4">Пароли не совпадают</p>
-            }
 
-            {errorState === ErrorState.RegisterError &&
-              <p className="text-red-600 text-center mt-4">Не удалось зарегистрировать аккаунт</p>
+            {errorState &&
+              <p className="text-red-600 text-center mt-4">{handleRegisterErrorText(errorState)}</p>
             }
 
             <ActionButton
               className="mt-6 mx-auto"
               content="Зарегистрироваться"
-              onClick={register}
+              type="submit"
             />
           </form>
 
           <TextButton
-            className="mt-6 mx-auto text-sm"
+            className="mt-6 mx-auto text-sm select-none"
             text="Уже есть аккаунт"
             onClick={() => setState(State.Login)}
           />
         </div>
       }
-
-      {state === State.Loading &&
-        <Spinner className="mx-auto" />
-      }
-
     </Popup>
   );
 }

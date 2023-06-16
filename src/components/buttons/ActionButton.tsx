@@ -2,14 +2,16 @@
 interface Props {
   content: string,
   className: string,
+  type: "button" | "submit" | "reset" | undefined,
   onClick: () => void,
 }
 
-export default function ActionButton({ content, className, onClick }: Props) {
+export default function ActionButton({ content, className, type, onClick }: Props) {
   return (
     <button
       className={`w-64 h-16 text-lg rounded-xl border border-orange-600 bg-orange-600 text-white block font-nunito cursor-pointer ${className}`}
-      onClick={onClick}>
+      onClick={onClick}
+      type={type}>
       {content}
     </button>
   );
@@ -17,5 +19,6 @@ export default function ActionButton({ content, className, onClick }: Props) {
 
 ActionButton.defaultProps = {
   className: "",
+  type: undefined,
   onClick: () => { },
 }
