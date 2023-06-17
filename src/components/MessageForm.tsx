@@ -1,22 +1,25 @@
 import { useCallback, useState } from "react";
-import { postMessage } from "../api";
 import SVG from "react-inlinesvg";
 import { Send, X } from "../Icons";
-import IMessage from "../types/message";
 import { getToken } from "../coockie";
 import TextButton from "./buttons/TextButton";
 import { handleEnterOrEsc, resizeTextArea } from "../Utils";
-
+import { loadUsername } from "../sessionStorage";
+import { useSelector } from "react-redux";
+import { RootState } from "../store/store";
+import useActions from "../store/useActions";
+import { useCreateMessageMutation } from "../store/api/messages.api";
 
 interface MessageFormProps {
-  replyMessage: IMessage | null,
-  onReplyCanceled: () => void,
   showAuth: () => void,
-  onPost: () => void,
 }
 
+export default function MessageForm({ showAuth }: MessageFormProps) {
 
-export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, onPost }: MessageFormProps) {
+  const [createMessage] = useCreateMessageMutation()
+
+  const reply = useSelector((state: RootState) => state.reply.value)
+  const { removeReplying } = useActions()
 
   const [message, setMessage] = useState("")
 
@@ -26,11 +29,13 @@ export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, o
 
       if (message.trim().length === 0) {
         alert("Нет символов")
+        // TODO: make toast is empty
         return
       }
 
       if (message.trim().length >= 2000) {
         alert("Лимит символов")
+        // TODO: make toast max symbols
         return
       }
 
@@ -38,60 +43,54 @@ export default function MessageForm({ replyMessage, onReplyCanceled, showAuth, o
         e.currentTarget.disabled = true
       }
 
-      postMessage(message, replyMessage?.id || null)
-        .then(() => {
-          onPost()
-          const form = document.getElementById("send-message") as HTMLFormElement
-          form.reset()
+      createMessage({
+        text: message,
+        reply_to: reply?.id || null
+      })
 
-          const area = document.getElementById("message-form")
-          resizeTextArea(area!!)
-        })
-        .catch((res) => {
-          console.log(res);
-        })
+      removeReplying()
 
+      const form = document.getElementById("send-message") as HTMLFormElement
+      form.reset()
+
+      const area = document.getElementById("message-form")
+      resizeTextArea(area!!)
+
+      // pushMessage()
+      // TODO: push message to array
     },
-    [message, replyMessage, onPost],
+    [removeReplying, createMessage, message, reply?.id],
   )
 
-  const token = getToken()
+  const isAuthorized = getToken() !== null && loadUsername() !== null
 
-  return (
-    <>
-      {token === null &&
-        <>
-          <div className="message-form-placeholder">
-            <p className="message-form-placeholder__text">
-              Вам необходимо<TextButton text="войти" className="inline mx-1" onClick={showAuth} />
-              чтобы оставить свой комментарий у меня на странице.
-            </p>
-          </div>
-        </>
-      }
-      {token !== null &&
-        <>
-          {replyMessage &&
-            <div className="flex mr-[52px] justify-between items-center bg-gray-100 dark:bg-gray-700 px-4 rounded-tl-lg rounded-tr-lg">
-              <p className="reply-to">Отвечает <a href="#user" className="font-nunito font-bold text-violet-600 cursor-pointer">{replyMessage?.username}</a></p>
-              <SVG src={X} className="w-4 h-4" onClick={onReplyCanceled} />
-            </div>
-          }
-          <form className="flex gap-4" action="#send-message" id="send-message">
-            <textarea className={`flex-auto p-2 text-sm text-black dark:text-white bg-gray-200 dark:bg-gray-800 resize-none overflow-hidden outline-none ${replyMessage ? "rounded-bl-lg rounded-br-lg" : "rounded-lg"}`}
-              id="message-form"
-              rows={1}
-              placeholder="Ваш комментарий..."
-              onInput={e => resizeTextArea(e.currentTarget)}
-              onKeyDown={e => handleEnterOrEsc(e, postComment)}
-              onChange={e => { setMessage(e.target.value) }} />
-            <button className="w-9 h-9" onClick={postComment}>
-              <SVG className="text-orange-600" src={Send} />
-            </button>
-          </form>
-        </>
-      }
+  if (!isAuthorized) {
+    return <div className="message-form-placeholder">
+      <p className="message-form-placeholder__text">
+        Вам необходимо<TextButton text="войти" className="inline mx-1" onClick={showAuth} />
+        чтобы оставить свой комментарий у меня на странице.
+      </p>
+    </div>
+  }
 
-    </>
-  );
+  return <>
+    {reply &&
+      <div className="flex mr-[52px] justify-between items-center bg-gray-100 dark:bg-gray-700 px-4 rounded-tl-lg rounded-tr-lg">
+        <p className="reply-to">Отвечает <a href="#user" className="font-nunito font-bold text-violet-600 cursor-pointer">{reply?.username}</a></p>
+        <SVG src={X} className="w-4 h-4" onClick={() => removeReplying()} />
+      </div>
+    }
+    <form className="flex gap-4" action="#send-message" id="send-message">
+      <textarea className={`flex-auto p-2 text-sm text-black dark:text-white bg-gray-200 dark:bg-gray-800 resize-none overflow-hidden outline-none ${reply ? "rounded-bl-lg rounded-br-lg" : "rounded-lg"}`}
+        id="message-form"
+        rows={1}
+        placeholder="Ваш комментарий..."
+        onInput={e => resizeTextArea(e.currentTarget)}
+        onKeyDown={e => handleEnterOrEsc(e, postComment)}
+        onChange={e => setMessage(e.target.value)} />
+      <button className="w-9 h-9" onClick={postComment}>
+        <SVG className="text-orange-600" src={Send} />
+      </button>
+    </form>
+  </>
 }

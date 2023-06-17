@@ -1,23 +1,18 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import Popup from "../Popup";
-import { postLogin, postRegister } from "../../api";
 import { setToken } from "../../coockie";
 import { saveUsername } from "../../sessionStorage";
 import ActionButton from "../buttons/ActionButton";
 import TextButton from "../buttons/TextButton";
 import Spinner from "../Spinner";
+import { useLoginMutation, useRegisterMutation } from "../../store/api/users.api";
 
 export interface LoginPopupProps {
   show?: boolean,
   onClose: () => void,
 }
 
-interface LoginData {
-  token: string,
-}
-
 enum State {
-  Loading,
   Login,
   Register,
 }
@@ -36,6 +31,11 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
 
+  const [login, loginResult] = useLoginMutation()
+  const [register, registerResult] = useRegisterMutation()
+
+  const isLoading = loginResult.isLoading || registerResult.isLoading
+
   useEffect(() => {
     setErrorState(null)
   }, [state])
@@ -53,7 +53,7 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
     onClose()
   }, [onClose])
 
-  const login = useCallback(
+  const onClickLogin = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
 
@@ -63,22 +63,27 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
         return
       }
 
-      setState(State.Loading)
+      login({
+        username,
+        password
+      })
+        .then((res) => {
+          if ("error" in res) {
+            setErrorState(ErrorState.LoginError)
+            return
+          } else {
+            setToken(res.data.token)
+            saveUsername(username)
+            _onClose()
+          }
 
-      postLogin(username, password)
-        .then(res => {
-          setToken((res.data as LoginData).token)
-          saveUsername(username)
-          _onClose()
         })
-        .catch(() => setErrorState(ErrorState.LoginError))
-        .finally(() => setState(State.Login))
 
     },
-    [_onClose, password, username],
+    [_onClose, login, password, username],
   )
 
-  const register = useCallback(
+  const onClickRegister = useCallback(
     (e: FormEvent<HTMLFormElement>) => {
       e.preventDefault()
 
@@ -94,15 +99,20 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
         return
       }
 
-      setState(State.Loading)
+      register({
+        username,
+        password,
+      })
+        .then(res => {
+          if ("error" in res) {
+            setErrorState(ErrorState.RegisterError)
+            return
+          }
 
-      postRegister(username, password)
-        .then(() => clearStates())
-        .catch(() => setErrorState(ErrorState.RegisterError))
-        .finally(() => setState(State.Register))
-
+          clearStates()
+        })
     },
-    [password, confirmPassword, username],
+    [register, password, confirmPassword, username],
   )
 
   function handleLoginErrorText(e: ErrorState): string {
@@ -128,20 +138,16 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
     }
   }
 
-  return (
-    <Popup show={show} onClose={_onClose}>
+  function renderContent() {
 
-      {/* loader */}
+    if (isLoading) {
+      return <Spinner className="mx-auto" />
+    }
 
-      {state === State.Loading &&
-        <Spinner className="mx-auto" />
-      }
-
-      {/* Login */}
-
-      {state === State.Login &&
+    if (state === State.Login) {
+      return <>
         <div className="rounded-xl p-8 bg-gray-300 dark:bg-gray-900">
-          <form className="" action="#login" onSubmit={login}>
+          <form className="" action="#login" onSubmit={onClickLogin}>
             <label className="block">Логин</label>
             <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
               type="text"
@@ -174,53 +180,58 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
           />
 
         </div>
-      }
+      </>
+    }
 
-      {/* Register */}
+    return <div className="rounded-xl p-8 bg-gray-300 dark:bg-gray-900">
+      <form className="" action="#register" onSubmit={onClickRegister}>
+        <label className="block">Логин</label>
+        <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
+          type="text"
+          placeholder="Логин"
+          onChange={(e) => setUsername(e.target.value)}
+        />
 
-      {state === State.Register &&
-        <div className="rounded-xl p-8 bg-gray-300 dark:bg-gray-900">
-          <form className="" action="#register" onSubmit={register}>
-            <label className="block">Логин</label>
-            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
-              type="text"
-              placeholder="Логин"
-              onChange={(e) => setUsername(e.target.value)}
-            />
+        <label className="mt-4 block">Пароль</label>
+        <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
+          type="password"
+          placeholder="Пароль"
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
-            <label className="mt-4 block">Пароль</label>
-            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
-              type="password"
-              placeholder="Пароль"
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <label className="mt-4 block">Повторите пароль</label>
-            <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
-              type="password"
-              placeholder="Повторите пароль"
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
+        <label className="mt-4 block">Повторите пароль</label>
+        <input className="mt-3 rounded-lg px-4 py-3 w-full outline-none border-none bg-gray-200 dark:bg-gray-800 placeholder:text-gray-600 text-sm"
+          type="password"
+          placeholder="Повторите пароль"
+          onChange={(e) => setConfirmPassword(e.target.value)}
+        />
 
 
-            {errorState &&
-              <p className="text-red-600 text-center mt-4">{handleRegisterErrorText(errorState)}</p>
-            }
+        {errorState &&
+          <p className="text-red-600 text-center mt-4">{handleRegisterErrorText(errorState)}</p>
+        }
 
-            <ActionButton
-              className="mt-6 mx-auto"
-              content="Зарегистрироваться"
-              type="submit"
-            />
-          </form>
+        <ActionButton
+          className="mt-6 mx-auto"
+          content="Зарегистрироваться"
+          type="submit"
+        />
+      </form>
 
-          <TextButton
-            className="mt-6 mx-auto text-sm select-none"
-            text="Уже есть аккаунт"
-            onClick={() => setState(State.Login)}
-          />
-        </div>
-      }
+      <TextButton
+        className="mt-6 mx-auto text-sm select-none"
+        text="Уже есть аккаунт"
+        onClick={() => setState(State.Login)}
+      />
+    </div>
+
+  }
+
+  return (
+    <Popup show={show} onClose={_onClose}>
+
+      {renderContent()}
+
     </Popup>
   );
 }

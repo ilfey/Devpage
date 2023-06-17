@@ -34,6 +34,7 @@ module.exports = {
     colors: mColors,
     fontFamily: {
       'nunito': 'Nunito',
+      'roboto': 'Roboto',
     },
     extend: {
 

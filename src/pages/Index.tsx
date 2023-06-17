@@ -7,20 +7,14 @@ import Contacts from "../sections/Contacts";
 import Comments from "../sections/Comments";
 import MessageForm from "../sections/MessageForm";
 import Header from "../components/Header";
-import IMessage from "../types/message";
 import { scrollToElement } from "../Utils";
+import useActions from "../store/useActions";
 
 
 function Index() {
 
-
-  function renderMessages() {
-    setMessagesTrigger(Math.random())
-  }
-
   const [popupIsShowing, setShowing] = useState(false)
-  const [messagesTrigger, setMessagesTrigger] = useState(Math.random());
-  const [repliedMessage, setRepliedMessage] = useState<IMessage | null>(null)
+  const { setReplying } = useActions()
 
   function scrollToSection(id: string) {
     const el = document.getElementById(id) as HTMLElement
@@ -31,7 +25,7 @@ function Index() {
   }
 
   return (
-    <div>
+    <>
       <Header items={
         [
           {
@@ -60,14 +54,10 @@ function Index() {
         <Projects />
         <Contacts />
         <Comments
-          key={messagesTrigger}
-          onReply={(msg) => { setRepliedMessage(msg) }}
+          onReply={(msg) => setReplying(msg)}
         />
         <MessageForm
-          replyMessage={repliedMessage}
-          onReplyCanceled={() => setRepliedMessage(null)}
           showAuth={() => { setShowing(true) }}
-          onPost={() => renderMessages()}
         />
       </main>
 
@@ -75,8 +65,36 @@ function Index() {
         show={popupIsShowing}
         onClose={() => setShowing(false)}
       />
-    </div>
+
+    </>
   )
 }
+
+
+/* 
+
+// toast
+
+<div className="flex gap-3 items-center max-w-xs p-4 rounded-lg bg-gray-200 dark:bg-gray-800">
+
+<InlineSVG
+  className="w-6 h-6 text-red-600 shrink-0"
+  src={Error}
+/>
+
+<span className="text-base w-full">
+  text
+</span>
+
+<button className=" rounded-lg p-1.5 text-gray-400 hover:bg-gray-900">
+  <InlineSVG
+    className="w-4 h-4"
+    src={X}
+  />
+</button>
+
+</div >
+
+*/
 
 export default Index
