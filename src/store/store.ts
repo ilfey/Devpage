@@ -1,6 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import { replyActions, replyReducer } from './reducers/replly'
+import { replyActions, replyReducer } from './reducers/reply'
 import { messagesActions, messagesReducer } from './reducers/messages'
 import { api } from './api/api'
 
