@@ -1,5 +1,4 @@
 import Message from "../components/Message";
-import IMessage from "../types/message";
 import { useState } from "react";
 import Section from "../components/Section";
 import Spinner from "../components/Spinner";
@@ -10,12 +9,7 @@ import TextButton from "../components/buttons/TextButton";
 import { useGetMessagesQuery } from "../store/api/messages.api";
 
 
-interface MessagesProps {
-  onReply: (message: IMessage) => void,
-}
-
-
-export default function Comments({ onReply }: MessagesProps) {
+export default function Comments() {
   const { isLoading, isSuccess, isError, data, error, status } = useGetMessagesQuery()
 
   const [displayError, setDisplayError] = useState(false)
@@ -46,7 +40,7 @@ export default function Comments({ onReply }: MessagesProps) {
 
           {/* <ActionButton className=""
             content="Попробовать снова"
-            onClick={() => loadMessages()}
+            onClick={() => refetch()}
           /> */}
         </div>
       }

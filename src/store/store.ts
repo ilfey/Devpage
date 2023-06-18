@@ -1,17 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 
 import { replyActions, replyReducer } from './reducers/reply'
-import { messagesActions, messagesReducer } from './reducers/messages'
 import { api } from './api/api'
 
 export const actions = {
   ...replyActions,
-  ...messagesActions,
 }
 
 export const store = configureStore({
   reducer: {
-    messages: messagesReducer,
     reply: replyReducer,
     [api.reducerPath]: api.reducer,
   },

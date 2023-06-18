@@ -8,13 +8,10 @@ import Comments from "../sections/Comments";
 import MessageForm from "../sections/MessageForm";
 import Header from "../components/Header";
 import { scrollToElement } from "../Utils";
-import useActions from "../store/useActions";
 
 
-function Index() {
-
+export default function Index() {
   const [popupIsShowing, setShowing] = useState(false)
-  const { setReplying } = useActions()
 
   function scrollToSection(id: string) {
     const el = document.getElementById(id) as HTMLElement
@@ -23,6 +20,7 @@ function Index() {
       setTimeout(() => el.classList.remove("bg-gray-200", "dark:bg-gray-800"), 150)
     })
   }
+
 
   return (
     <>
@@ -53,9 +51,7 @@ function Index() {
         <Welcome />
         <Projects />
         <Contacts />
-        <Comments
-          onReply={(msg) => setReplying(msg)}
-        />
+        <Comments />
         <MessageForm
           showAuth={() => { setShowing(true) }}
         />
@@ -96,5 +92,3 @@ function Index() {
 </div >
 
 */
-
-export default Index
