@@ -6,10 +6,8 @@ import { loadUsername } from "../sessionStorage";
 import { ReactElement, useCallback, useEffect, useState } from "react";
 import { handleEnterOrEsc, resizeTextArea, scrollToElement } from "../Utils";
 import TextButton from "./buttons/TextButton";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
 import useActions from "../store/useActions";
-import { useDeleteMessageMutation, useEditMessageMutation } from "../store/api/messages.api";
+import { useDeleteMessageMutation, useEditMessageMutation, useGetMessagesQuery } from "../store/api/messages.api";
 
 const today = new Date()
 const yesterday = new Date(today);
@@ -24,23 +22,6 @@ const globalOptions: any = {
   day: "numeric",
   hour: "numeric",
   minute: "numeric",
-}
-
-function getMessageDate(msg: IMessage): string {
-  const date = new Date(msg.modified_at)
-
-  const hours = date.getHours()
-  const minutes = date.getMinutes()
-
-  if (date.toDateString() === today.toDateString()) {
-    return `Сегодня, в ${hours}:${minutes}`
-  }
-
-  if (date.toDateString() === yesterday.toDateString()) {
-    return `Вчера, в ${hours}:${minutes}`
-  }
-
-  return date.toLocaleDateString("ru-RU", globalOptions)
 }
 
 
@@ -89,21 +70,21 @@ interface MessageProps {
 
 export default function Message({ msg }: MessageProps) {
 
-
   const username = loadUsername()
   const isAdmin = username === process.env.REACT_APP_ADMIN_USERNAME
 
   const [content, setContent] = useState(msg.content)
   const [editing, setEditing] = useState(false)
   const [displayError, setDisplayError] = useState(false)
-  const reply = useSelector((state: RootState) => state.reply.value)
   const { setReplying } = useActions()
 
-
+  const { data: messages } = useGetMessagesQuery()
   const [deleteMessage, deleteResult] = useDeleteMessageMutation()
   const { isError, error, status } = deleteResult
 
   const [editMessage] = useEditMessageMutation()
+
+  const reply_msg = messages?.find((_msg) => _msg.id === msg.reply_to)
 
 
   useEffect(() => {
@@ -116,15 +97,15 @@ export default function Message({ msg }: MessageProps) {
 
   const onClickReplyMessage = useCallback(
     () => {
-      if (reply) {
-        const el = document.getElementById(reply.id.toString()) as HTMLElement
+      if (reply_msg) {
+        const el = document.getElementById(reply_msg.id.toString()) as HTMLElement
         scrollToElement(el, () => {
           el.classList.add("bg-orange-800")
           setTimeout(() => el.classList.remove("bg-orange-800"), 150)
         })
       }
     },
-    [reply],
+    [reply_msg],
   )
 
   const onClickDelete = useCallback(
@@ -152,22 +133,40 @@ export default function Message({ msg }: MessageProps) {
     [msg.content],
   )
 
-  function getEditButtons(msg: IMessage): ReactElement {
-    if (username === msg.username || isAdmin) {
-      return <>
-        <InlineSVG className="w-6 h-6 cursor-pointer" src={Edit} onClick={() => setEditing(true)} />
-        <InlineSVG className="w-6 h-6 cursor-pointer" src={Trash} onClick={onClickDelete} />
-      </>
-    }
 
-    return <></>
+  let editButtons: ReactElement = <></>
+
+  if (isAdmin || username === msg.username) {
+    editButtons = <>
+      <InlineSVG className="w-6 h-6 cursor-pointer" src={Edit} onClick={() => setEditing(true)} />
+      <InlineSVG className="w-6 h-6 cursor-pointer" src={Trash} onClick={onClickDelete} />
+    </>
+  }
+
+  
+  let msgDate: string
+
+  const date = new Date(msg.modified_at)
+  const hours = date.getHours()
+  const minutes = date.getMinutes()
+
+  switch (date.toDateString()) {
+    case today.toDateString():
+      msgDate = `Сегодня, в ${hours}:${minutes}`
+      break;
+
+    case yesterday.toDateString():
+      msgDate = `Вчера, в ${hours}:${minutes}`
+      break;
+
+    default:
+      msgDate = date.toLocaleDateString("ru-RU", globalOptions)
+      break;
   }
 
 
   return (
-    <div id={msg.id.toString()} className={`group flex flex-col ${editing ? "bg-gray-200 dark:bg-gray-800" : "hover:bg-gray-200 dark:hover:bg-gray-800"} duration-200 p-4 rounded-xl`}
-    // onClick={() => setState(State.Display)}
-    >
+    <div id={msg.id.toString()} className={`group flex flex-col ${editing ? "bg-gray-200 dark:bg-gray-800" : "hover:bg-gray-200 dark:hover:bg-gray-800"} duration-200 p-4 rounded-xl`}>
       {isError &&
         <div className="flex flex-col items-center gap-4">
           <div className="flex justify-center items-center text-red-600">
@@ -186,22 +185,22 @@ export default function Message({ msg }: MessageProps) {
         </div>
       }
 
-      {reply &&
+      {reply_msg &&
         <p className="mb-2 text-ellipsis whitespace-nowrap overflow-hidden" onClick={onClickReplyMessage}>
-          Отвечает <a href="#user" className="text-violet-600 font-nunito font-bold">{reply?.username}</a> на: <span className="cursor-pointer">{reply?.content}</span>
+          Отвечает <a href="#user" className="text-violet-600 font-nunito font-bold">{reply_msg.username}</a> на: <span className="cursor-pointer">{reply_msg.content}</span>
         </p>
       }
 
       <div className="mb-2 flex justify-between">
         <div className="flex gap-1 items-baseline">
           <a href="#user" className="text-lg text-violet-600 font-nunito font-bold" >{msg.username}</a>
-          <span className="text-xs">{getMessageDate(msg)}</span>
+          <span className="text-xs">{msgDate}</span>
         </div>
 
         {username &&
           <div className={`hidden ${editing ? "flex" : "group-hover:flex"} text-orange-600 gap-1`}>
             <InlineSVG className="w-6 h-6 cursor-pointer" src={Reply} onClick={() => setReplying(msg)} />
-            {getEditButtons(msg)}
+            {editButtons}
           </div>
         }
       </div>
