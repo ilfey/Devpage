@@ -1,10 +1,10 @@
-import { useMemo } from "react"
+import { useMemo} from "react"
 import { useDispatch } from "react-redux"
 import { bindActionCreators } from "redux"
-import { actions } from "./store"
+import { actions } from "../store/store"
 
 
-export default function useActions() {
+export function useActions() {
   const dispatch = useDispatch()
 
   return useMemo(() => bindActionCreators(

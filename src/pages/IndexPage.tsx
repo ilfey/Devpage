@@ -7,7 +7,7 @@ import Contacts from "../sections/Contacts";
 import Comments from "../sections/Comments";
 import MessageForm from "../sections/MessageForm";
 import Header from "../components/Header";
-import { scrollToElement } from "../Utils";
+import { scrollToElement } from "../utils/utils";
 
 
 export default function Index() {

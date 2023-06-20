@@ -1,64 +1,49 @@
-import { Up } from "./Icons";
-
-import { useCallback, useEffect, useState } from "react";
-
-import { getLanguage, getTheme } from "./localStorage";
-
-import FloatingButton from "./components/buttons/FloatingButton";
-import Index from "./pages/Index";
-import Footer from "./components/Footer";
-import { scrollToElement } from "./Utils";
+import { useCallback, useState } from "react";
+import { useMount } from "react-use";
+import Footer from "../components/Footer";
+import FloatingButton from "../components/buttons/FloatingButton";
+import { scrollToElement } from "../utils/utils";
+import { Up } from "../Icons";
+import { Outlet } from "react-router-dom";
 
 
-export default function App() {
-
+export default function RootPage() {
 
   const [ScrollBtnIsHidden, setScrollBtnIsHidden] = useState(true);
 
 
-  useEffect(() => {
+  useMount(() => {
     const d = document.documentElement;
-
-    if (getTheme() === "dark" || (!getTheme() && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      d.classList.add("dark")
-    } else {
-      d.classList.remove("dark")
-    }
-
-    d.lang = getLanguage() ?? "ru"
 
     window.addEventListener("scroll", () => {
       if (d.clientWidth < 768) {
         if (d.clientWidth < 768 && window.scrollY > d.clientHeight && window.scrollY + d.clientHeight < d.scrollHeight - 100) {
           setScrollBtnIsHidden(false);
-          return
+          return;
         }
 
         setScrollBtnIsHidden(true);
-        return
+        return;
       }
 
       if (window.scrollY > d.clientHeight) {
         setScrollBtnIsHidden(false);
-        return
+        return;
       }
 
       setScrollBtnIsHidden(true);
     });
-  }, [])
+  });
 
 
-  const onClickScrollTop = useCallback(
-    () => {
-      const el = document.documentElement
-      scrollToElement(el)
-    },
-    [],
-  )
+  const onClickScrollTop = useCallback(() => {
+    const el = document.documentElement;
+    scrollToElement(el);
+  }, [],)
 
   return (
     <>
-      <Index />
+      <Outlet />
 
       <Footer />
 

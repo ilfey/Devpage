@@ -3,12 +3,12 @@ import SVG from "react-inlinesvg";
 import { Send, X } from "../Icons";
 import { getToken } from "../coockie";
 import TextButton from "./buttons/TextButton";
-import { handleEnterOrEsc, resizeTextArea } from "../Utils";
+import { handleEnterOrEsc, resizeTextArea } from "../utils/utils";
 import { loadUsername } from "../sessionStorage";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import useActions from "../store/useActions";
 import { useCreateMessageMutation } from "../store/api/messages.api";
+import { useActions } from "../utils/hooks";
 
 interface MessageFormProps {
   showAuth: () => void,

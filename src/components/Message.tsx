@@ -4,10 +4,10 @@ import { Edit, Error, Reply, Trash } from "../Icons";
 import IMessage from "../types/message";
 import { loadUsername } from "../sessionStorage";
 import { ReactElement, useCallback, useEffect, useState } from "react";
-import { handleEnterOrEsc, resizeTextArea, scrollToElement } from "../Utils";
+import { handleEnterOrEsc, resizeTextArea, scrollToElement } from "../utils/utils";
 import TextButton from "./buttons/TextButton";
-import useActions from "../store/useActions";
 import { useDeleteMessageMutation, useEditMessageMutation, useGetMessagesQuery } from "../store/api/messages.api";
+import { useActions } from "../utils/hooks";
 
 const today = new Date()
 const yesterday = new Date(today);
