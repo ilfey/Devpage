@@ -17,7 +17,7 @@ export const messagesApi = api.injectEndpoints({
             content: arg.text,
             reply_to: arg.reply_to,
           },
-          url: "/user/message",
+          url: "/user/messages",
           method: "POST",
         }),
         invalidatesTags: [TAG_MESSAGES]
@@ -25,7 +25,7 @@ export const messagesApi = api.injectEndpoints({
 
       editMessage: builder.mutation<IResponse, { id: number, text: string }>({
         query: (arg) => ({
-          url: `/user/message/${arg.id}`,
+          url: `/user/messages/${arg.id}`,
           body: {
             content: arg.text,
           },
@@ -36,7 +36,7 @@ export const messagesApi = api.injectEndpoints({
 
       deleteMessage: builder.mutation<IResponse, number>({
         query: (id) => ({
-          url: `/user/message/${id}`,
+          url: `/user/messages/${id}`,
           method: "DELETE",
         }),
         invalidatesTags: [TAG_MESSAGES]

@@ -11,14 +11,14 @@ export const usersApi = api.injectEndpoints({
             username: arg.username,
             password: arg.password,
           },
-          url: "/user/login",
+          url: "/login",
           method: "POST",
         }),
       }),
 
       register: builder.mutation<IResponse, { username: string, password: string }>({
         query: (arg) => ({
-          url: "/user/register",
+          url: "/register",
           body: {
             username: arg.username,
             password: arg.password,
