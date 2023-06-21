@@ -27,7 +27,7 @@ const mColors = {
 module.exports = {
   darkMode: "class",
   content: [
-    "./public/index.html",
+    "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {

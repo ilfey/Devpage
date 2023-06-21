@@ -71,7 +71,7 @@ interface MessageProps {
 export default function Message({ msg }: MessageProps) {
 
   const username = loadUsername()
-  const isAdmin = username === process.env.REACT_APP_ADMIN_USERNAME
+  const isAdmin = username === import.meta.env.VITE_APP_ADMIN_USERNAME
 
   const [content, setContent] = useState(msg.content)
   const [editing, setEditing] = useState(false)
@@ -88,9 +88,9 @@ export default function Message({ msg }: MessageProps) {
 
 
   useEffect(() => {
-    if (editing) {
-      const area = document.getElementById("edit-message-form")
-      resizeTextArea(area!!)
+    const area = document.getElementById("edit-message-form")
+    if (editing && area) {
+      resizeTextArea(area)
     }
   }, [editing])
 
@@ -143,7 +143,7 @@ export default function Message({ msg }: MessageProps) {
     </>
   }
 
-  
+
   let msgDate: string
 
   const date = new Date(msg.modified_at)

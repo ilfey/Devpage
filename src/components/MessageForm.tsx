@@ -54,7 +54,9 @@ export default function MessageForm({ showAuth }: MessageFormProps) {
       form.reset()
 
       const area = document.getElementById("message-form")
-      resizeTextArea(area!!)
+      if (area) {
+        resizeTextArea(area!!)
+      }
 
       // pushMessage()
       // TODO: push message to array

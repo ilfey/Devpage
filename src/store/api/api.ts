@@ -8,8 +8,8 @@ export const api = createApi({
   reducerPath: "api",
   tagTypes: [TAG_MESSAGES],
   baseQuery: fetchBaseQuery({
-    baseUrl: process.env.REACT_APP_BACKEND_URL,
-    prepareHeaders: (headers, api) => {
+    baseUrl: import.meta.env.VITE_APP_BACKEND_URL,
+    prepareHeaders: (headers, _) => {
       const token = getToken()
 
       if (token) {

@@ -1,8 +1,8 @@
 export function scrollToElement(el: HTMLElement, onScrollEnd = () => { }) {
   const { top } = el.getBoundingClientRect()
 
-  var step = 75
-  var iterationsCount = Math.abs(Math.floor(top / step))
+  let step = 75
+  let iterationsCount = Math.abs(Math.floor(top / step))
 
   if (top < 0) {
     step = -step
