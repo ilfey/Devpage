@@ -24,42 +24,76 @@ const globalOptions: any = {
   minute: "numeric",
 }
 
+function makeImage(link: string, classList: string = "") {
+  return (
+    <div className={`h-64 max-w-[256px] rounded-md flex flex-col overflow-hidden justify-center ${classList}`}>
+      <img src={link} alt="image" />
+    </div>
+  )
+}
 
 function parseMessageContent(content: string) {
+  content = content.trim()
   const links = content.match(reUrl)
 
-  if (links) {
-    let nextIndex = 0
-
-    return <>
-      {links.map((link) => {
-        // link start
-        const index = content.indexOf(link)
-
-        // last link end 
-        const prevIndex = nextIndex
-
-        // new link end
-        nextIndex = index + link.length
-        return <>
-          {/* text before link */}
-
-          {content.slice(prevIndex, index)}
-
-          {/* link */}
-          <a className="text-violet-600 font-bold font-nunito" href={link} target="_blank" rel="noreferrer" >{link}</a>
-        </>
-      })}
-
-      {/* if content not end with link */}
-
-      {nextIndex !== content.length &&
-        content.slice(nextIndex)
-      }
-    </>
+  // if content === link
+  if (links?.length === 1 && links[0] === content && links[0].match(/\.(jpeg|jpg|gif|png|webp)$/) !== null) {
+    return makeImage(links[0], "mx-auto sm:mx-0")
   }
 
-  return content
+  // if content contains link
+  if (links) {
+    const uniqueLinks = Array.from(new Set(links))
+
+    let nextIndex = 0
+
+    return (
+      <>
+        <p className="whitespace-pre-wrap overflow-hidden break-words">
+          {links.map((link) => {
+            // link start
+            const index = content.indexOf(link)
+
+            // link end 
+            const prevIndex = nextIndex
+
+            // new link end
+            nextIndex = index + link.length
+            return (
+              <>
+                {/* text before link */}
+
+                {content.slice(prevIndex, index)}
+
+                {/* link */}
+                <a className="text-violet-600 font-bold font-nunito" href={link} target="_blank" rel="noreferrer" >{link}</a>
+              </>
+            )
+          })}
+
+          {/* if content not end with link */}
+
+          {nextIndex !== content.length &&
+            content.slice(nextIndex)
+          }
+
+        </p>
+
+        {/* render images */}
+        <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-4">
+          {uniqueLinks.map((link) =>
+            link.match(/\.(jpeg|jpg|gif|png|webp|svg)$/) !== null ? makeImage(link) : <></>
+          )}
+        </div>
+      </>
+    )
+  }
+
+  return (
+    <p className="whitespace-pre-wrap overflow-hidden break-words">
+      {content}
+    </p>
+  )
 }
 
 
@@ -117,7 +151,7 @@ export default function Message({ msg }: MessageProps) {
     () => {
       editMessage({
         id: msg.id,
-        text: content
+        text: content.trim()
       })
 
       setEditing(false)
@@ -233,7 +267,7 @@ export default function Message({ msg }: MessageProps) {
         </>
         :
         <>
-          <p className="whitespace-pre-wrap overflow-auto">{parseMessageContent(content)}</p>
+          {parseMessageContent(content)}
         </>
       }
     </div>

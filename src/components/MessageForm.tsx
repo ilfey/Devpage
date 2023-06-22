@@ -44,7 +44,7 @@ export default function MessageForm({ showAuth }: MessageFormProps) {
       }
 
       createMessage({
-        text: message,
+        text: message.trim(),
         reply_to: reply?.id || null
       })
 
