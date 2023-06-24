@@ -25,7 +25,7 @@ export function resizeTextArea(el: HTMLElement) {
   el.style.height = `${el.scrollHeight}px`
 }
 
-export function handleEnterOrEsc(e: React.KeyboardEvent<HTMLTextAreaElement>, onEnter = () => {}, onEsc = () => {}) {
+export function handleEnterOrEsc(e: React.KeyboardEvent<HTMLTextAreaElement>, onEnter = () => { }, onEsc = () => { }) {
   if (e.key === "Enter" && !e.shiftKey) {
     e.preventDefault();
     onEnter()

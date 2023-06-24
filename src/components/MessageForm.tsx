@@ -55,7 +55,7 @@ export default function MessageForm({ showAuth }: MessageFormProps) {
 
       const area = document.getElementById("message-form")
       if (area) {
-        resizeTextArea(area!!)
+        resizeTextArea(area)
       }
 
       // pushMessage()

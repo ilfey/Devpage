@@ -4,4 +4,5 @@ export default interface IMessage {
   content: string,
   reply_to: number,
   modified_at: string,
+  created_at: string,
 }

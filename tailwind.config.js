@@ -36,9 +36,7 @@ module.exports = {
       'nunito': 'Nunito',
       'roboto': 'Roboto',
     },
-    extend: {
-
-    },
+    extend: {},
   },
 }
 

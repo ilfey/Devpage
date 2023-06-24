@@ -1,50 +1,55 @@
-import Message from "../components/Message";
+import Message from "../components/Message/Message";
 import { useState } from "react";
 import Section from "../components/Section";
 import Spinner from "../components/Spinner";
 import InlineSVG from "react-inlinesvg/esm";
 import { Error } from "../Icons";
-
 import TextButton from "../components/buttons/TextButton";
 import { useGetMessagesQuery } from "../store/api/messages.api";
+import ActionButton from "../components/buttons/ActionButton";
 
 
 export default function Comments() {
-  const { isLoading, isSuccess, isError, data, error, status } = useGetMessagesQuery()
-
   const [displayError, setDisplayError] = useState(false)
 
-  return (
-    <Section
-      id="comments"
-      title="Комментарии"
-    >
-      {isLoading &&
-        <Spinner className="mx-auto" />
-      }
-      {isError &&
-        <div className="flex flex-col items-center gap-4">
-          <div className="flex justify-center items-center text-red-600">
-            <InlineSVG className="w-8 h-8 " src={Error} />
-            <span className="">Не удалось загрузить комментарии</span>
-          </div>
+  const { isLoading, isSuccess, isError, data, error, status, refetch } = useGetMessagesQuery()
 
-          {!displayError ?
-            <TextButton className=""
-              onClick={() => setDisplayError(true)}
-              text="Показать ошибку"
-            />
-            :
-            <p className="whitespace-pre text-center">{status} - {error.toString()}</p>
-          }
+  let body
 
-          {/* <ActionButton className=""
-            content="Попробовать снова"
-            onClick={() => refetch()}
-          /> */}
+  if (isLoading) {
+    body = (
+      <Spinner className="mx-auto" />
+    )
+  }
+
+  if (isError) {
+    body = (
+      <div className="flex flex-col items-center gap-4">
+        <div className="flex justify-center items-center text-red-600">
+          <InlineSVG className="w-8 h-8 " src={Error} />
+          <span className="">Не удалось загрузить комментарии</span>
         </div>
-      }
-      {isSuccess && data.length !== 0 &&
+
+        {!displayError ?
+          <TextButton className=""
+            onClick={() => setDisplayError(true)}
+            text="Показать ошибку"
+          />
+          :
+          <p className="whitespace-pre text-center">{status} - {error.toString()}</p>
+        }
+
+        <ActionButton className=""
+          content="Попробовать снова"
+          onClick={() => refetch()}
+        />
+      </div>
+    )
+  }
+
+  if (isSuccess) {
+    if (data.length !== 0) { // if messages not empty
+      body = (
         <div className="flex flex-col gap-4">
           {data.map(msg =>
             <Message
@@ -52,10 +57,19 @@ export default function Comments() {
             />
           )}
         </div>
-      }
-      {isSuccess && data.length === 0 &&
+      )
+    } else { // if messages is empty
+      body = (
         <p className="text-center">Комментариев пока нет, станьте первым!</p>
-      }
-    </Section>
+      )
+    }
+  }
+
+  return (
+    <Section
+      id="comments"
+      title="Комментарии">
+      {body}
+    </Section >
   )
 }

@@ -9,7 +9,7 @@ export const api = createApi({
   tagTypes: [TAG_MESSAGES],
   baseQuery: fetchBaseQuery({
     baseUrl: import.meta.env.VITE_APP_BACKEND_URL,
-    prepareHeaders: (headers, _) => {
+    prepareHeaders: (headers) => {
       const token = getToken()
 
       if (token) {

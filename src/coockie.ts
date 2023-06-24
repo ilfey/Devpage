@@ -9,7 +9,7 @@ function getCookie(key: string): string | null {
 
   let value = null
 
-  for (let cookie of cookies) {
+  for (const cookie of cookies) {
     const [k] = cookie.split('=')
 
     if (k === key) {
@@ -25,7 +25,7 @@ function getCookieValue(key: string): string | null {
 
   let value = null
 
-  for (let cookie of cookies) {
+  for (const cookie of cookies) {
     const [k, v] = cookie.split('=')
 
     if (k === key) {

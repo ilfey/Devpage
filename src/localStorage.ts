@@ -20,7 +20,7 @@ function getValue(key: string): string | null {
 export function saveTheme(theme: TTheme) {
   setValue(KEY_THEME, theme)
 
-  for (let handler of themeHandlers) {
+  for (const handler of themeHandlers) {
     handler(theme)
   }
 }
