@@ -1,5 +1,5 @@
-import IMessage from "../../types/message";
-import IResponse from "../../types/response";
+import IMessage from "../../entities/Message";
+import IResponse from "../../entities/Response";
 import { TAG_MESSAGES, api } from "./api";
 
 export const messagesApi = api.injectEndpoints({

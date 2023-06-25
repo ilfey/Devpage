@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import SVG from "react-inlinesvg";
 import { Send, X } from "../Icons";
 import { getToken } from "../coockie";
-import TextButton from "./buttons/TextButton";
+import TextButton from "../shared/Buttons/TextButton";
 import { handleEnterOrEsc, resizeTextArea } from "../utils/utils";
 import { loadUsername } from "../sessionStorage";
 import { useSelector } from "react-redux";

@@ -1,10 +1,15 @@
-import { TLanguage, TTheme, TThemeHandler } from "./types/localStorage"
-
 
 const KEY_THEME = "color-scheme"
 const KEY_LANGUAGE = "language"
 
-const themeHandlers : Array<TThemeHandler> = []
+
+export type Theme = "light" | "dark"
+export type Language = "ru" | "en"
+
+
+export type TThemeHandler = (theme: Theme) => void
+
+const themeHandlers: Array<TThemeHandler> = []
 
 
 function setValue(key: string, value: string) {
@@ -17,7 +22,7 @@ function getValue(key: string): string | null {
 }
 
 
-export function saveTheme(theme: TTheme) {
+export function saveTheme(theme: Theme) {
   setValue(KEY_THEME, theme)
 
   for (const handler of themeHandlers) {
@@ -26,7 +31,7 @@ export function saveTheme(theme: TTheme) {
 }
 
 
-export function addThemeHandler(callback: (theme: TTheme) => void): number {
+export function addThemeHandler(callback: (theme: Theme) => void): number {
   return themeHandlers.push(callback)
 }
 
@@ -36,16 +41,17 @@ export function removeThemeHandler(index: number) {
 }
 
 
-export function getTheme(): TTheme | null {
-  return getValue(KEY_THEME) as TTheme | null
+export function getTheme(): Theme | null {
+  return getValue(KEY_THEME) as Theme | null
 }
 
 
-export function saveLanguage(lang: TLanguage) {
+export function saveLanguage(lang: Language) {
   setValue(KEY_LANGUAGE, lang)
 }
 
 
-export function getLanguage(): TLanguage | null {
-  return getValue(KEY_LANGUAGE) as TLanguage | null
+export function getLanguage(): Language | null {
+  return getValue(KEY_LANGUAGE) as Language | null
 }
+

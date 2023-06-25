@@ -1,4 +1,4 @@
-import Section from "../components/Section";
+import Section from "../shared/Section";
 
 export default function Welcome() {
   return (

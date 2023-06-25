@@ -2,7 +2,7 @@ import React from 'react'
 import { loadUsername } from '../../sessionStorage'
 import { useActions } from '../../utils/hooks'
 import InlineSVG from 'react-inlinesvg'
-import IMessage from '../../types/message'
+import IMessage from '../../entities/Message'
 import { Edit, Reply, Trash } from '../../Icons'
 
 interface IProps {

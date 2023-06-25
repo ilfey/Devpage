@@ -1,13 +1,13 @@
 import { useState } from "react";
 
-import AuthPopup from "../components/Popups/Auth";
+import AuthPopup from "../features/Popups/Auth";
 import Welcome from "../sections/Welcome";
 import Projects from "../sections/Projects";
 import Contacts from "../sections/Contacts";
-import Comments from "../sections/Comments";
-import MessageForm from "../sections/MessageForm";
-import Header from "../components/Header";
+import Comments from "../widgets/Comments";
+import MessageForm from "../widgets/MessageForm";
 import { scrollToElement } from "../utils/utils";
+import Header from "../shared/Header";
 
 
 export default function Index() {

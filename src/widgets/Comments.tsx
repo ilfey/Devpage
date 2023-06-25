@@ -1,12 +1,12 @@
-import Message from "../components/Message/Message";
+import Message from "../features/Message/Message";
 import { useState } from "react";
-import Section from "../components/Section";
-import Spinner from "../components/Spinner";
+import Section from "../shared/Section";
+import Spinner from "../shared/Spinner";
 import InlineSVG from "react-inlinesvg/esm";
 import { Error } from "../Icons";
-import TextButton from "../components/buttons/TextButton";
+import TextButton from "../shared/Buttons/TextButton";
 import { useGetMessagesQuery } from "../store/api/messages.api";
-import ActionButton from "../components/buttons/ActionButton";
+import ActionButton from "../shared/Buttons/ActionButton";
 
 
 export default function Comments() {

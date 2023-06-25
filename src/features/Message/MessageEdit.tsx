@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { handleEnterOrEsc, resizeTextArea } from '../../utils/utils'
-import TextButton from '../buttons/TextButton'
+import TextButton from '../../shared/Buttons/TextButton'
 
 interface IProps {
   content: string

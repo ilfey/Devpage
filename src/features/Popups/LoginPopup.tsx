@@ -1,10 +1,10 @@
 import { FormEvent, useEffect, useState } from 'react'
-import TextButton from '../buttons/TextButton'
+import TextButton from '../../shared/Buttons/TextButton'
 import { useLoginMutation } from '../../store/api/users.api'
 import { saveUsername } from '../../sessionStorage'
 import { setToken } from '../../coockie'
-import ActionButton from '../buttons/ActionButton'
-import TextField from '../TextField'
+import ActionButton from '../../shared/Buttons/ActionButton'
+import TextField from '../../shared/TextField'
 
 interface IProps {
   onRegister: () => void

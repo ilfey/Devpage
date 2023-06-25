@@ -1,5 +1,5 @@
 import { Link, isRouteErrorResponse, useRouteError } from 'react-router-dom'
-import TextButton from '../components/buttons/TextButton'
+import TextButton from '../shared/Buttons/TextButton'
 
 export default function ErrorPage() {
   const error = useRouteError() as any

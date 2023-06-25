@@ -1,4 +1,4 @@
-import MF from '../components/MessageForm'
+import MF from '../features/MessageForm'
 
 interface Props {
   showAuth: () => void,

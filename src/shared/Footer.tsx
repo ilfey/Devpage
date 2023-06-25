@@ -1,4 +1,4 @@
-import LinkTextButton from "./buttons/LinkTextButton";
+import LinkTextButton from "./Buttons/LinkTextButton";
 
 
 export default function Footer() {

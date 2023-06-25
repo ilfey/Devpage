@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useState } from 'react'
-import ActionButton from '../buttons/ActionButton'
+import ActionButton from '../../shared/Buttons/ActionButton'
 import { useRegisterMutation } from '../../store/api/users.api'
-import TextButton from '../buttons/TextButton'
-import TextField from '../TextField'
+import TextButton from '../../shared/Buttons/TextButton'
+import TextField from '../../shared/TextField'
 
 interface IProps {
   onLogin: () => void

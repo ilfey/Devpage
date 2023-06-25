@@ -1,11 +1,11 @@
-import ILogin from "../../types/login";
-import IResponse from "../../types/response";
+import LoginResponse from "../../entities/LoginResponse";
+import IResponse from "../../entities/Response";
 import { api } from "./api";
 
 export const usersApi = api.injectEndpoints({
   endpoints:
     builder => ({
-      login: builder.mutation<ILogin, { username: string, password: string }>({
+      login: builder.mutation<LoginResponse, { username: string, password: string }>({
         query: (arg) => ({
           body: {
             username: arg.username,

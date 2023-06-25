@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { useMount } from "react-use";
-import Footer from "../components/Footer";
-import FloatingButton from "../components/buttons/FloatingButton";
+import Footer from "../shared/Footer";
+import FloatingButton from "../shared/Buttons/FloatingButton";
 import { scrollToElement } from "../utils/utils";
 import { Up } from "../Icons";
 import { Outlet } from "react-router-dom";

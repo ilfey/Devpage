@@ -1,5 +1,5 @@
 
-import IMessage from "../../types/message";
+import IMessage from "../../entities/Message";
 import { useCallback, useState } from "react";
 import { useDeleteMessageMutation, useEditMessageMutation } from "../../store/api/messages.api";
 import MessageHeader from "./MessageHeader";

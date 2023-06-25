@@ -1,6 +1,6 @@
 import { Github } from "../Icons";
-import LinkButton from "../components/buttons/LinkButton";
-import Section from "../components/Section";
+import LinkButton from "../shared/Buttons/LinkButton";
+import Section from "../shared/Section";
 
 export default function Projects() {
   return (

@@ -1,10 +1,10 @@
 import { Anilist, Discord, Email, Github, Notabug, Osu, Shikimori, Spotify, Telegram, Twitch, Twitter, Vk } from "../Icons";
-import LinkButton from "../components/buttons/LinkButton";
-import Section from "../components/Section";
-import ActionButton from "../components/buttons/ActionButton";
-import ActionLinkButton from "../components/buttons/ActionLinkButton";
+import LinkButton from "../shared/Buttons/LinkButton";
+import Section from "../shared/Section";
+import ActionButton from "../shared/Buttons/ActionButton";
+import ActionLinkButton from "../shared/Buttons/ActionLinkButton";
 import { useCallback, useState } from "react";
-import IContact from "../types/contact";
+import IContact from "../entities/Contact";
 
 export default function Contacts() {
   const discord = "ilfey"

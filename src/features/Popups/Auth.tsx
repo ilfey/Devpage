@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Popup from "../Popup";
-import Spinner from "../Spinner";
+import Popup from "../../shared/Popup";
+import Spinner from "../../shared/Spinner";
 import LoginPopup from "./LoginPopup";
 import RegisterPopup from "./RegisterPopup";
 

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
-import IMessage from '../../types/message'
+import IMessage from '../../entities/Message'
 
 export interface IReplyState {
   value: IMessage | null

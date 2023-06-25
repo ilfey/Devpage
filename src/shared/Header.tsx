@@ -1,8 +1,8 @@
 import { useCallback, useState } from 'react'
 import InlineSVG from 'react-inlinesvg/esm';
 
-import TextButton from './buttons/TextButton';
-import LinkTextButton from './buttons/LinkTextButton';
+import TextButton from '../shared/Buttons/TextButton';
+import LinkTextButton from '../shared/Buttons/LinkTextButton';
 
 import { Burger, X } from '../Icons';
 import { saveLanguage, saveTheme } from '../localStorage';

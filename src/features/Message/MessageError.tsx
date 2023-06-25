@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import InlineSVG from 'react-inlinesvg'
-import TextButton from '../buttons/TextButton'
+import TextButton from '../../shared/Buttons/TextButton'
 import { Error } from '../../Icons'
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError, QueryStatus } from '@reduxjs/toolkit/dist/query'
