@@ -57,11 +57,12 @@ export default function Index() {
         />
       </main>
 
-      <AuthPopup
-        show={popupIsShowing}
-        onClose={() => setShowing(false)}
-      />
-
+      {popupIsShowing &&
+        <AuthPopup
+          show={popupIsShowing}
+          onClose={() => setShowing(false)}
+        />
+      }
     </>
   )
 }
