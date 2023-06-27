@@ -26,15 +26,18 @@ export default function Message({ msg }: IProps) {
 
   const onClickEdit = useCallback(
     (newContent: string) => {
-      setContent(newContent.trim())
+      const newTrimContent = newContent.trim()
+      
+      // TODO: handle error
       editMessage({
         id: msg.id,
-        text: content
+        text: newTrimContent
       })
 
+      setContent(newTrimContent)
       setIsEditing(false)
     },
-    [editMessage, msg.id, content],
+    [editMessage, msg.id, setContent],
   )
 
   const onClickCancel = useCallback(
