@@ -55,7 +55,7 @@ export default function MessageBody({ content }: IProps) {
         {/* render images */}
         <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-4">
           {uniqueLinks.map((link) =>
-            link.match(/\.(jpeg|jpg|gif|png|webp|svg)$/) !== null ? <MessageImage key={`img-${link}`} link={link} /> : <></>
+            link.match(/\.(jpeg|jpg|gif|png|webp|svg)$/) !== null && <MessageImage key={`img-${link}`} link={link} />
           )}
         </div>
       </>
