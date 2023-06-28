@@ -1,11 +1,16 @@
 import { Link, isRouteErrorResponse, useRouteError } from 'react-router-dom'
 import TextButton from '../shared/Buttons/TextButton'
 
-export default function ErrorPage() {
-  const error = useRouteError() as any
+interface RouteErrorResponse {
+  status: number;
+  message?: string;
+}
 
-  let msg = "Тут ка"
-  let status = null
+export default function ErrorPage() {
+  const error = useRouteError() as RouteErrorResponse | undefined;
+
+  let msg = "Тут ка";
+  let status: number | null = null;
 
   if (isRouteErrorResponse(error)) {
 
@@ -29,7 +34,7 @@ export default function ErrorPage() {
       <h3 className=' text-xl text-center'>
         {msg}
       </h3>
-      { 'message' in error &&
+      { error?.message &&
         <p>{error.message ?? ""}</p>
       }
       
