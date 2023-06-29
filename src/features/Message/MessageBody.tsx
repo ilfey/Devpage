@@ -13,6 +13,7 @@ export default function MessageBody({ content }: IProps) {
 
   content = content.trim()
   const links = content.match(reUrl)
+  const uniqueLinks = Array.from(new Set(links))
 
   // if content === link
   if (links?.length === 1 && links[0] === content && links[0].match(/\.(jpeg|jpg|gif|png|webp)$/) !== null) {
@@ -23,8 +24,6 @@ export default function MessageBody({ content }: IProps) {
       />
     )
   }
-
-  const uniqueLinks = Array.from(new Set(links))
 
   return (
     <>
