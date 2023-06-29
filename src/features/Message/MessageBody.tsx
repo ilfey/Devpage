@@ -24,47 +24,40 @@ export default function MessageBody({ content }: IProps) {
     )
   }
 
-  // if content contains link
-  if (links) {
-    const uniqueLinks = Array.from(new Set(links))
+  const uniqueLinks = Array.from(new Set(links))
 
-    return (
-      <>
-        <p className="whitespace-pre-wrap overflow-hidden break-words">
-          {content.split(reUrl).map((text, index) => {
+  return (
+    <>
+      <p className="whitespace-pre-wrap overflow-hidden break-words">
+        {content.split(reUrl).map((text, index) => {
 
-            let output: string | React.ReactElement = text
+          let output: string | React.ReactElement = text
 
-            // if text is link
-            if (text.match(reUrl)) {
-              output = (
-                <a className="text-violet-600 font-bold font-nunito"
-                  key={`img-${text}-${index}`}
-                  href={text}
-                  target="_blank"
-                  rel="noreferrer" >
-                  {text}
-                </a>
-              )
-            }
+          // if text is link
+          if (text.match(reUrl)) {
+            output = (
+              <a className="text-violet-600 font-bold font-nunito"
+                key={`link-${text}-${index}`}
+                href={text}
+                target="_blank"
+                rel="noreferrer" >
+                {text}
+              </a>
+            )
+          }
 
-            return output
-          })}
-        </p>
+          return output
+        })}
+      </p>
 
-        {/* render images */}
+      {/* render images */}
+      {uniqueLinks[0] && (
         <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-4">
           {uniqueLinks.map((link) =>
             link.match(/\.(jpeg|jpg|gif|png|webp|svg)$/) !== null && <MessageImage key={`img-${link}`} link={link} />
           )}
         </div>
-      </>
-    )
-  }
-
-  return (
-    <p className="whitespace-pre-wrap overflow-hidden break-words">
-      {content}
-    </p>
+      )}
+    </>
   )
 }
