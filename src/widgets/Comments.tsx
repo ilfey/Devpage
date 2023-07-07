@@ -5,14 +5,17 @@ import Spinner from "../shared/Spinner";
 import InlineSVG from "react-inlinesvg/esm";
 import { Error } from "../Icons";
 import TextButton from "../shared/Buttons/TextButton";
-import { useGetMessagesQuery } from "../store/api/messages.api";
+import { IGetMessagesRequest, useGetMessagesQuery } from "../store/api/messages.api";
 import ActionButton from "../shared/Buttons/ActionButton";
 
 
 export default function Comments() {
   const [displayError, setDisplayError] = useState(false)
+  const [args, setArgs] = useState<IGetMessagesRequest>({
+    cursor: 0
+  })
 
-  const { isLoading, isSuccess, isError, data, error, status, refetch } = useGetMessagesQuery()
+  const { isLoading, isSuccess, isError, data, error, status, refetch } = useGetMessagesQuery(args)
 
   let body
 
@@ -50,13 +53,24 @@ export default function Comments() {
   if (isSuccess) {
     if (data.length !== 0) { // if messages not empty
       body = (
-        <div className="flex flex-col gap-4">
-          {data.map(msg =>
-            <Message
-              key={msg.id} msg={msg}
-            />
-          )}
-        </div>
+        <>
+          <TextButton className='mx-auto mb-4'
+            onClick={() => setArgs({
+              ...args,
+              ...{
+                cursor: data[0].id
+              }
+            })}
+            text='Загрузить предыдущие'
+          />
+          <div className="flex flex-col gap-4">
+            {data.map(msg =>
+              <Message
+                key={msg.id} msg={msg}
+              />
+            )}
+          </div>
+        </>
       )
     } else { // if messages is empty
       body = (

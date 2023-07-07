@@ -1,5 +1,5 @@
 import { loadUsername } from '../../sessionStorage'
-import { useActions } from '../../utils/hooks'
+import { useAppActions } from '../../utils/hooks'
 import InlineSVG from 'react-inlinesvg'
 import IMessage from '../../entities/Message'
 import { Edit, Reply, Trash } from '../../Icons'
@@ -25,7 +25,7 @@ const globalOptions: Intl.DateTimeFormatOptions = {
 
 export default function MessageHeader({ msg, isEditing, onEdit, onDelete }: IProps) {
 
-  const { setReplying } = useActions()
+  const { setReplying } = useAppActions()
 
   const username = loadUsername()
   const isAdmin = username === import.meta.env.VITE_APP_ADMIN_USERNAME

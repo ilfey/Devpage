@@ -8,7 +8,7 @@ import { loadUsername } from "../sessionStorage";
 import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { useCreateMessageMutation } from "../store/api/messages.api";
-import { useActions } from "../utils/hooks";
+import { useAppActions } from "../utils/hooks";
 
 interface MessageFormProps {
   showAuth: () => void,
@@ -19,7 +19,7 @@ export default function MessageForm({ showAuth }: MessageFormProps) {
   const [createMessage] = useCreateMessageMutation()
 
   const reply = useSelector((state: RootState) => state.reply.value)
-  const { removeReplying } = useActions()
+  const { removeReplying } = useAppActions()
 
   const [message, setMessage] = useState("")
 
