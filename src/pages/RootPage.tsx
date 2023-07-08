@@ -1,5 +1,4 @@
-import { useCallback, useState } from "react";
-import { useMount } from "react-use";
+import { useCallback, useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import FloatingButton from "../shared/Buttons/FloatingButton";
 import { scrollToElement } from "../utils/utils";
@@ -11,11 +10,10 @@ export default function RootPage() {
 
   const [ScrollBtnIsHidden, setScrollBtnIsHidden] = useState(true);
 
-
-  useMount(() => {
+  useEffect(() => {
     const d = document.documentElement;
 
-    window.addEventListener("scroll", () => {
+    const onScroll = () => {
       if (d.clientWidth < 768) {
         if (d.clientWidth < 768 && window.scrollY > d.clientHeight && window.scrollY + d.clientHeight < d.scrollHeight - 100) {
           setScrollBtnIsHidden(false);
@@ -32,8 +30,14 @@ export default function RootPage() {
       }
 
       setScrollBtnIsHidden(true);
-    });
-  });
+    }
+
+    window.addEventListener("scroll", onScroll);
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    }
+  }, []);
 
 
   const onClickScrollTop = useCallback(() => {
