@@ -1,8 +1,13 @@
+import LinkTextButton from '../../shared/Buttons/LinkTextButton'
 import MessageImage from './MessageImage'
 
 //(http(s)?:\/\/.)[-a-zA-Zа-яА-Я0-9@:%._+~#=]{2,256}\.[a-zа-я]{2,6}\b([-a-zA-Zа-яА-Я0-9@:%_+.~#?&//=]*)/g
-const reUrl = /(http[s]?:\/\/[^\s]+)/g
-
+const imgRegexp = /(!\[.*\]\(http[s]?:\/\/[^\s]+\))/g
+const linkRegexp = /(\[.*\]\(http[s]?:\/\/[^\s]+\))/g
+const urlRegexp = /(http[s]?:\/\/[^\s]+)/g
+const hrRegexp = /(\n---\n)/g
+//                                           im               link                        link                    hr
+const handleRegexp = /(!\[.*\]\(http[s]?:\/\/[^\s]+\))|(\[.*\]\(http[s]?:\/\/[^\s]+\))|(http[s]?:\/\/[^\s]+)|(\n---\n)/g
 
 interface IProps {
   content: string
@@ -12,12 +17,13 @@ interface IProps {
 export default function MessageBody({ content }: IProps) {
 
   content = content.trim()
-  const links = content.match(reUrl)
+  const links = content.match(urlRegexp)
 
   // if content === link
   if (links?.length === 1 && links[0] === content && links[0].match(/\.(jpeg|jpg|gif|png|webp)$/) !== null) {
     return (
       <MessageImage
+        key={links[0]}
         link={links[0]}
         classList='mx-auto sm:mx-0'
       />
@@ -31,13 +37,38 @@ export default function MessageBody({ content }: IProps) {
     return (
       <>
         <p className="whitespace-pre-wrap overflow-hidden break-words">
-          {content.split(reUrl).map((text, index) => {
+          {content.split(handleRegexp).map((text, index) => {
 
-            let output: string | React.ReactElement = text
+            if (!text) {
+              return ""
+            }
 
+            // if text is image
+            if (text.match(imgRegexp)) {
+              const [alt, src] = text.split('](')
+              return (
+                <img
+                  src={src.slice(0, -1)}
+                  alt={alt.substring(2)}
+                  key={text} />
+              )
+            }
+            
             // if text is link
-            if (text.match(reUrl)) {
-              output = (
+            if (text.match(linkRegexp)) {
+              const [alt, src] = text.split('](')
+              return (
+                <LinkTextButton
+                  key={text}
+                  text={alt.substring(1)}
+                  url={src.slice(0, -1)}
+                />
+              )
+            }
+
+            // if text is url
+            if (text.match(urlRegexp)) {
+              return (
                 <a className="text-violet-600 font-bold font-nunito"
                   key={`img-${text}-${index}`}
                   href={text}
@@ -48,7 +79,14 @@ export default function MessageBody({ content }: IProps) {
               )
             }
 
-            return output
+            // if text is ---
+            if (text.match(hrRegexp)) {
+              return (
+                <hr key={Math.random()} className='my-4' />
+              )
+            }
+
+            return text
           })}
         </p>
 
