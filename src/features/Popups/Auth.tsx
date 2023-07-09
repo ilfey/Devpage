@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Popup from "../../shared/Popup";
 import Spinner from "../../shared/Spinner";
 import LoginPopup from "./LoginPopup";
@@ -10,37 +10,8 @@ export interface LoginPopupProps {
 }
 
 export default function AuthPopup({ show, onClose }: LoginPopupProps) {
-
   const [isLoading, setIsLoading] = useState(false)
   const [isLogin, setIsLogin] = useState(true)
-
-  useEffect(() => {
-    return () => {
-      setIsLogin(true)
-    }
-  }, [])
-
-
-  let content = (
-    <RegisterPopup
-      onLoading={setIsLoading}
-      onLogin={() => setIsLogin(true)} />
-  )
-
-  if (isLoading) {
-    content = (
-      <Spinner className="mx-auto" />
-    )
-  }
-
-  if (isLogin) {
-    content = (
-      <LoginPopup
-        onClose={onClose}
-        onLoading={setIsLoading}
-        onRegister={() => setIsLogin(false)} />
-    )
-  }
 
   return (
     <Popup
@@ -48,8 +19,21 @@ export default function AuthPopup({ show, onClose }: LoginPopupProps) {
       className="w-80"
       onClose={onClose}>
 
-      {content}
+      {isLoading && (
+        <Spinner className="mx-auto" />
+      )}
 
+      {!isLoading && isLogin && (
+        <LoginPopup
+          onClose={onClose}
+          onLoading={setIsLoading}
+          onRegister={() => setIsLogin(false)} />
+      )}
+      {!isLoading && !isLogin && (
+        <RegisterPopup
+          onLoading={setIsLoading}
+          onLogin={() => setIsLogin(true)} />
+      )}
     </Popup>
   );
 }

@@ -43,7 +43,7 @@ export default function Comments() {
         }
 
         <ActionButton className=""
-          content="Попробовать снова"
+          text="Попробовать снова"
           onClick={() => refetch()}
         />
       </div>
@@ -64,7 +64,7 @@ export default function Comments() {
                     cursor: data[0].id
                   }
                 })}
-                content='Загрузить предыдущие'
+                text='Загрузить предыдущие'
               />
             }
           </div>

@@ -12,25 +12,11 @@ export default function Contacts() {
   const [contacts, setContacts] = useState<Array<IContact>>(bts.contacts)
   const [isAllContacts, setIsAllContacts] = useState(false)
 
-  const onClickDiscord = useCallback(
-    () => {
-      navigator.clipboard.writeText(discord)
-      setDiscordText("Скопировано...")
-      setTimeout(() => {
-        setDiscordText("Username: " + discord)
-      }, 1000)
-    },
-    [],
-  )
-
-  const onClickMany = useCallback(
-    () => {
-      setIsAllContacts(true)
-      setContacts([...contacts, ...bts.otherContacts])
-    },
-    [contacts],
-  )
-
+  const onClickDiscord = useCallback(() => {
+    navigator.clipboard.writeText(discord)
+    setDiscordText("Скопировано...")
+    setTimeout(() => setDiscordText("Username: " + discord), 1000)
+  }, [])
 
   return (
     <Section
@@ -55,8 +41,11 @@ export default function Contacts() {
 
       {!isAllContacts &&
         <ActionButton
-          content="Ещё"
-          onClick={onClickMany}
+          text="Ещё"
+          onClick={() => {
+            setIsAllContacts(true)
+            setContacts([...contacts, ...bts.otherContacts])
+          }}
           className="mt-10 mx-auto"
         />
       }

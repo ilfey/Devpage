@@ -4,7 +4,7 @@ import InlineSVG from 'react-inlinesvg'
 import IMessage from '../../entities/Message'
 import { Edit, Reply, Trash } from '../../Icons'
 
-interface IProps {
+interface Props {
   msg: IMessage
   isEditing: boolean
   onEdit: (isEditng: boolean) => void
@@ -23,7 +23,7 @@ const globalOptions: Intl.DateTimeFormatOptions = {
   minute: "numeric",
 }
 
-export default function MessageHeader({ msg, isEditing, onEdit, onDelete }: IProps) {
+export default function MessageHeader({ msg, isEditing, onEdit, onDelete }: Props) {
 
   const { setReplying } = useAppActions()
 

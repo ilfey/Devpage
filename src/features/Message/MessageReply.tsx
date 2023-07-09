@@ -1,26 +1,25 @@
 import { scrollToElement } from "../../utils/utils"
 import { useLazyGetMessageQuery } from "../../store/api/messages.api"
 import Spinner from "../../shared/Spinner"
+import { useEffect } from "react"
 
-interface IProps {
-  replyId: number | null
+interface Props {
+  replyId: number
 }
 
-export default function MessageReply({ replyId }: IProps) {
-  const [trigger, result] = useLazyGetMessageQuery()
+export default function MessageReply({ replyId }: Props) {
+  const [trigger, { status, isFetching, data }] = useLazyGetMessageQuery()
 
-  if (!replyId) {
-    return
-  }
+  useEffect(() => {
+    if (status === 'uninitialized') {
+      trigger(replyId)
+    }
+  }, [])
 
-  if (result.status === 'uninitialized') {
-    trigger(replyId)
-  } else {
-    const { isFetching, data } = result
-
+  if (status !== 'uninitialized') {
     if (isFetching) {
       return (
-        <Spinner className='max-h-4 mb-1' />
+        <Spinner className='max-h-4 mb-1 mx-auto' />
       )
     }
     return (
@@ -41,4 +40,8 @@ export default function MessageReply({ replyId }: IProps) {
       </>
     )
   }
+
+  return (
+    <></>
+  )
 }

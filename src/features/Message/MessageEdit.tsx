@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { handleEnterOrEsc, resizeTextArea } from '../../utils/utils'
 import TextButton from '../../shared/Buttons/TextButton'
+import { useInput } from '../../hooks/useInput'
 
-interface IProps {
+interface Props {
   content: string
   onEdit: (content: string) => void
   onCancel: () => void
 }
 
-export default function MessageEdit({ content, onEdit, onCancel }: IProps) {
+export default function MessageEdit({ content, onEdit, onCancel }: Props) {
 
-  const [editedContent, setEditedContent] = useState(content)
+  const {value, onChange} = useInput(content)
 
   useEffect(() => {
     const area = document.getElementById("edit-message-form")
@@ -18,7 +19,7 @@ export default function MessageEdit({ content, onEdit, onCancel }: IProps) {
       resizeTextArea(area)
       area.focus()
     }
-  }, [editedContent])
+  }, [value])
 
   return (
     <>
@@ -27,10 +28,10 @@ export default function MessageEdit({ content, onEdit, onCancel }: IProps) {
           id="edit-message-form"
           name="content"
           rows={1}
-          onKeyDown={e => handleEnterOrEsc(e, () => onEdit(editedContent), onCancel)}
+          onKeyDown={e => handleEnterOrEsc(e, () => onEdit(value), onCancel)}
           onInput={e => resizeTextArea(e.currentTarget)}
-          onChange={e => setEditedContent(e.currentTarget.value)}
-          value={editedContent}
+          onChange={onChange}
+          value={value}
         />
       </form>
 
@@ -42,7 +43,7 @@ export default function MessageEdit({ content, onEdit, onCancel }: IProps) {
 
         <TextButton className="text-sm w-fit"
           text="Сохранить"
-          onClick={() => onEdit(editedContent)}
+          onClick={() => onEdit(value)}
         />
       </div>
     </>
