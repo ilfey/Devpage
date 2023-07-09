@@ -74,6 +74,7 @@ export default function LoginPopup({ onRegister, onClose, onLoading }: IProps) {
         <TextField
           placeholder='Логин'
           type='text'
+          autoFocus={true}
           onChange={username.onChange}
         />
 
