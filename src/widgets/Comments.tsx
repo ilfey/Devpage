@@ -15,7 +15,7 @@ export default function Comments() {
     cursor: 0
   })
 
-  const { isLoading, isSuccess, isError, data, error, status, refetch } = useGetMessagesQuery(args)
+  const { isLoading, isSuccess, isFetching, isError, data, error, status, refetch } = useGetMessagesQuery(args)
 
   let body
 
@@ -43,7 +43,7 @@ export default function Comments() {
         }
 
         <ActionButton className=""
-          content="Попробовать снова"
+          text="Попробовать снова"
           onClick={() => refetch()}
         />
       </div>
@@ -54,15 +54,21 @@ export default function Comments() {
     if (data.length !== 0) { // if messages not empty
       body = (
         <>
-          <TextButton className='mx-auto mb-4'
-            onClick={() => setArgs({
-              ...args,
-              ...{
-                cursor: data[0].id
-              }
-            })}
-            text='Загрузить предыдущие'
-          />
+          <div className='h-16 mb-4 flex justify-center items-center'>
+            {isFetching ?
+              <Spinner /> :
+              <ActionButton
+                onClick={() => setArgs({
+                  ...args,
+                  ...{
+                    cursor: data[0].id
+                  }
+                })}
+                text='Загрузить предыдущие'
+              />
+            }
+          </div>
+
           <div className="flex flex-col gap-4">
             {data.map(msg =>
               <Message

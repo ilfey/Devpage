@@ -3,6 +3,7 @@ import ActionButton from '../../shared/Buttons/ActionButton'
 import { useRegisterMutation } from '../../store/api/users.api'
 import TextButton from '../../shared/Buttons/TextButton'
 import TextField from '../../shared/TextField'
+import { useInput } from '../../hooks/useInput'
 
 interface IProps {
   onLogin: () => void
@@ -10,42 +11,30 @@ interface IProps {
 }
 
 export default function RegisterPopup({ onLogin, onLoading }: IProps) {
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
+  const username = useInput('')
+  const password = useInput('')
+  const confirm = useInput('')
 
-  const [register, registerResult] = useRegisterMutation()
-
-  useEffect(() => {
-    onLoading(registerResult.isLoading)
-  }, [registerResult.isLoading])
-
+  const [register, result] = useRegisterMutation()
 
   useEffect(() => {
-    return () => {
-      setUsername('')
-      setPassword('')
-      setConfirmPassword('')
-      onLoading(false)
-    }
-  }, [])
-
+    onLoading(result.isLoading)
+  }, [result.isLoading])
 
   const onClickRegister = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       e.preventDefault()
 
       // if entries is empty
-      if (username.trim().length === 0 || password.trim().length === 0 || confirmPassword.trim().length === 0) {
+      if (username.value.trim().length === 0 || password.value.trim().length === 0 || confirm.value.trim().length === 0) {
         setErrorMessage("Вы ввели не все данные необходимые для создания учетной записи")
         return
       }
 
       // if passwords is not confirm
-      if (password !== confirmPassword) {
+      if (password.value !== confirm.value) {
         setErrorMessage("Пароли не совпадают")
         return
       }
@@ -53,8 +42,8 @@ export default function RegisterPopup({ onLogin, onLoading }: IProps) {
       onLoading(true)
 
       register({
-        username,
-        password,
+        username: username.value,
+        password: password.value,
       })
         .then(res => {
           if ("error" in res) {
@@ -66,20 +55,8 @@ export default function RegisterPopup({ onLogin, onLoading }: IProps) {
           onLogin()
         })
     },
-    [register, password, confirmPassword, username],
+    [register, password, confirm, username],
   )
-
-  let errorContent = (
-    <></>
-  )
-
-  if (errorMessage !== '') {
-    errorContent = (
-      <p className="text-red-600 text-center mt-4">
-        {errorMessage}
-      </p>
-    )
-  }
 
   return (
     <div className="rounded-xl p-8 bg-gray-300 dark:bg-gray-900">
@@ -88,29 +65,34 @@ export default function RegisterPopup({ onLogin, onLoading }: IProps) {
         <TextField
           placeholder='Логин'
           type='text'
-          onChange={(e) => setUsername(e.target.value)}
+          autoFocus={true}
+          onChange={username.onChange}
         />
 
         <label className="mt-4 block">Пароль</label>
         <TextField
           placeholder='Пароль'
           type='password'
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={password.onChange}
         />
 
         <label className="mt-4 block">Повторите пароль</label>
         <TextField
           placeholder='Повторите пароль'
           type='password'
-          onChange={(e) => setConfirmPassword(e.target.value)}
+          onChange={confirm.onChange}
         />
 
 
-        {errorContent}
+        {errorMessage !== '' && (
+          <p className="text-red-600 text-center mt-4">
+            {errorMessage}
+          </p>
+        )}
 
         <ActionButton
           className="mt-6 mx-auto"
-          content="Зарегистрироваться"
+          text="Зарегистрироваться"
           type="submit"
         />
       </form>

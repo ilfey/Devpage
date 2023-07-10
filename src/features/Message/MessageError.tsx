@@ -5,12 +5,12 @@ import { Error } from '../../Icons'
 import { SerializedError } from '@reduxjs/toolkit'
 import { FetchBaseQueryError, QueryStatus } from '@reduxjs/toolkit/dist/query'
 
-interface IProps {
+interface Props {
   status: QueryStatus.rejected
   error: FetchBaseQueryError | SerializedError
 }
 
-export default function MessageError({ status, error }: IProps) {
+export default function MessageError({ status, error }: Props) {
 
   const [isErrorDisplay, setIsErrorDisplay] = useState(false)
 
@@ -24,7 +24,7 @@ export default function MessageError({ status, error }: IProps) {
     )
   } else {
     errorDisplay = (
-      <TextButton className=""
+      <TextButton
         onClick={() => setIsErrorDisplay(true)}
         text="Показать ошибку"
       />
@@ -34,8 +34,8 @@ export default function MessageError({ status, error }: IProps) {
   return (
     <div className="flex flex-col items-center gap-4">
       <div className="flex justify-center items-center text-red-600">
-        <InlineSVG className="w-8 h-8 " src={Error} />
-        <span className="">Не удалось выполнить действие</span>
+        <InlineSVG className="w-8 h-8" src={Error} />
+        <span>Не удалось выполнить действие</span>
       </div>
 
       {errorDisplay}

@@ -14,12 +14,12 @@ const hrRegexp = /(\n---\n)/g
 //                                           im               link                        link                    hr     code
 const handleRegexp = /(!\[.*\]\(http[s]?:\/\/[^\s]+\))|(\[.*\]\(http[s]?:\/\/[^\s]+\))|(http[s]?:\/\/[^\s]+)|(\n---\n)|(```.+```)/g
 
-interface IProps {
+interface Props {
   content: string
 }
 
 
-export default function MessageBody({ content }: IProps) {
+export default function MessageBody({ content }: Props) {
 
   content = content.trim()
   const links = content.match(urlRegexp)
