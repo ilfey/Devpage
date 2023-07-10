@@ -5,6 +5,7 @@ import { saveUsername } from '../../sessionStorage'
 import { setToken } from '../../coockie'
 import ActionButton from '../../shared/Buttons/ActionButton'
 import TextField from '../../shared/TextField'
+import { useInput } from '../../hooks/useInput'
 
 interface IProps {
   onRegister: () => void
@@ -13,34 +14,24 @@ interface IProps {
 }
 
 export default function LoginPopup({ onRegister, onClose, onLoading }: IProps) {
-
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
   const [errorMessage, setErrorMessage] = useState('')
 
-  const [login, loginResult] = useLoginMutation()
+  const username = useInput('')
+  const password = useInput('')
+
+  const [login, result] = useLoginMutation()
 
 
   useEffect(() => {
-    onLoading(loginResult.isLoading)
-  }, [loginResult.isLoading])
-
-
-  useEffect(() => {
-    return () => {
-      setUsername('')
-      setPassword('')
-      onLoading(false)
-    }
-  }, [])
-
+    onLoading(result.isLoading)
+  }, [result.isLoading])
 
   function onLogin
     (e: FormEvent<HTMLFormElement>) {
     e.preventDefault()
 
     // if entries is empty
-    if (username.trim().length === 0 || password.trim().length === 0) {
+    if (username.value.trim().length === 0 || password.value.trim().length === 0) {
       setErrorMessage("Вы ввели не все данные, необходимые для входа в учетную запись")
       return
     }
@@ -48,8 +39,8 @@ export default function LoginPopup({ onRegister, onClose, onLoading }: IProps) {
     onLoading(true)
 
     login({
-      username,
-      password
+      username: username.value,
+      password: password.value
     })
       .then((res) => {
         if ("error" in res) {
@@ -58,7 +49,7 @@ export default function LoginPopup({ onRegister, onClose, onLoading }: IProps) {
         }
 
         setToken(res.data.token)
-        saveUsername(username)
+        saveUsername(username.value)
         onClose()
       })
   }
@@ -83,21 +74,22 @@ export default function LoginPopup({ onRegister, onClose, onLoading }: IProps) {
         <TextField
           placeholder='Логин'
           type='text'
-          onChange={(e) => setUsername(e.target.value)}
+          autoFocus={true}
+          onChange={username.onChange}
         />
 
         <label className="mt-4 block" >Пароль</label>
         <TextField
           placeholder='Пароль'
           type='password'
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={password.onChange}
         />
 
         {errorContent}
 
         <ActionButton
           className="mt-6 mx-auto"
-          content="Войти"
+          text="Войти"
           type="submit"
         />
       </form>

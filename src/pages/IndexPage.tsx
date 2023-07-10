@@ -53,7 +53,7 @@ export default function Index() {
         <Contacts />
         <Comments />
         <MessageForm
-          showAuth={() => { setShowing(true) }}
+          showAuth={() => setShowing(true) }
         />
       </main>
 

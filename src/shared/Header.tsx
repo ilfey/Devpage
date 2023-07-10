@@ -7,7 +7,7 @@ import LinkTextButton from '../shared/Buttons/LinkTextButton';
 import { Burger, X } from '../Icons';
 import { saveLanguage, saveTheme } from '../localStorage';
 
-interface IProps {
+interface Props {
   items: Array<{
     text: string,
     url?: string,
@@ -15,7 +15,7 @@ interface IProps {
   }>
 }
 
-export default function Header({ items }: IProps) {
+export default function Header({ items }: Props) {
   const htmlClasses = document.documentElement.classList;
 
   const [lang, setLang] = useState(localStorage.getItem("lang") ?? "ru");

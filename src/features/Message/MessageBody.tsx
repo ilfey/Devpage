@@ -4,12 +4,12 @@ import MessageImage from './MessageImage'
 const reUrl = /(http[s]?:\/\/[^\s]+)/g
 
 
-interface IProps {
+interface Props {
   content: string
 }
 
 
-export default function MessageBody({ content }: IProps) {
+export default function MessageBody({ content }: Props) {
 
   content = content.trim()
   const links = content.match(reUrl)

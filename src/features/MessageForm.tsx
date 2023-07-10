@@ -1,14 +1,13 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import SVG from "react-inlinesvg";
 import { Send, X } from "../Icons";
 import { getToken } from "../coockie";
 import TextButton from "../shared/Buttons/TextButton";
 import { handleEnterOrEsc, resizeTextArea } from "../utils/utils";
 import { loadUsername } from "../sessionStorage";
-import { useSelector } from "react-redux";
-import { RootState } from "../store/store";
 import { useCreateMessageMutation } from "../store/api/messages.api";
-import { useActions } from "../utils/hooks";
+import { useAppActions, useAppSelector } from "../utils/hooks";
+import { useInput } from "../hooks/useInput";
 
 interface MessageFormProps {
   showAuth: () => void,
@@ -16,24 +15,24 @@ interface MessageFormProps {
 
 export default function MessageForm({ showAuth }: MessageFormProps) {
 
+  const { value, onChange } = useInput('')
+
   const [createMessage] = useCreateMessageMutation()
 
-  const reply = useSelector((state: RootState) => state.reply.value)
-  const { removeReplying } = useActions()
-
-  const [message, setMessage] = useState("")
+  const reply = useAppSelector((state) => state.reply.value)
+  const { removeReplying } = useAppActions()
 
   const postComment = useCallback(
     (e: React.MouseEvent<HTMLButtonElement, MouseEvent> | null = null) => {
       e?.preventDefault()
 
-      if (message.trim().length === 0) {
+      if (value.trim().length === 0) {
         alert("Нет символов")
         // TODO: make toast is empty
         return
       }
 
-      if (message.trim().length >= 2000) {
+      if (value.trim().length >= 2000) {
         alert("Лимит символов")
         // TODO: make toast max symbols
         return
@@ -44,7 +43,7 @@ export default function MessageForm({ showAuth }: MessageFormProps) {
       }
 
       createMessage({
-        text: message.trim(),
+        text: value.trim(),
         reply_to: reply?.id || null
       })
 
@@ -61,7 +60,7 @@ export default function MessageForm({ showAuth }: MessageFormProps) {
       // pushMessage()
       // TODO: push message to array
     },
-    [removeReplying, createMessage, message, reply?.id],
+    [removeReplying, createMessage, value, reply?.id],
   )
 
   const isAuthorized = getToken() !== null && loadUsername() !== null
@@ -89,7 +88,7 @@ export default function MessageForm({ showAuth }: MessageFormProps) {
         placeholder="Ваш комментарий..."
         onInput={e => resizeTextArea(e.currentTarget)}
         onKeyDown={e => handleEnterOrEsc(e, postComment)}
-        onChange={e => setMessage(e.target.value)} />
+        onChange={onChange} />
       <button className="w-9 h-9" onClick={postComment}>
         <SVG className="text-orange-600" src={Send} />
       </button>

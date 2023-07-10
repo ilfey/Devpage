@@ -8,12 +8,11 @@ import MessageError from "./MessageError";
 import MessageReply from "./MessageReply";
 
 
-interface IProps {
+interface Props {
   msg: IMessage,
 }
 
-
-export default function Message({ msg }: IProps) {
+export default function Message({ msg }: Props) {
 
   const [content, setContent] = useState(msg.content)
   const [isEditing, setIsEditing] = useState(false)
@@ -26,7 +25,7 @@ export default function Message({ msg }: IProps) {
   const onClickEdit = useCallback(
     (newContent: string) => {
       const newTrimContent = newContent.trim()
-      
+
       // TODO: handle error
       editMessage({
         id: msg.id,
@@ -47,20 +46,14 @@ export default function Message({ msg }: IProps) {
     [msg.content],
   )
 
-  let body
+  return (
+    <div className={`group flex flex-col ${isEditing ? "bg-gray-200 dark:bg-gray-800" : "hover:bg-gray-200 dark:hover:bg-gray-800"} duration-200 p-4 rounded-xl`}
+      id={`msg-${msg.id}`}>
 
-  if (isError) {
-    body = (
-      <MessageError
-        error={error}
-        status={status}
-      />
-    )
-  } else {
-    body = (
-      <>
-        <MessageReply
-          replyId={msg.reply_to} />
+      {isError && <MessageError error={error} status={status} />}
+
+      {!isError && <>
+        {msg.reply_to !== null && <MessageReply replyId={msg.reply_to} />}
 
         <MessageHeader
           msg={msg}
@@ -78,14 +71,7 @@ export default function Message({ msg }: IProps) {
           <MessageBody
             content={content} />
         }
-      </>
-    )
-  }
-
-  return (
-    <div className={`group flex flex-col ${isEditing ? "bg-gray-200 dark:bg-gray-800" : "hover:bg-gray-200 dark:hover:bg-gray-800"} duration-200 p-4 rounded-xl`}
-      id={`msg-${msg.id}`}>
-      {body}
+      </>}
     </div>
   );
 }

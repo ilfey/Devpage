@@ -1,21 +1,52 @@
 import IMessage from "../../entities/Message";
 import IResponse from "../../entities/Response";
-import { TAG_MESSAGES, api } from "./api";
+import { TAG_MESSAGE, TAG_MESSAGES, api } from "./api";
 
 export const messagesApi = api.injectEndpoints({
   endpoints:
     builder => ({
-      getMessages: builder.query<Array<IMessage>, void>({
-        query: () => "/messages",
-        providesTags: [TAG_MESSAGES],
+      getMessages: builder.query<Array<IMessage>, IGetMessagesRequest>({
+        query: (args) => `/messages?cursor=${args.cursor}&limit=10`,
+        providesTags: result =>
+          result
+            ? result.map(({ id }) => ({ type: TAG_MESSAGES, id }))
+            : [TAG_MESSAGES],
 
+        serializeQueryArgs: ({ endpointName }) => endpointName,
+
+        merge: (currentCache, newItems) => {
+          if (newItems.length === 0) {
+            return
+          }
+
+          if (currentCache[0].id > newItems[0].id) {
+            currentCache.unshift(...newItems);
+          } else if (currentCache[0].id < newItems[0].id) {
+            currentCache.push(...newItems);
+          }
+        },
+
+        forceRefetch({ currentArg, previousArg }) {
+          if (!currentArg || !previousArg) {
+            return false
+          }
+
+          return currentArg.cursor !== previousArg.cursor;
+        }
+      }),
+
+      getMessage: builder.query<IMessage, number>({
+        query: (id) => `/messages/${id}`,
+        providesTags: [TAG_MESSAGE],
+
+        serializeQueryArgs: ({ endpointName }) => endpointName,
       }),
 
       createMessage: builder.mutation<IResponse, { text: string, reply_to: number | null }>({
-        query: (arg) => ({
+        query: ({ text, reply_to }) => ({
           body: {
-            content: arg.text,
-            reply_to: arg.reply_to,
+            content: text,
+            reply_to: reply_to,
           },
           url: "/users/messages",
           method: "POST",
@@ -24,10 +55,10 @@ export const messagesApi = api.injectEndpoints({
       }),
 
       editMessage: builder.mutation<IResponse, { id: number, text: string }>({
-        query: (arg) => ({
-          url: `/users/messages/${arg.id}`,
+        query: ({ id, text }) => ({
+          url: `/users/messages/${id}`,
           body: {
-            content: arg.text,
+            content: text,
           },
           method: "PATCH",
         }),
@@ -39,9 +70,16 @@ export const messagesApi = api.injectEndpoints({
           url: `/users/messages/${id}`,
           method: "DELETE",
         }),
-        invalidatesTags: [TAG_MESSAGES]
+        invalidatesTags: (result, error, id) => [
+          { type: TAG_MESSAGES, id },
+          // { type: TAG_MESSAGE, id: 'PARTIAL-LIST' },
+        ]
       }),
     }),
 })
 
-export const { useGetMessagesQuery, useCreateMessageMutation, useDeleteMessageMutation, useEditMessageMutation } = messagesApi
+export interface IGetMessagesRequest {
+  cursor: number
+}
+
+export const { useGetMessagesQuery, useGetMessageQuery, useLazyGetMessageQuery, useCreateMessageMutation, useDeleteMessageMutation, useEditMessageMutation } = messagesApi

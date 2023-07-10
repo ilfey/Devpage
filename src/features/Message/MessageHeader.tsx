@@ -1,10 +1,10 @@
 import { loadUsername } from '../../sessionStorage'
-import { useActions } from '../../utils/hooks'
+import { useAppActions } from '../../utils/hooks'
 import InlineSVG from 'react-inlinesvg'
 import IMessage from '../../entities/Message'
 import { Edit, Reply, Trash } from '../../Icons'
 
-interface IProps {
+interface Props {
   msg: IMessage
   isEditing: boolean
   onEdit: (isEditng: boolean) => void
@@ -23,9 +23,9 @@ const globalOptions: Intl.DateTimeFormatOptions = {
   minute: "numeric",
 }
 
-export default function MessageHeader({ msg, isEditing, onEdit, onDelete }: IProps) {
+export default function MessageHeader({ msg, isEditing, onEdit, onDelete }: Props) {
 
-  const { setReplying } = useActions()
+  const { setReplying } = useAppActions()
 
   const username = loadUsername()
   const isAdmin = username === import.meta.env.VITE_APP_ADMIN_USERNAME
