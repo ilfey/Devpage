@@ -92,10 +92,18 @@ export default function MessageBody({ content }: Props) {
       continue
     }
 
+    // if text is block code
     if (text.match(codeRegexp)) {
       const language = text.substring(3, text.indexOf('\n'))
       const code = text.slice(text.indexOf('\n') + 1, text.length - 3)
-
+      
+      if (text.indexOf("\n") === -1 || code === '') {
+        message.push(
+          <span key={`plain-${index}`}>{text}</span>
+        )
+        continue
+      }
+      
       message.push(
         <MessageCode
           key={`code-${index}`}
@@ -103,7 +111,6 @@ export default function MessageBody({ content }: Props) {
           {code}
         </MessageCode>
       )
-
       continue
     }
 
@@ -115,7 +122,7 @@ export default function MessageBody({ content }: Props) {
   const imageLinks = [...new Set(content.match(imgUrlRegexp))]
 
   return (
-    <div>
+    <div className='whitespace-pre-wrap'>
       {message}
       {imageLinks.length !== 0 && (
         <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-4" >
