@@ -3,7 +3,27 @@
 @import 'tailwindcss/utilities';
 
 @layer base {
-  html {
-    -webkit-tap-highlight-color: transparent;
-  }
+	html {
+		-webkit-tap-highlight-color: transparent;
+	}
+}
+
+@font-face {
+	font-family: 'Nunito';
+	font-style: normal;
+	font-weight: normal;
+	font-display: fallback;
+	src:
+		local('Nunito'),
+		url(/fonts/Nunito.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: normal;
+	font-display: fallback;
+	src:
+		local('Roboto'),
+		url(/fonts/Roboto.woff2) format('woff2');
 }

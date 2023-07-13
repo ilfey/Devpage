@@ -11,7 +11,7 @@ export default class MyDocument extends Document {
 					<link rel='icon' href='/favicon-x256.png' sizes='256x256' />
 					<link rel='icon' href='/favicon-x512.png' sizes='512x512' />
 				</Head>
-				<body className='h-screen'>
+				<body className='h-screen font-roboto'>
 					<Main />
 					<NextScript />
 				</body>
