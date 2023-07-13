@@ -1,0 +1,17 @@
+version: 3
+
+tasks:
+  default:
+    deps: [dev]
+
+  dev:
+    cmds:
+      - npx next
+
+  build:
+    cmds:
+      - npx next build
+
+  preview:
+    cmds:
+      - npx next start
