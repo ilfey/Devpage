@@ -9,21 +9,33 @@
 }
 
 @font-face {
-	font-family: 'Nunito';
+	font-family: 'Nunito-Sans';
 	font-style: normal;
 	font-weight: normal;
 	font-display: fallback;
-	src:
-		local('Nunito'),
-		url(/fonts/Nunito.woff2) format('woff2');
+	src: url(/fonts/NunitoSans-Regular.woff2) format('woff2');
 }
 
 @font-face {
-	font-family: 'Roboto';
-	font-style: normal;
+	font-family: 'Nunito-Sans';
+	font-style: italic;
 	font-weight: normal;
 	font-display: fallback;
-	src:
-		local('Roboto'),
-		url(/fonts/Roboto.woff2) format('woff2');
+	src: url(/fonts/NunitoSans-Italic.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'Nunito-Sans';
+	font-style: normal;
+	font-weight: bold;
+	font-display: fallback;
+	src: url(/fonts/NunitoSans-Bold.woff2) format('woff2');
+}
+
+@font-face {
+	font-family: 'Nunito-Sans';
+	font-style: italic;
+	font-weight: bold;
+	font-display: fallback;
+	src: url(/fonts/NunitoSans-BoldItalic.woff2) format('woff2');
 }

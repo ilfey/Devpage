@@ -3,11 +3,9 @@ import defaultColors from 'tailwindcss/colors'
 /* Colors */
 
 // Remove deprecated colors
-delete defaultColors['lightBlue']
-delete defaultColors['warmGray']
-delete defaultColors['trueGray']
-delete defaultColors['coolGray']
-delete defaultColors['blueGray']
+for (const key of ['lightBlue', 'warmGray', 'trueGray', 'coolGray', 'blueGray']){
+	delete defaultColors[key]
+}
 
 const colors = {
 	...defaultColors,
@@ -22,14 +20,22 @@ const colors = {
 		700: '#3F3F46',
 		800: '#27272A',
 		900: '#18181B'
-	}
+	},
+	primary: defaultColors.purple 
+}
+
+/* Data */
+
+const data = {
+	active: 'active~="true"',
+	'is-open': 'is-open~="true"'
+
 }
 
 /* Fonts */
 
 const fontFamily = {
-	nunito: 'Nunito',
-	roboto: 'Roboto'
+	'nunito-sans': 'Nunito-Sans',
 }
 
 // <size-title>: [<font-size>, <line-height>]
@@ -47,15 +53,19 @@ const fontSize = {
  * */
 
 module.exports = {
+	darkMode: 'class',
+	data,
 	content: [
 		'./pages/**/*.{js,ts,jsx,tsx,mdx}',
-		'./components/**/*.{js,ts,jsx,tsx,mdx}',
+		'./widgets/**/*.{js,ts,jsx,tsx,mdx}',
+		'./shared/**/*.{js,ts,jsx,tsx,mdx}',
 		'./styles/**/*.css'
 	],
 	theme: {
 		colors,
 		fontFamily,
-		fontSize
+		fontSize,
+		data
 	},
 	plugins: []
 }
