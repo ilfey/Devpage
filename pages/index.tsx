@@ -1,12 +1,19 @@
 import Navbar from '@widgets/Navbar'
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react'
+
 // import { Autoplay, Pagination } from 'swiper/modules'
 // import { Swiper, SwiperSlide } from 'swiper/react'
 
 // import 'swiper/css'
 
+import ImgMashiro from '@public/images/mashiro.png'
+import ImgHaruha from '@public/images/haruha.png'
+
 export default function IndexPage() {
+	const [isCringe, setIsCringe] = useState(false)
+
 	return (
 		<div className='max-w-5xl mx-auto space-y-4'>
 			<Head>
@@ -21,36 +28,62 @@ export default function IndexPage() {
 			<Navbar />
 
 			<main className='space-y-4'>
+				{/* Welcome section */}
+
 				<section className='grid grid-rows-2 sm:grid-rows-1 gap-4 sm:grid-cols-2'>
-					<article className='p-4 flex items-center bg-right-bottom bg-no-repeat bg-gray-100/50 dark:bg-gray-800/50 rounded-xl bg-mashiro bg-1/2'>
+					{/* Left article */}
+
+					<article
+						data-active={isCringe}
+						onClick={() => setIsCringe(!isCringe)}
+						className='relative overflow-hidden group p-4 flex items-center bg-right-bottom bg-no-repeat bg-gray-100/50 dark:bg-gray-800/50 rounded-xl'
+					>
 						{/* Close your eyes please */}
-						<h1 className='text-xl group select-none'>
+						<h1 className='text-xl'>
 							<b className='text-2xl tracking-wide uppercase'>
-								<span className='transition-colors group-hover:text-slate-500/50'>При</span>
+								<span className='transition-colors group-data-active:text-slate-500/50'>При</span>
 								<span>к</span>
-								<span className='transition-colors group-hover:text-slate-500/50'>ольный</span>
+								<span className='transition-colors group-data-active:text-slate-500/50'>
+									ольный
+								</span>
 							</b>
 							<br />
 							<span className='text-slate-500/50'>
 								<span>раз</span>
-								<span className='transition-colors group-hover:text-black'>р</span>
+								<span className='transition-colors group-data-active:text-black group-data-active:dark:text-white'>
+									р
+								</span>
 								<span>аботч</span>
-								<span className='transition-colors group-hover:text-black'>и</span>
+								<span className='transition-colors group-data-active:text-black group-data-active:dark:text-white'>
+									и
+								</span>
 								<span>к</span>
 							</span>
-							<i className='transition-colors group-hover:text-slate-500/50'> аниме</i>
+							<i className='transition-colors group-data-active:text-slate-500/50'> аниме</i>
 							<br />
-							<span className='transition-colors group-hover:text-slate-500/50'>
+							<span className='transition-colors group-data-active:text-slate-500/50'>
 								и <i>кода </i>
 							</span>
 							<span>н</span>
-							<span className='transition-colors group-hover:text-slate-500/50'>а </span>
+							<span className='transition-colors group-data-active:text-slate-500/50'>а </span>
 							<span>ж</span>
-							<span className='transition-colors group-hover:text-slate-500/50'>с</span>
+							<span className='transition-colors group-data-active:text-slate-500/50'>с</span>
 						</h1>
+
 						{/* Can you open your eyes */}
+
+						{/* Background image - Mashiro Shina */}
+
+						<Image
+							className='absolute -right-5 bottom-0 w-1/2'
+							src={ImgMashiro}
+							alt='Маширо Шина'
+						/>
 					</article>
-					<article className='p-4 bg-right-bottom bg-no-repeat bg-gray-100/50 dark:bg-gray-800/50 rounded-xl bg-haruha bg-1/4 sm:bg-1/3'>
+
+					{/* Right article */}
+
+					<article className='p-4 relative overflow-hidden bg-right-bottom bg-no-repeat bg-gray-100/50 dark:bg-gray-800/50 rounded-xl'>
 						<div className='max-w-xs space-y-3'>
 							<h2 className='text-xl font-bold text-center'>Обо мне</h2>
 							<p className='indent-2'>
@@ -62,6 +95,14 @@ export default function IndexPage() {
 								просмотрено 614 тайтлов (20.07.23 <b>F</b>)
 							</p>
 						</div>
+
+						{/* Background image - Haruha Sudzumia */}
+
+						<Image
+							className='absolute right-0 bottom-0 w-1/4 sm:w-1/3'
+							src={ImgHaruha}
+							alt='Харуха судзумия'
+						/>
 					</article>
 				</section>
 				{/* <section className=''>
