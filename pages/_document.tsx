@@ -14,7 +14,7 @@ export default class MyDocument extends Document {
 					<link rel='icon' href='/favicons/x256.png' sizes='256x256' />
 					<link rel='icon' href='/favicons/x512.png' sizes='512x512' />
 				</Head>
-				<body className='h-screen px-4 transition-colors bg-gray-200 dark:bg-gray-900 font-nunito-sans'>
+				<body className='h-screen px-4 transition-colors bg-gray-200 text-black dark:text-white dark:bg-gray-900 font-nunito-sans'>
 					<Main />
 					<NextScript />
 				</body>

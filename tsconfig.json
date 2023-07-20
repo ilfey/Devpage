@@ -16,10 +16,11 @@
 		"jsx": "preserve",
 		"incremental": true,
 		"paths": {
-			"@widgets/*": ["./widgets/*"],
-			"@shared/*": ["./shared/*"],
 			"@pages/*": ["./pages/*"],
-			"@styles/*": ["./styles/*"]
+			"@public/*": ["./public/*"],
+			"@shared/*": ["./shared/*"],
+			"@styles/*": ["./styles/*"],
+			"@widgets/*": ["./widgets/*"]
 		}
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "next.config.js", "tailwind.config.js"],

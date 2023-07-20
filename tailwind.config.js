@@ -1,5 +1,23 @@
 import defaultColors from 'tailwindcss/colors'
 
+/* BackgroundImage */
+
+const backgroundImage = {
+	mashiro: "url('/images/mashiro.png')",
+	haruha: "url('/images/haruha.png')"
+}
+
+/* BacgroundSize */
+
+const backgroundSize = {
+	'3/4': '75%',
+	'2/3': '66.66%',
+	'1/2': '50%',
+	'1/3': '33.33%',
+	'1/4': '25%',
+	'1/5': '20%'
+}
+
 /* Colors */
 
 // Remove deprecated colors
@@ -62,7 +80,11 @@ module.exports = {
 		'./styles/**/*.css'
 	],
 	theme: {
+		backgroundSize,
 		colors,
+		extend: {
+			backgroundImage
+		},
 		fontFamily,
 		fontSize,
 		data
