@@ -17,7 +17,7 @@ export default function Projects() {
         Приложение для моего знакомого (не знакомого) сделанное чисто по рофлу.
       </p>
       <p className="indent-8 my-2">
-        Сам сайт <a className="text-violet-600 font-bold font-nunito" href="https://genshin-journey.ml" target="_blank" rel="noreferrer">Genshin Journey</a> и приложение написаны, как не
+        Сам сайт <a className="text-violet-600 font-bold font-nunito" href="https://genshin-journey.site" target="_blank" rel="noreferrer">Genshin Journey</a> и приложение написаны, как не
         странно, по тематике Genshin Impact, в приложении
         есть некоторые реализации того, что есть на сайте. На данный момент в приложении есть списки персонажей,
         молитв и словарь.
