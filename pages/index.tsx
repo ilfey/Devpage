@@ -1,4 +1,4 @@
-import Navbar from '@widgets/Navbar'
+import {Navbar} from '@widgets/Navbar'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useState } from 'react'

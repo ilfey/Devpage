@@ -1,26 +1,16 @@
-import CompanyLogo from '@shared/CompanyLogo'
-import ArrowSmallRight from '@shared/icons/ArrowSmallRight'
-import Bars3 from '@shared/icons/Bars3'
-import XMark from '@shared/icons/XMark'
-import SwitchEntry from '@shared/switches/SwitchEntry'
+import { CompanyLogo } from '@shared/ui/CompanyLogo'
+import ArrowSmallRight from '@shared/ui/icons/ArrowSmallRight.tsx'
+import Bars3 from '@shared/ui/icons/Bars3.tsx'
+import XMark from '@shared/ui/icons/XMark.tsx'
+import { SwitchEntry } from '@shared/ui/Switch/'
 import { useTheme } from 'next-themes'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
-
-const routes = [
-	{
-		name: 'Главная',
-		route: '/'
-	},
-	{
-		name: 'Форум',
-		route: '/forum'
-	}
-]
+import { links } from '@widgets/Navbar/lib/links.ts'
 
 interface Props {
-	className: string
+	className?: string
 }
 
 export default function Navbar({ className }: Props) {
@@ -39,7 +29,7 @@ export default function Navbar({ className }: Props) {
 				{/* Center */}
 
 				<div className='hidden space-x-2 lg:block'>
-					{routes.map(({ name, route }) => (
+					{links.map(({ name, route }) => (
 						<Link
 							key={name}
 							href={route}
@@ -104,7 +94,7 @@ export default function Navbar({ className }: Props) {
 						<div className='space-y-2 text-lg'>
 							{/* Links */}
 
-							{routes.map(({ name, route }) => (
+							{links.map(({ name, route }) => (
 								<Link
 									key={name}
 									href={route}

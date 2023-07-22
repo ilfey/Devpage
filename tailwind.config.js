@@ -21,7 +21,7 @@ const backgroundSize = {
 /* Colors */
 
 // Remove deprecated colors
-for (const key of ['lightBlue', 'warmGray', 'trueGray', 'coolGray', 'blueGray']){
+for (const key of ['lightBlue', 'warmGray', 'trueGray', 'coolGray', 'blueGray']) {
 	delete defaultColors[key]
 }
 
@@ -39,7 +39,7 @@ const colors = {
 		800: '#27272A',
 		900: '#18181B'
 	},
-	primary: defaultColors.purple 
+	primary: defaultColors.purple
 }
 
 /* Data */
@@ -54,7 +54,7 @@ const data = {
 /* Fonts */
 
 const fontFamily = {
-	'nunito-sans': 'Nunito-Sans',
+	'nunito-sans': 'Nunito-Sans'
 }
 
 // <size-title>: [<font-size>, <line-height>]
@@ -77,8 +77,7 @@ module.exports = {
 	content: [
 		'./pages/**/*.{js,ts,jsx,tsx,mdx}',
 		'./widgets/**/*.{js,ts,jsx,tsx,mdx}',
-		'./shared/**/*.{js,ts,jsx,tsx,mdx}',
-		'./styles/**/*.css'
+		'./shared/**/*.{js,ts,jsx,tsx,mdx,css}'
 	],
 	theme: {
 		backgroundSize,
