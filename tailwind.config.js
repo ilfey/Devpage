@@ -46,8 +46,9 @@ const colors = {
 
 const data = {
 	active: 'active~="true"',
+	loading: 'loading~="true"',
+	mount: 'mount~="true"',
 	'is-open': 'is-open~="true"'
-
 }
 
 /* Fonts */

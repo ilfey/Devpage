@@ -30,13 +30,13 @@ export default function IndexPage() {
 			<main className='space-y-4'>
 				{/* Welcome section */}
 
-				<section className='grid grid-rows-2 sm:grid-rows-1 gap-4 sm:grid-cols-2'>
+				<section className='grid grid-rows-2 gap-4 sm:grid-rows-1 sm:grid-cols-2'>
 					{/* Left article */}
 
 					<article
 						data-active={isCringe}
 						onClick={() => setIsCringe(!isCringe)}
-						className='relative overflow-hidden group p-4 flex items-center bg-right-bottom bg-no-repeat bg-gray-100/50 dark:bg-gray-800/50 rounded-xl'
+						className='relative flex items-center p-4 overflow-hidden group bg-gray-100/50 dark:bg-gray-800/50 rounded-xl'
 					>
 						{/* Close your eyes please */}
 						<h1 className='text-xl'>
@@ -75,7 +75,7 @@ export default function IndexPage() {
 						{/* Background image - Mashiro Shina */}
 
 						<Image
-							className='absolute -right-5 bottom-0 w-1/2'
+							className='absolute bottom-0 w-1/2 -right-5'
 							src={ImgMashiro}
 							alt='Маширо Шина'
 						/>
@@ -83,7 +83,7 @@ export default function IndexPage() {
 
 					{/* Right article */}
 
-					<article className='p-4 relative overflow-hidden bg-right-bottom bg-no-repeat bg-gray-100/50 dark:bg-gray-800/50 rounded-xl'>
+					<article className='relative p-4 overflow-hidden bg-gray-100/50 dark:bg-gray-800/50 rounded-xl'>
 						<div className='max-w-xs space-y-3'>
 							<h2 className='text-xl font-bold text-center'>Обо мне</h2>
 							<p className='indent-2'>
@@ -99,7 +99,7 @@ export default function IndexPage() {
 						{/* Background image - Haruha Sudzumia */}
 
 						<Image
-							className='absolute right-0 bottom-0 w-1/4 sm:w-1/3'
+							className='absolute bottom-0 right-0 w-1/4 sm:w-1/3'
 							src={ImgHaruha}
 							alt='Харуха судзумия'
 						/>
