@@ -7,7 +7,7 @@ interface Props {
 	onChange: (isActive: boolean) => void
 }
 
-export const Switch = ({ init, className, onChange }: Props) => {
+export function Switch({ init, className, onChange }: Props) {
 	const [isActive, setIsActive] = useState(init)
 
 	useEffect(() => {
