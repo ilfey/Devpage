@@ -1,8 +1,18 @@
+import { ReactElement } from 'react'
+import LinkTextButton from '../../shared/Buttons/LinkTextButton'
 import MessageImage from './MessageImage'
+import MessageCode from './MessageCode'
 
 //(http(s)?:\/\/.)[-a-zA-Zа-яА-Я0-9@:%._+~#=]{2,256}\.[a-zа-я]{2,6}\b([-a-zA-Zа-яА-Я0-9@:%_+.~#?&//=]*)/g
-const reUrl = /(http[s]?:\/\/[^\s]+)/g
+const imgRegexp = /(!\[.*\]\(http[s]?:\/\/[^\s]+\))/g
+const linkRegexp = /(\[.*\]\(http[s]?:\/\/[^\s]+\))/g
+const urlRegexp = /(http[s]?:\/\/[^\s]+)/g
+const codeRegexp = /```.+```/s
+const imgUrlRegexp = /(?<!\]\()http[s]?:\/\/[^\s]+\.(png|jpeg|jpg|gif|webp)/g
+const hrRegexp = /(\n---\n)/g
 
+//                                           im               link                        link                    hr     code
+const handleRegexp = /(!\[.*\]\(http[s]?:\/\/[^\s]+\))|(\[.*\]\(http[s]?:\/\/[^\s]+\))|(http[s]?:\/\/[^\s]+)|(\n---\n)|(```.+```)/g
 
 interface Props {
   content: string
@@ -12,7 +22,7 @@ interface Props {
 export default function MessageBody({ content }: Props) {
 
   content = content.trim()
-  const links = content.match(reUrl)
+  const links = content.match(urlRegexp)
 
   // if content === link
   if (links?.length === 1 && links[0] === content && links[0].match(/\.(jpeg|jpg|gif|png|webp)$/) !== null) {
@@ -24,47 +34,105 @@ export default function MessageBody({ content }: Props) {
     )
   }
 
-  // if content contains link
-  if (links) {
-    const uniqueLinks = Array.from(new Set(links))
+  const message: Array<ReactElement> = []
 
-    return (
-      <>
-        <p className="whitespace-pre-wrap overflow-hidden break-words">
-          {content.split(reUrl).map((text, index) => {
+  const nodes = content.split(handleRegexp)
 
-            let output: string | React.ReactElement = text
+  for (let index = 0; index < nodes.length; index++) {
+    const text = nodes[index]
 
-            // if text is link
-            if (text.match(reUrl)) {
-              output = (
-                <a className="text-violet-600 font-bold font-nunito"
-                  key={`img-${text}-${index}`}
-                  href={text}
-                  target="_blank"
-                  rel="noreferrer" >
-                  {text}
-                </a>
-              )
-            }
+    if (!text) {
+      continue
+    }
 
-            return output
-          })}
-        </p>
+    // if text is image
+    if (text.match(imgRegexp)) {
+      const [alt, src] = text.split('](')
+      message.push(
+        <img
+          src={src.slice(0, -1)}
+          alt={alt.substring(2)}
+          key={`inline-img-${text}`} />
+      )
+      continue
+    }
 
-        {/* render images */}
-        <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-4">
-          {uniqueLinks.map((link) =>
-            link.match(/\.(jpeg|jpg|gif|png|webp|svg)$/) !== null && <MessageImage key={`img-${link}`} link={link} />
-          )}
-        </div>
-      </>
+    // if text is link
+    if (text.match(linkRegexp)) {
+      const [alt, src] = text.split('](')
+      message.push(
+        <LinkTextButton
+          key={`url-${text}`}
+          text={alt.substring(1)}
+          url={src.slice(0, -1)}
+        />
+      )
+      continue
+    }
+
+    // if text is url
+    if (text.match(urlRegexp)) {
+      message.push(
+        <a className="text-violet-600 font-bold font-nunito"
+          key={`img-${index}`}
+          href={text}
+          target="_blank"
+          rel="noreferrer" >
+          {text}
+        </a>
+      )
+      continue
+    }
+
+    // if text is ---
+    if (text.match(hrRegexp)) {
+      message.push(
+        <hr key={`hr-${index}`} className='border border-gray-500 my-4' />
+      )
+      continue
+    }
+
+    // if text is block code
+    if (text.match(codeRegexp)) {
+      const language = text.substring(3, text.indexOf('\n'))
+      const code = text.slice(text.indexOf('\n') + 1, text.length - 3)
+      
+      if (text.indexOf("\n") === -1 || code === '') {
+        message.push(
+          <span key={`plain-${index}`}>{text}</span>
+        )
+        continue
+      }
+      
+      message.push(
+        <MessageCode
+          key={`code-${index}`}
+          language={language}>
+          {code}
+        </MessageCode>
+      )
+      continue
+    }
+
+    message.push(
+      <span key={`plain-${index}`}>{text}</span>
     )
   }
 
+  const imageLinks = [...new Set(content.match(imgUrlRegexp))]
+
   return (
-    <p className="whitespace-pre-wrap overflow-hidden break-words">
-      {content}
-    </p>
+    <div className='whitespace-pre-wrap'>
+      {message}
+      {imageLinks.length !== 0 && (
+        <div className="flex flex-wrap justify-center sm:justify-start gap-4 mt-4" >
+          {
+            imageLinks.map((link) =>
+              link.match(/\.(jpeg|jpg|gif|png|webp|svg)$/) !== null && <MessageImage key={`img-${link}`} link={link} />
+            )
+          }
+        </div>
+      )}
+    </div >
   )
 }
