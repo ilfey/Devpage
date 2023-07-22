@@ -19,7 +19,6 @@
 			"@pages/*": ["./pages/*"],
 			"@public/*": ["./public/*"],
 			"@shared/*": ["./shared/*"],
-			"@styles/*": ["./styles/*"],
 			"@widgets/*": ["./widgets/*"]
 		}
 	},

@@ -13,7 +13,7 @@
 	font-style: normal;
 	font-weight: normal;
 	font-display: fallback;
-	src: url(/fonts/NunitoSans-Regular.woff2) format('woff2');
+	src: url(../public/fonts/NunitoSans-Regular.woff2) format('woff2');
 }
 
 @font-face {
@@ -21,7 +21,7 @@
 	font-style: italic;
 	font-weight: normal;
 	font-display: fallback;
-	src: url(/fonts/NunitoSans-Italic.woff2) format('woff2');
+	src: url(../public/fonts/NunitoSans-Italic.woff2) format('woff2');
 }
 
 @font-face {
@@ -29,7 +29,7 @@
 	font-style: normal;
 	font-weight: bold;
 	font-display: fallback;
-	src: url(/fonts/NunitoSans-Bold.woff2) format('woff2');
+	src: url(../public/fonts/NunitoSans-Bold.woff2) format('woff2');
 }
 
 @font-face {
@@ -37,5 +37,5 @@
 	font-style: italic;
 	font-weight: bold;
 	font-display: fallback;
-	src: url(/fonts/NunitoSans-BoldItalic.woff2) format('woff2');
+	src: url(../public/fonts/NunitoSans-BoldItalic.woff2) format('woff2');
 }
