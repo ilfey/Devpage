@@ -8,7 +8,7 @@ interface Props {
 	onChange: (isActive: boolean) => void
 }
 
-export const SwitchEntry = ({ init, text, className, onChange }: Props) => {
+export function SwitchEntry({ init, text, className, onChange }: Props) {
 	const [isActive, setIsActive] = useState(init)
 
 	useEffect(() => {
