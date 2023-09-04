@@ -10,7 +10,7 @@ export const routes: Array<RouteObject> = [
     errorElement: <ErrorPage />,
     children: [
       {
-        path: "/",
+        path: "/*",
         element: <IndexPage />,
       },
     ],

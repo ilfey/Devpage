@@ -1,5 +1,4 @@
 import "./index.css";
-import "../fonts/fonts.css";
 import { Provider } from "react-redux";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // import { useEffect } from "react";
