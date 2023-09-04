@@ -69,20 +69,20 @@ export default function MessageForm({ showAuth }: MessageFormProps) {
     return <div className="message-form-placeholder">
       <p className="message-form-placeholder__text">
         Вам необходимо<TextButton text="войти" className="inline mx-1" onClick={showAuth} />
-        чтобы оставить свой комментарий у меня на странице.
+        чтобы оставить свой комментарий на странице.
       </p>
     </div>
   }
 
   return <>
     {reply &&
-      <div className="flex mr-[52px] justify-between items-center bg-gray-100 dark:bg-gray-700 px-4 rounded-tl-lg rounded-tr-lg">
+      <div className="flex mr-[52px] justify-between items-center bg-gray=-100 dark:bg-gray-700 px-4 rounded-tl-lg rounded-tr-lg">
         <p className="reply-to">Отвечает <a href="#user" className="font-nunito font-bold text-violet-600 cursor-pointer">{reply?.username}</a></p>
         <SVG src={X} className="w-4 h-4" onClick={() => removeReplying()} />
       </div>
     }
     <form className="flex gap-4" action="#send-message" id="send-message">
-      <textarea className={`flex-auto p-2 text-sm text-black dark:text-white bg-gray-200 dark:bg-gray-800 resize-none overflow-hidden outline-none ${reply ? "rounded-bl-lg rounded-br-lg" : "rounded-lg"}`}
+      <textarea className={`flex-auto p-2 text-sm text-black dark:text-white bg-white dark:bg-gray-800 resize-none overflow-hidden outline-none ${reply ? "rounded-bl-lg rounded-br-lg" : "rounded-lg"}`}
         id="message-form"
         rows={1}
         placeholder="Ваш комментарий..."

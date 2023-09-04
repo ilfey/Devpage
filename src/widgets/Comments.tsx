@@ -1,6 +1,6 @@
 import Message from "../features/Message/Message";
 import { useState } from "react";
-import Section from "../shared/Section";
+// import Section from "../shared/Section";
 import Spinner from "../shared/Spinner";
 import InlineSVG from "react-inlinesvg/esm";
 import { Error } from "../Icons";
@@ -52,8 +52,17 @@ export default function Comments() {
 
   if (isSuccess) {
     if (data.length !== 0) { // if messages not empty
+      const reversedData = [...data].reverse();
+
       body = (
         <>
+          <div className="flex flex-col gap-4">
+            {reversedData.map(msg =>
+              <Message
+                key={msg.id} msg={msg}
+              />
+            )}
+          </div>
           <div className='h-16 mb-4 flex justify-center items-center'>
             {isFetching ?
               <Spinner /> :
@@ -64,17 +73,10 @@ export default function Comments() {
                     cursor: data[0].id
                   }
                 })}
+                className="mt-4"
                 text='Загрузить предыдущие'
               />
             }
-          </div>
-
-          <div className="flex flex-col gap-4">
-            {data.map(msg =>
-              <Message
-                key={msg.id} msg={msg}
-              />
-            )}
           </div>
         </>
       )
@@ -85,11 +87,5 @@ export default function Comments() {
     }
   }
 
-  return (
-    <Section
-      id="comments"
-      title="Комментарии">
-      {body}
-    </Section >
-  )
+  return (<>{body}</>)
 }

@@ -2,8 +2,8 @@ import "./index.css";
 import "../fonts/fonts.css";
 import { Provider } from "react-redux";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import { useEffect } from "react";
-import { getLanguage, getTheme } from "../localStorage";
+// import { useEffect } from "react";
+// import { getLanguage, getTheme } from "../localStorage";
 import { store } from "../store/store";
 import { routes } from "../pages/routes";
 
@@ -11,6 +11,7 @@ import { routes } from "../pages/routes";
 const router = createBrowserRouter(routes);
 
 export default function App() {
+  /*
   useEffect(() => {
     const d = document.documentElement;
 
@@ -24,6 +25,7 @@ export default function App() {
     // set language
     d.lang = getLanguage() ?? "ru";
   }, [])
+  */
 
   return (
     <Provider store={store}>

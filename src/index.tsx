@@ -4,7 +4,7 @@ import { createRoot } from "react-dom/client";
 
 
 createRoot(
-  document.getElementById("root") as HTMLElement
+  document.getElementById("ilfey-comments") as HTMLElement
 ).render(
   <React.StrictMode>
     <App />

@@ -6,7 +6,7 @@ interface Props {
 
 export default function MessageForm({ showAuth }: Props) {
   return (
-    <section className="pb-12">
+    <section className="p-4 rounded-xl mb-4 bg-gray-200">
       <MF
         showAuth={showAuth}
       />
