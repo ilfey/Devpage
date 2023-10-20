@@ -4,7 +4,7 @@ export const links = [
     route: '/'
   },
   {
-    name: 'Форум',
-    route: '/forum'
+    name: 'Калькулятор',
+    route: '/calculator'
   }
 ]
