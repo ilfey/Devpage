@@ -1,6 +1,6 @@
 import { Button } from '@shared/ui/Button'
 import { TextInput } from '@shared/ui/TextInput'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { MathParser, MathParserError } from '../lib/MathParser'
 
@@ -15,6 +15,17 @@ export const Calculator = (props: Props) => {
 	const [result, setResult] = useState<number>()
 	const [err, setErr] = useState<string>()
 
+	const onEnter = useCallback(() => {
+		try {
+			const parsedExpression = MathParser.parse(expression)
+			setResult(parsedExpression)
+			setErr(undefined)
+		} catch (e) {
+			setResult(undefined)
+			setErr((e as MathParserError).string)
+		}
+	}, [expression])
+
 	return (
 		<div className={twMerge('flex flex-col space-y-4', className)}>
 			<div className='flex items-end gap-4'>
@@ -25,21 +36,18 @@ export const Calculator = (props: Props) => {
 					placeholder='2 + 2 * 2'
 					value={expression}
 					onChange={e => setExpression(e.target.value)}
-				/>
-				<Button
-					text='Вычислить'
-					type='button'
-					onClick={() => {
-						try {
-							const parsedExpression = MathParser.parse(expression)
-							setResult(parsedExpression)
-							setErr(undefined)
-						} catch (e) {
-							setResult(undefined)
-							setErr((e as MathParserError).string)
+					onKeyUp={e => {
+						switch (e.key.toUpperCase()) {
+							case 'ENTER':
+								onEnter()
+								break
+							case 'ESCAPE':
+								setExpression('')
+								break
 						}
 					}}
 				/>
+				<Button text='Вычислить' type='button' onClick={onEnter} />
 			</div>
 
 			{result !== undefined && (

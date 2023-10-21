@@ -15,7 +15,7 @@ export default function IndexPage() {
 	const [isCringe, setIsCringe] = useState(false)
 
 	return (
-		<div className='max-w-5xl mx-auto space-y-4'>
+		<div className='max-w-5xl mx-auto'>
 			<Head>
 				<title>ilfey</title>
 				<meta property='og:title' content="ilfey's devpage" />
@@ -27,7 +27,7 @@ export default function IndexPage() {
 
 			<Navbar />
 
-			<main className='space-y-4'>
+			<main className='py-4'>
 				{/* Welcome section */}
 
 				<section className='grid grid-rows-2 gap-4 sm:grid-rows-1 sm:grid-cols-2'>

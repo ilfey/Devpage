@@ -1,13 +1,10 @@
 import { Navbar } from '@widgets/Navbar'
-import { TextInput } from '@shared/ui/TextInput'
 import Head from 'next/head'
-import { Button } from '@shared/ui/Button'
-import { useState } from 'react'
 import { Calculator } from '@widgets/Calculator/ui/Calculator'
 
 export default function IndexPage() {
 	return (
-		<div className='max-w-5xl mx-auto space-2'>
+		<div className='max-w-5xl mx-auto'>
 			<Head>
 				<title>ilfey</title>
 				<meta property='og:title' content="ilfey's calculator" />
@@ -19,7 +16,7 @@ export default function IndexPage() {
 
 			<Navbar />
 
-			<main>
+			<main className='py-4'>
 				<section className='space-y-4'>
 					<article className='relative p-4 overflow-hidden bg-gray-100/50 dark:bg-gray-800/50 rounded-xl transition-colors'>
 						<h2 className='text-xl mb-4'>Операторы</h2>

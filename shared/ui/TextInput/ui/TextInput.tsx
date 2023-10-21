@@ -1,4 +1,4 @@
-import { ChangeEventHandler, HTMLInputTypeAttribute } from 'react'
+import { ChangeEventHandler, HTMLInputTypeAttribute, KeyboardEventHandler } from 'react'
 import { twMerge } from 'tailwind-merge'
 
 interface Props {
@@ -10,11 +10,25 @@ interface Props {
 	className?: string
 	value?: string | number | readonly string[]
 	onChange?: ChangeEventHandler<HTMLInputElement>
+	onKeyDown?: KeyboardEventHandler<HTMLInputElement>
+	onKeyUp?: KeyboardEventHandler<HTMLInputElement>
 	disabled?: boolean
 }
 
 export const TextInput = (props: Props) => {
-	const { id, title, placeholder, type, required, className, value, onChange, disabled } = props
+	const {
+		id,
+		title,
+		placeholder,
+		type,
+		required,
+		className,
+		value,
+		onChange,
+		disabled,
+		onKeyDown,
+		onKeyUp
+	} = props
 
 	return (
 		<div className={twMerge('space-y-2', className)}>
@@ -28,6 +42,8 @@ export const TextInput = (props: Props) => {
 				placeholder={placeholder}
 				required={required}
 				value={value}
+				onKeyDown={onKeyDown}
+				onKeyUp={onKeyUp}
 				onChange={onChange}
 				disabled={disabled}
 			/>
